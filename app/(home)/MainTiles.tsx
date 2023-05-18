@@ -26,32 +26,9 @@ const MainTiles = (props: Props) => {
   ];
 
   return (
-    <section className="relative px-7 py-5">
-      <div className="grid grid-cols-4 grid-rows-1 h-48 gap-x-7 gap-y-6 my-5">
-        <MainCard className="bg-[#51D8D8] hover:shadow-[#51D8D8] shadow-md cursor-pointer">
-          <div className="flex gap-3 p-4 items-center">
-            <MdAccessTimeFilled size={30} />
-            <p className="font-bold text-xl">Time</p>
-          </div>
-          <div className="p-4">
-            <p className="font-extrabold text-4xl">
-              {dailyData[0].time} <span className="font-bold text-lg">min</span>
-            </p>
-            <Progress value={dailyData[0].time} className="mt-2" />
-          </div>
-        </MainCard>
-        <MainCard className="bg-[#F97A4D] hover:shadow-[#F97A4D] shadow-md cursor-pointer">
-          <div className="flex gap-3 p-4 items-center">
-            <GiPathDistance size={30} />
-            <p className="font-bold text-xl">Distance</p>
-          </div>
-          <div className="p-4">
-            <p className="font-extrabold text-4xl">
-              [7.2] <span className="font-bold text-lg">mi</span>
-            </p>
-            <Progress value={23} className="mt-2" />
-          </div>
-        </MainCard>
+    <section className="relative py-3 px-7">
+      {/* <h1 className="text-white pb-3 font-semibold text-lg">Overview</h1> */}
+      <div className="grid grid-cols-4 grid-rows-1 h-44 gap-x-7 gap-y-6 my-5">
         <MainCard className="bg-[#F46082] hover:shadow-[#F46082] shadow-md cursor-pointer">
           <div className="flex gap-3 p-4 items-center">
             <AiFillFire size={30} />
@@ -72,6 +49,30 @@ const MainTiles = (props: Props) => {
           <div className="p-4">
             <p className="font-bold text-3xl">6h 32m</p>
             <Progress value={54} className="mt-2" />
+          </div>
+        </MainCard>
+        <MainCard className="bg-[#51D8D8] hover:shadow-[#51D8D8] shadow-md cursor-pointer">
+          <div className="flex gap-3 p-4 items-center">
+            <MdAccessTimeFilled size={30} />
+            <p className="font-bold text-xl">Time</p>
+          </div>
+          <div className="p-4">
+            <p className="font-extrabold text-4xl">
+              {dailyData[0].time} <span className="font-bold text-lg">min</span>
+            </p>
+            <Progress value={dailyData[0].time} className="mt-2" />
+          </div>
+        </MainCard>
+        <MainCard className="bg-[#F97A4D] hover:shadow-[#F97A4D] shadow-md cursor-pointer">
+          <div className="flex gap-3 p-4 items-center">
+            <GiPathDistance size={30} />
+            <p className="font-bold text-xl">Distance</p>
+          </div>
+          <div className="p-4">
+            <p className="font-extrabold text-4xl">
+              7.2 <span className="font-bold text-lg">mi</span>
+            </p>
+            <Progress value={23} className="mt-2" />
           </div>
         </MainCard>
       </div>

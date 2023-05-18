@@ -47,7 +47,7 @@ export const RegisterForm = () => {
   return (
     <form onSubmit={onSubmit} className="space-y-12  w-full sm:w-[400px]">
       <div className="grid w-full items-center gap-1.5">
-        <Label html="name">Full Name</Label>
+        <Label htmlFor="name">Full Name</Label>
         <Input
           required
           value={name}
@@ -57,7 +57,7 @@ export const RegisterForm = () => {
         />
       </div>
       <div className="grid w-full items-center gap-1.5">
-        <Label html="email">Email</Label>
+        <Label htmlFor="email">Email</Label>
         <Input
           required
           value={email}
@@ -67,7 +67,7 @@ export const RegisterForm = () => {
         />
       </div>
       <div className="grid w-full items-center gap-1.5">
-        <Label html="password">Password</Label>
+        <Label htmlFor="password">Password</Label>
         <Input
           required
           value={password}

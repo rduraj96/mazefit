@@ -17,8 +17,8 @@ export default async function Home() {
       <div className="basis-4/5">
         <UserBar />
         <MainTiles />
-        <SecondaryTiles />
         <TertiaryTiles />
+        <SecondaryTiles />
       </div>
       <div className="basis-1/5">
         <UserDetails />

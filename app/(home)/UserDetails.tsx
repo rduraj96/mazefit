@@ -14,15 +14,62 @@ import { BsPlus, BsThreeDots } from "react-icons/bs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSession } from "next-auth/react";
 import { Calendar } from "@/components/ui/calendar";
+import WeightChart from "./WeightChart";
 
 type Props = {};
+
+const data = [
+  {
+    name: "Page A",
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: "Page B",
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: "Page C",
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: "Page D",
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: "Page E",
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: "Page F",
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: "Page G",
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+];
 
 const UserDetails = (props: Props) => {
   const { data: session } = useSession();
   const [date, setDate] = React.useState<Date | undefined>(new Date());
+  // console.log(session?.user?.meals);
 
   return (
-    <section className="my-10 mr-7">
+    <section className="py-10 mr-7 h-screen">
       <div className="relative bg-[#1b1b1b] px-7 py-5 rounded-3xl">
         <div className="flex justify-between items-center">
           <p className="text-gray-300 text-md font-bold">Profile</p>
@@ -76,7 +123,9 @@ const UserDetails = (props: Props) => {
           </div>
         </div>
         <div className="mt-10">
-          <p className="text-gray-300 text-md font-bold">Calendar</p>
+          <p className="text-gray-300 text-md font-bold">Goals</p>
+          {/* <WeightChart data={data} /> */}
+          <div className="h-96">poop</div>
         </div>
       </div>
     </section>

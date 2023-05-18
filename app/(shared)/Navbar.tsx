@@ -69,7 +69,7 @@ const Navbar = (props: Props) => {
               key={i}
               className={`group flex ${
                 open && "w-2/3"
-              } items-center text-sm gap-3.5 font-medium py-1 px-0.5 hover:bg-[#51d8d8] hover:text-black rounded-md`}
+              } items-center text-sm gap-3.5 font-medium py-1 px-0.5 hover:bg-[#51d8d8] hover:text-black rounded-md selected:bg-[#51d8d8]`}
             >
               <div>{React.createElement(menu?.icon, { size: "30" })}</div>
               <h2

@@ -23,7 +23,8 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${nunito.className} flex h-100vh relative`}>
         <Providers>
-          {session?.user && <Navbar />}
+          <Navbar />
+          {/* {session?.user && <Navbar />} */}
           {children}
         </Providers>
       </body>
