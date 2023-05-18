@@ -6,10 +6,23 @@ import UserBar from "./(home)/UserBar";
 import UserDetails from "./(home)/UserDetails";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import Navbar from "./(shared)/Navbar";
+import { prisma } from "@/lib/client";
+
+// console.log(session);
+
+// const getMeals = async () => {
+//   const session = await getServerSession(authOptions);
+//   const meals = await prisma.meal.findMany({
+//     where: {
+//       userId: session?.user?.id,
+//     },
+//   });
+//   return meals;
+// };
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-  console.log(session);
+  // const meals = await getMeals();
+  // console.log(meals);
 
   return (
     <main className="flex w-full">
