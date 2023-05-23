@@ -25,7 +25,7 @@ const MainTiles = ({ macros }: Props) => {
             <p className="font-bold text-xl">Calories</p>
           </div>
           <div className="p-4">
-            <p className="font-extrabold text-4xl">
+            <p className="font-bold text-4xl">
               {macros.calories}
               {/* <span className="font-bold text-lg">cal</span> */}
             </p>
@@ -51,7 +51,7 @@ const MainTiles = ({ macros }: Props) => {
             <p className="font-bold text-xl">Carbs</p>
           </div>
           <div className="p-4">
-            <p className="font-extrabold text-4xl">
+            <p className="font-bold text-4xl">
               {macros.carbs}
               {/* <span className="font-bold text-lg">min</span> */}
             </p>
@@ -64,7 +64,7 @@ const MainTiles = ({ macros }: Props) => {
             <p className="font-bold text-xl">Fat</p>
           </div>
           <div className="p-4">
-            <p className="font-extrabold text-4xl">
+            <p className="font-bold text-4xl">
               {macros.fat}
               {/* <span className="font-bold text-lg">mi</span> */}
             </p>

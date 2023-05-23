@@ -1,30 +1,20 @@
 import React from "react";
 import {
   ResponsiveContainer,
-  AreaChart,
-  CartesianGrid,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
-  Area,
-  Legend,
-  LineChart,
   BarChart,
   Bar,
   Cell,
 } from "recharts";
+import { ActivityData } from "../types";
 
 type Props = {
-  data: Array<{
-    name: string;
-    protein: number;
-    calories: number;
-    amt: number;
-  }>;
+  activityData: Array<ActivityData>;
 };
 
-const Activity = ({ data }: Props) => {
+const Activity = ({ activityData }: Props) => {
   return (
     <ResponsiveContainer
       width="100%"
@@ -34,7 +24,7 @@ const Activity = ({ data }: Props) => {
       <BarChart
         width={475}
         height={300}
-        data={data}
+        data={activityData}
         margin={{
           top: 45,
           right: 15,
@@ -54,8 +44,7 @@ const Activity = ({ data }: Props) => {
             <stop offset="95%" stopColor="#F46082" stopOpacity={0} />
           </linearGradient>
         </defs>
-        {/* <CartesianGrid strokeDasharray="3 3" /> */}
-        <XAxis dataKey="name" style={{ fontSize: "12px" }} />
+        <XAxis dataKey="day" style={{ fontSize: "12px" }} />
         <YAxis style={{ fontSize: "12px" }} />
         <Tooltip
           cursor={{
@@ -63,10 +52,9 @@ const Activity = ({ data }: Props) => {
             radius: "10, 10, 0, 0",
           }}
         />
-        {/* <Legend /> */}
         {/* <Bar dataKey="protein" stackId="a" fill="#F46082" /> */}
         <Bar stackId="a" dataKey="calories" radius={[10, 10, 0, 0]}>
-          {data?.map((entry, index) => (
+          {activityData?.map((entry, index) => (
             // eslint-disable-next-line react/jsx-key
             <Cell
               fill={
@@ -77,15 +65,6 @@ const Activity = ({ data }: Props) => {
             />
           ))}
         </Bar>
-        {/* <Bar
-                dataKey="calories"
-                stackId="a"
-                fill={
-                  parseInt(data.calories, 10) > 2300
-                    ? "#F46082"
-                    : "url(#colorData)"
-                }
-              /> */}
       </BarChart>
     </ResponsiveContainer>
   );

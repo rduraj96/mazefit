@@ -19,81 +19,76 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { BsPlus } from "react-icons/bs";
-import {
-  ResponsiveContainer,
-  AreaChart,
-  CartesianGrid,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Area,
-  Legend,
-  LineChart,
-  BarChart,
-  Bar,
-  Cell,
-} from "recharts";
 import Activity from "./Activity";
-import WeightChart from "./WeightChart";
-import { useSession } from "next-auth/react";
 import { Meal } from "@prisma/client";
 import AddMeal from "./AddMeal";
+import { ActivityData } from "../types";
+import { Button } from "@/components/ui/button";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 type Props = {
   userMeals: Array<Meal>;
+  activityData: Array<ActivityData>;
 };
 
-const TertiaryTiles = ({ userMeals }: Props) => {
-  const data = [
-    {
-      name: "Monday",
-      protein: 4000,
-      calories: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Tuesday",
-      protein: 3000,
-      calories: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Wednesday",
-      protein: 2000,
-      calories: 2800,
-      amt: 2290,
-    },
-    {
-      name: "Thursday",
-      protein: 2780,
-      calories: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Friday",
-      protein: 1890,
-      calories: 1800,
-      amt: 2181,
-    },
-    {
-      name: "Saturday",
-      protein: 1890,
-      calories: 1450,
-      amt: 2181,
-    },
-    {
-      name: "Sunday",
-      protein: 1890,
-      calories: 2230,
-      amt: 2181,
-    },
-  ];
+const TertiaryTiles = ({ userMeals, activityData }: Props) => {
+  // const data = [
+  //   {
+  //     name: "Monday",
+  //     protein: 4000,
+  //     calories: 2400,
+  //     amt: 2400,
+  //   },
+  //   {
+  //     name: "Tuesday",
+  //     protein: 3000,
+  //     calories: 1398,
+  //     amt: 2210,
+  //   },
+  //   {
+  //     name: "Wednesday",
+  //     protein: 2000,
+  //     calories: 2800,
+  //     amt: 2290,
+  //   },
+  //   {
+  //     name: "Thursday",
+  //     protein: 2780,
+  //     calories: 3908,
+  //     amt: 2000,
+  //   },
+  //   {
+  //     name: "Friday",
+  //     protein: 1890,
+  //     calories: 1800,
+  //     amt: 2181,
+  //   },
+  //   {
+  //     name: "Saturday",
+  //     protein: 1890,
+  //     calories: 1450,
+  //     amt: 2181,
+  //   },
+  //   {
+  //     name: "Sunday",
+  //     protein: 1890,
+  //     calories: 2230,
+  //     amt: 2181,
+  //   },
+  // ];
+
+  const handleDelete = async (id: number) => {
+    const response = await fetch(`/api/meals/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <section className="px-7">
@@ -119,6 +114,7 @@ const TertiaryTiles = ({ userMeals }: Props) => {
                   <TableHead className="text-right">Calories</TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody className="hover:bg-transparent gap-3">
                 {userMeals &&
                   userMeals.map((meal) => (
@@ -126,12 +122,38 @@ const TertiaryTiles = ({ userMeals }: Props) => {
                       key={meal.id}
                       className="text-gray-300 font-semibold"
                     >
-                      <TableCell className="font-medium">{meal.id}</TableCell>
-                      <TableCell>{meal.name}</TableCell>
-                      <TableCell>{meal.protein}</TableCell>
-                      <TableCell className="text-right" role="checkbox">
-                        {meal.calories}
-                      </TableCell>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <TableCell className="font-medium cursor-pointer">
+                            {meal.name}
+                          </TableCell>
+                        </DialogTrigger>
+                        <TableCell>{meal.type}</TableCell>
+                        <TableCell>{meal.protein}</TableCell>
+                        <TableCell className="text-right" role="checkbox">
+                          {meal.calories}
+                        </TableCell>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>{meal.name}</DialogTitle>
+                            {/* <DialogDescription>
+                              This action cannot be undone. This will
+                              permanently delete your account and remove your
+                              data from our servers.
+                            </DialogDescription> */}
+                          </DialogHeader>
+                          <DialogFooter>
+                            <DialogClose>
+                              <Button
+                                type="submit"
+                                onClick={() => handleDelete(meal.id)}
+                              >
+                                Delete Meal
+                              </Button>
+                            </DialogClose>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                     </TableRow>
                   ))}
               </TableBody>
@@ -143,7 +165,7 @@ const TertiaryTiles = ({ userMeals }: Props) => {
             <div className="text-white font-semibold text-lg">Activity</div>
           </div>
           {/* <div className="bg-[#1b1b1b] rounded-3xl"> */}
-          <Activity data={data} />
+          <Activity activityData={activityData} />
         </div>
         {/* <div className="basis-1/4">
           <h1 className="text-white pb-3 font-semibold">Streak</h1>

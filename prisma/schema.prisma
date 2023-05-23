@@ -21,6 +21,7 @@ model Meal {
   userId   Int
   day      DateTime
   name     String
+  type     String?
   calories Int
   protein  Int
   carbs    Int

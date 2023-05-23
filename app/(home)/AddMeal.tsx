@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { DialogClose } from "@radix-ui/react-dialog";
 import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 
@@ -22,16 +23,14 @@ const AddMeal = (props: Props) => {
   const [calories, setCalories] = useState("");
 
   const handleSubmit = async () => {
-    // e.preventDefault();
-
     const response = await fetch(`/api/meals`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // userId: parseInt(userId),
         name: name,
+        type: status,
         calories: parseInt(calories),
         protein: parseInt(protein),
         day: new Date(),
@@ -42,6 +41,11 @@ const AddMeal = (props: Props) => {
 
     const data = await response.json();
     console.log(data);
+
+    setName("");
+    setStatus("");
+    setProtein("");
+    setCalories("");
   };
 
   return (
@@ -114,9 +118,11 @@ const AddMeal = (props: Props) => {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={handleSubmit}>
-              Save changes
-            </Button>
+            <DialogClose>
+              <Button type="submit" onClick={handleSubmit}>
+                Save changes
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
