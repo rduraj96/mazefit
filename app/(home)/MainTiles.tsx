@@ -5,26 +5,16 @@ import { AiFillFire } from "react-icons/ai";
 import { Progress } from "@/components/ui/progress";
 import MainCard from "../(shared)/MainCard";
 
-type Props = {};
+type Props = {
+  macros: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+  };
+};
 
-const MainTiles = (props: Props) => {
-  const dailyData = [
-    {
-      date: "2023-05-09",
-      time: 23,
-      distance: 5.6,
-      calories: 1734,
-      sleep: 7,
-    },
-    {
-      date: "2023-05-08",
-      time: 45,
-      distance: 0.6,
-      calories: 1245,
-      sleep: 9,
-    },
-  ];
-
+const MainTiles = ({ macros }: Props) => {
   return (
     <section className="relative py-3 px-7">
       {/* <h1 className="text-white pb-3 font-semibold text-lg">Overview</h1> */}
@@ -36,43 +26,49 @@ const MainTiles = (props: Props) => {
           </div>
           <div className="p-4">
             <p className="font-extrabold text-4xl">
-              2088 <span className="font-bold text-lg">cal</span>
+              {macros.calories}
+              {/* <span className="font-bold text-lg">cal</span> */}
             </p>
-            <Progress value={63} className="mt-2" />
+            <Progress
+              value={(macros.calories / 20000) * 100}
+              className="mt-2"
+            />
           </div>
         </MainCard>
         <MainCard className="bg-[#867BFC] hover:shadow-[#867BFC] shadow-md cursor-pointer">
           <div className="flex gap-3 p-4 items-center">
             <MdAccessTimeFilled size={30} />
-            <p className="font-bold text-xl">Sleep</p>
+            <p className="font-bold text-xl">Protein</p>
           </div>
           <div className="p-4">
-            <p className="font-bold text-3xl">6h 32m</p>
-            <Progress value={54} className="mt-2" />
+            <p className="font-bold text-3xl">{macros.protein}</p>
+            <Progress value={(macros.protein / 2000) * 100} className="mt-2" />
           </div>
         </MainCard>
         <MainCard className="bg-[#51D8D8] hover:shadow-[#51D8D8] shadow-md cursor-pointer">
           <div className="flex gap-3 p-4 items-center">
             <MdAccessTimeFilled size={30} />
-            <p className="font-bold text-xl">Time</p>
+            <p className="font-bold text-xl">Carbs</p>
           </div>
           <div className="p-4">
             <p className="font-extrabold text-4xl">
-              {dailyData[0].time} <span className="font-bold text-lg">min</span>
+              {macros.carbs}
+              {/* <span className="font-bold text-lg">min</span> */}
             </p>
-            <Progress value={dailyData[0].time} className="mt-2" />
+            <Progress value={(macros.carbs / 2000) * 100} className="mt-2" />
           </div>
         </MainCard>
         <MainCard className="bg-[#F97A4D] hover:shadow-[#F97A4D] shadow-md cursor-pointer">
           <div className="flex gap-3 p-4 items-center">
             <GiPathDistance size={30} />
-            <p className="font-bold text-xl">Distance</p>
+            <p className="font-bold text-xl">Fat</p>
           </div>
           <div className="p-4">
             <p className="font-extrabold text-4xl">
-              7.2 <span className="font-bold text-lg">mi</span>
+              {macros.fat}
+              {/* <span className="font-bold text-lg">mi</span> */}
             </p>
-            <Progress value={23} className="mt-2" />
+            <Progress value={(macros.fat / 2000) * 100} className="mt-2" />
           </div>
         </MainCard>
       </div>

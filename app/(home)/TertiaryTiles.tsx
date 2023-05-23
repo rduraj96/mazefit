@@ -41,23 +41,15 @@ import {
 } from "recharts";
 import Activity from "./Activity";
 import WeightChart from "./WeightChart";
+import { useSession } from "next-auth/react";
+import { Meal } from "@prisma/client";
+import AddMeal from "./AddMeal";
 
-type Props = {};
-
-type Meal = {
-  meal: string;
-  status: string;
-  protein: string;
-  calories: string;
+type Props = {
+  userMeals: Array<Meal>;
 };
 
-const TertiaryTiles = (props: Props) => {
-  const [meals, setMeals] = useState<Meal[]>([]);
-  const [meal, setMeal] = useState("");
-  const [status, setStatus] = useState("");
-  const [protein, setProtein] = useState("");
-  const [calories, setCalories] = useState("");
-
+const TertiaryTiles = ({ userMeals }: Props) => {
   const data = [
     {
       name: "Monday",
@@ -103,112 +95,18 @@ const TertiaryTiles = (props: Props) => {
     },
   ];
 
-  const handleSubmit = () => {
-    setMeals((prevMeals) => [
-      ...prevMeals,
-      {
-        meal: meal,
-        status: status,
-        protein: protein,
-        calories: calories,
-      },
-    ]);
-    setMeal("");
-    setStatus("");
-    setProtein("");
-    setCalories("");
-  };
-
   return (
     <section className="px-7">
       <div className="flex justify-between gap-x-7">
         <div className="basis-3/5">
           <div className="flex justify-between pb-4 items-center">
             <div className="text-white font-semibold text-lg">Recent Meals</div>
-            <div>
-              <Dialog>
-                <DialogTrigger asChild>
-                  {/* <Button variant="outline">Add Meal</Button> */}
-                  <div
-                    className="h-9 w-9 bg-foreground rounded-xl flex justify-center items-center 
-                  hover:bg-gray-200 hover:text-foreground cursor-pointer"
-                  >
-                    <BsPlus
-                      size={24}
-                      className="text-gray-200 hover:text-black"
-                    />
-                  </div>
-
-                  {/* <h1 className="text-gray-200 hover:text-white text-sm cursor-pointer">
-                    Add Meal
-                  </h1> */}
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Add Meal</DialogTitle>
-                    <DialogDescription>
-                      Add a meal here. Click save changes to log the meal.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4 text-white">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="name" className="text-right">
-                        Meal
-                      </Label>
-                      <Input
-                        id="meal"
-                        value={meal}
-                        className="col-span-3"
-                        onChange={(e) => setMeal(e.target.value)}
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="username" className="text-right">
-                        Status
-                      </Label>
-                      <Input
-                        id="status"
-                        value={status}
-                        className="col-span-3"
-                        onChange={(e) => setStatus(e.target.value)}
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="username" className="text-right">
-                        Protein
-                      </Label>
-                      <Input
-                        id="protein"
-                        value={protein}
-                        className="col-span-3"
-                        onChange={(e) => setProtein(e.target.value)}
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="username" className="text-right">
-                        Calories
-                      </Label>
-                      <Input
-                        id="calories"
-                        value={calories}
-                        className="col-span-3"
-                        onChange={(e) => setCalories(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button type="submit" onClick={handleSubmit}>
-                      Save changes
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </div>
+            <AddMeal />
           </div>
           <ScrollArea className="bg-[#1b1b1b] h-80 rounded-3xl">
             <Table className="p-2 max-h-fit overflow-scroll">
               {/* <TableCaption>Add todays meals here.</TableCaption> */}
-              {meals.length === 0 && (
+              {userMeals.length === 0 && (
                 <TableCaption className="text-gray-300">
                   Add todays meals here.
                 </TableCaption>
@@ -222,14 +120,14 @@ const TertiaryTiles = (props: Props) => {
                 </TableRow>
               </TableHeader>
               <TableBody className="hover:bg-transparent gap-3">
-                {meals &&
-                  meals.map((meal) => (
+                {userMeals &&
+                  userMeals.map((meal) => (
                     <TableRow
-                      key={meal.meal}
+                      key={meal.id}
                       className="text-gray-300 font-semibold"
                     >
-                      <TableCell className="font-medium">{meal.meal}</TableCell>
-                      <TableCell>{meal.status}</TableCell>
+                      <TableCell className="font-medium">{meal.id}</TableCell>
+                      <TableCell>{meal.name}</TableCell>
                       <TableCell>{meal.protein}</TableCell>
                       <TableCell className="text-right" role="checkbox">
                         {meal.calories}

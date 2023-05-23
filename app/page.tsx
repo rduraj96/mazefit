@@ -8,29 +8,49 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import Navbar from "./(shared)/Navbar";
 import { prisma } from "@/lib/client";
 
-// console.log(session);
+const getMeals = async () => {
+  const session = await getServerSession(authOptions);
+  const userId = parseInt(session?.user?.id as string);
 
-// const getMeals = async () => {
-//   const session = await getServerSession(authOptions);
-//   const meals = await prisma.meal.findMany({
-//     where: {
-//       userId: session?.user?.id,
-//     },
-//   });
-//   return meals;
-// };
+  const meals = await prisma.meal.findMany({
+    where: {
+      userId: userId,
+      day: {
+        lte: new Date(),
+      },
+    },
+  });
+
+  return meals;
+};
 
 export default async function Home() {
-  // const meals = await getMeals();
-  // console.log(meals);
+  const meals = await getMeals();
+  const formatMacros = () => {
+    let calories = 0;
+    let protein = 0;
+    let carbs = 0;
+    let fat = 0;
+
+    meals?.forEach((meal) => {
+      calories += meal.calories;
+      protein += meal.protein;
+      carbs += meal.carbs;
+      fat += meal.fat;
+    });
+
+    return { calories, protein, carbs, fat };
+  };
+
+  const macros = formatMacros();
 
   return (
     <main className="flex w-full">
       {/* <Navbar /> */}
       <div className="basis-4/5">
         <UserBar />
-        <MainTiles />
-        <TertiaryTiles />
+        <MainTiles macros={macros} />
+        <TertiaryTiles userMeals={meals} />
         <SecondaryTiles />
       </div>
       <div className="basis-1/5">
