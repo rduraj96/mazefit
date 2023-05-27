@@ -46,6 +46,7 @@ export function CalendarDatePicker() {
           mode="single"
           selected={date}
           onSelect={setDate}
+          required={true}
           initialFocus={true}
         />
       </PopoverContent>
