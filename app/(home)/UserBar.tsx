@@ -14,21 +14,12 @@ import { CalendarDatePicker } from "./DatePicker";
 type Props = {};
 
 const UserBar = (props: Props) => {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
   const { data: session } = useSession();
-  // console.log(session);
 
   return (
     <div className="relative flex mt-10 mb-14">
       <div className="absolute left-7 py-2 flex items-center justify-center">
         <CalendarDatePicker />
-        {/* <div className="flex items-center gap-x-3"> */}
-        {/* <IoLocationSharp size={22} color="white" /> */}
-        {/* <h1 className="text-gray-200 text-lg">
-            Welcome, {session?.user?.name}
-          </h1> */}
-
-        {/* </div> */}
       </div>
 
       <div className="absolute right-7 flex items-center justify-center py-2">

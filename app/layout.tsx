@@ -2,8 +2,7 @@ import Navbar from "./(shared)/Navbar";
 import "./globals.css";
 import { Nunito } from "next/font/google";
 import { Providers } from "./providers";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { GlobalContextProvider } from "./Context/store";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -17,15 +16,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
-
   return (
     <html lang="en">
       <body className={`${nunito.className} flex h-100vh relative`}>
         <Providers>
           <Navbar />
-          {/* {session?.user && <Navbar />} */}
-          {children}
+          <GlobalContextProvider>{children}</GlobalContextProvider>
         </Providers>
       </body>
     </html>

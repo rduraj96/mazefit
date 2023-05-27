@@ -44,12 +44,18 @@ const Activity = ({ activityData }: Props) => {
             <stop offset="95%" stopColor="#F46082" stopOpacity={0} />
           </linearGradient>
         </defs>
+        <defs>
+          <linearGradient id="colorHover" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#777a7a" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#777a7a" stopOpacity={0} />
+          </linearGradient>
+        </defs>
         <XAxis dataKey="day" style={{ fontSize: "12px" }} />
         <YAxis style={{ fontSize: "12px" }} />
         <Tooltip
           cursor={{
-            // background: "black",
-            radius: "10, 10, 0, 0",
+            fill: "url(#colorHover)",
+            radius: 20,
           }}
         />
         {/* <Bar dataKey="protein" stackId="a" fill="#F46082" /> */}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -26,58 +26,14 @@ import AddMeal from "./AddMeal";
 import { ActivityData } from "../types";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useGlobalContext } from "../Context/store";
 
 type Props = {
-  userMeals: Array<Meal>;
-  activityData: Array<ActivityData>;
+  meals: Array<Meal>;
+  activityData?: Array<ActivityData>;
 };
 
-const TertiaryTiles = ({ userMeals, activityData }: Props) => {
-  // const data = [
-  //   {
-  //     name: "Monday",
-  //     protein: 4000,
-  //     calories: 2400,
-  //     amt: 2400,
-  //   },
-  //   {
-  //     name: "Tuesday",
-  //     protein: 3000,
-  //     calories: 1398,
-  //     amt: 2210,
-  //   },
-  //   {
-  //     name: "Wednesday",
-  //     protein: 2000,
-  //     calories: 2800,
-  //     amt: 2290,
-  //   },
-  //   {
-  //     name: "Thursday",
-  //     protein: 2780,
-  //     calories: 3908,
-  //     amt: 2000,
-  //   },
-  //   {
-  //     name: "Friday",
-  //     protein: 1890,
-  //     calories: 1800,
-  //     amt: 2181,
-  //   },
-  //   {
-  //     name: "Saturday",
-  //     protein: 1890,
-  //     calories: 1450,
-  //     amt: 2181,
-  //   },
-  //   {
-  //     name: "Sunday",
-  //     protein: 1890,
-  //     calories: 2230,
-  //     amt: 2181,
-  //   },
-  // ];
-
+const TertiaryTiles = ({ meals, activityData }: Props) => {
   const handleDelete = async (id: number) => {
     const response = await fetch(`/api/meals/${id}`, {
       method: "DELETE",
@@ -100,8 +56,7 @@ const TertiaryTiles = ({ userMeals, activityData }: Props) => {
           </div>
           <ScrollArea className="bg-[#1b1b1b] h-80 rounded-3xl">
             <Table className="p-2 max-h-fit overflow-scroll">
-              {/* <TableCaption>Add todays meals here.</TableCaption> */}
-              {userMeals.length === 0 && (
+              {meals.length === 0 && (
                 <TableCaption className="text-gray-300">
                   Add todays meals here.
                 </TableCaption>
@@ -116,8 +71,8 @@ const TertiaryTiles = ({ userMeals, activityData }: Props) => {
               </TableHeader>
 
               <TableBody className="hover:bg-transparent gap-3">
-                {userMeals &&
-                  userMeals.map((meal) => (
+                {meals &&
+                  meals.map((meal) => (
                     <TableRow
                       key={meal.id}
                       className="text-gray-300 font-semibold"
@@ -164,19 +119,11 @@ const TertiaryTiles = ({ userMeals, activityData }: Props) => {
           <div className="flex justify-between pb-5 items-center">
             <div className="text-white font-semibold text-lg">Activity</div>
           </div>
-          {/* <div className="bg-[#1b1b1b] rounded-3xl"> */}
-          <Activity activityData={activityData} />
+          {/* <Activity activityData={activityData} /> */}
         </div>
-        {/* <div className="basis-1/4">
-          <h1 className="text-white pb-3 font-semibold">Streak</h1>
-          <div className="bg-[#1b1b1b] rounded-3xl">poop</div>
-        </div> */}
       </div>
     </section>
   );
 };
 
 export default TertiaryTiles;
-function setState(arg0: never[]): [any, any] {
-  throw new Error("Function not implemented.");
-}

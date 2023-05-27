@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { GiPathDistance } from "react-icons/gi";
 import { AiFillFire } from "react-icons/ai";
 import { Progress } from "@/components/ui/progress";
 import MainCard from "../(shared)/MainCard";
+import { useGlobalContext } from "../Context/store";
+import { Meal } from "@prisma/client";
+import { Macros } from "../types";
 
 type Props = {
-  macros: {
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-  };
+  macros: Macros;
 };
 
 const MainTiles = ({ macros }: Props) => {

@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { DialogClose } from "@radix-ui/react-dialog";
 import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
+import { useGlobalContext } from "../Context/store";
 
 type Props = {};
 
@@ -21,6 +22,7 @@ const AddMeal = (props: Props) => {
   const [status, setStatus] = useState("");
   const [protein, setProtein] = useState("");
   const [calories, setCalories] = useState("");
+  const { selectedDate } = useGlobalContext();
 
   const handleSubmit = async () => {
     const response = await fetch(`/api/meals`, {
@@ -33,7 +35,7 @@ const AddMeal = (props: Props) => {
         type: status,
         calories: parseInt(calories),
         protein: parseInt(protein),
-        day: new Date(),
+        day: new Date(selectedDate),
         carbs: 40,
         fat: 15,
       }),

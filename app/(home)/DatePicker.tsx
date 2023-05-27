@@ -4,7 +4,6 @@ import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { AiOutlineDown } from "react-icons/ai";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -13,15 +12,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useEffect, useState } from "react";
+import { useGlobalContext } from "../Context/store";
 
 export function CalendarDatePicker() {
   const today = Date.now();
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const { selectedDate, setSelectedDate } = useGlobalContext();
 
-  const handleDate = () => {
-    setDate(date);
-    console.log(date);
-  };
+  useEffect(() => {
+    const formattedDate = date?.toISOString().split("T")[0];
+    setSelectedDate(formattedDate as string);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date]);
 
   return (
     <Popover>
@@ -42,9 +45,7 @@ export function CalendarDatePicker() {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={(date) => {
-            setDate(date), console.log(format(today, "PPP"));
-          }}
+          onSelect={setDate}
           initialFocus={true}
         />
       </PopoverContent>
