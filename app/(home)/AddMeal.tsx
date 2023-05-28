@@ -29,6 +29,8 @@ const AddMeal = (props: Props) => {
   const [status, setStatus] = useState("");
   const [protein, setProtein] = useState("");
   const [calories, setCalories] = useState("");
+  const [carbs, setCarbs] = useState("");
+  const [fat, setFat] = useState("");
   const { selectedDate, setMeals } = useGlobalContext();
 
   const handleSubmit = async () => {
@@ -43,8 +45,8 @@ const AddMeal = (props: Props) => {
         calories: parseInt(calories),
         protein: parseInt(protein),
         day: selectedDate,
-        carbs: 40,
-        fat: 15,
+        carbs: parseInt(carbs),
+        fat: parseInt(fat),
       }),
     });
 
@@ -55,6 +57,8 @@ const AddMeal = (props: Props) => {
     setStatus("");
     setProtein("");
     setCalories("");
+    setCarbs("");
+    setFat("");
     setMeals((meals) => [...meals, data]);
   };
 
@@ -115,7 +119,18 @@ const AddMeal = (props: Props) => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
+              <Label htmlFor="calories" className="text-right">
+                Calories
+              </Label>
+              <Input
+                id="calories"
+                value={calories}
+                className="col-span-3"
+                onChange={(e) => setCalories(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="protein" className="text-right">
                 Protein
               </Label>
               <Input
@@ -126,14 +141,25 @@ const AddMeal = (props: Props) => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Calories
+              <Label htmlFor="carbs" className="text-right">
+                Carbs
               </Label>
               <Input
-                id="calories"
-                value={calories}
+                id="carbs"
+                value={carbs}
                 className="col-span-3"
-                onChange={(e) => setCalories(e.target.value)}
+                onChange={(e) => setCarbs(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="fat" className="text-right">
+                Fat
+              </Label>
+              <Input
+                id="fat"
+                value={fat}
+                className="col-span-3"
+                onChange={(e) => setFat(e.target.value)}
               />
             </div>
           </div>
