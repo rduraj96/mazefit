@@ -9,12 +9,18 @@ import {
   Cell,
 } from "recharts";
 import { ActivityData } from "../types";
+import { useGlobalContext } from "../Context/store";
 
 type Props = {
   activityData: Array<ActivityData>;
 };
 
 const Activity = ({ activityData }: Props) => {
+  const { selectedDate, setSelectedDate } = useGlobalContext();
+  const handleClick = (date: string) => {
+    setSelectedDate(date);
+  };
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -68,6 +74,7 @@ const Activity = ({ activityData }: Props) => {
                   ? "url(#colorDataOver)"
                   : "url(#colorData)"
               }
+              onClick={() => handleClick(entry.day)}
             />
           ))}
         </Bar>

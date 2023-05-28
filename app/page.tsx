@@ -5,19 +5,17 @@ import SecondaryTiles from "./(home)/SecondaryTiles";
 import TertiaryTiles from "./(home)/TertiaryTiles";
 import UserBar from "./(home)/UserBar";
 import UserDetails from "./(home)/UserDetails";
-import { Meal } from "@prisma/client";
-import { ActivityData, Macros } from "./types";
+import { ActivityData, Macros, Meal } from "./types";
 import { useGlobalContext } from "./Context/store";
 import { useEffect, useState } from "react";
+import Loading from "./loading";
 
-export default function Home(date?: string) {
-  const [meals, setMeals] = useState<Meal[] | []>([]);
-  // const [isLoading, setLoading] = useState(false);
-  const { selectedDate } = useGlobalContext();
+export default function Home() {
+  const [isLoading, setLoading] = useState(false);
+  const { meals, setMeals, selectedDate } = useGlobalContext();
 
   useEffect(() => {
-    console.log(selectedDate);
-    // setLoading(true);
+    setLoading(true);
     fetch("/api/meals", {
       method: "GET",
       headers: {
@@ -26,48 +24,36 @@ export default function Home(date?: string) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setMeals(
-          data.filter(
-            (meal: { day: string }) => meal.day.split("T")[0] === selectedDate
-          )
-        );
-        // setLoading(false);
+        setMeals(data);
+        setLoading(false);
       });
-  }, [selectedDate]);
+  }, [setMeals]);
+  // eslint-disable-line react-hooks/exhaustive-deps
 
-  // function formatActivityData(): ActivityData[] {
-  //   const formattedData: ActivityData[] = [];
+  const sortActivityData = (data: Meal[]) => {
+    const formattedData: ActivityData[] = [];
 
-  //   meals.forEach((meal) => {
-  //     const existingData = formattedData.find(
-  //       (data) => data.day === meal.day.toISOString().split("T")[0]
-  //     );
+    data.forEach((meal) => {
+      const existingData = formattedData.find(
+        (data) => data.day === meal.day.split("T")[0]
+      );
 
-  //     if (existingData) {
-  //       existingData.calories += meal.calories;
-  //     } else {
-  //       formattedData.push({
-  //         day: meal.day.toISOString().split("T")[0],
-  //         calories: meal.calories,
-  //       });
-  //     }
-  //   });
+      if (existingData) {
+        existingData.calories += meal.calories;
+      } else {
+        formattedData.push({
+          day: meal.day.split("T")[0],
+          calories: meal.calories,
+        });
+      }
+    });
 
-  //   // while (formattedData.length < 5) {
-  //   //   const currentFurthest = new Date(formattedData[0].day);
-  //   //   currentFurthest.setDate(currentFurthest.getDate() - 1);
-  //   //   formattedData.unshift({
-  //   //     day: currentFurthest.toISOString().split("T")[0],
-  //   //     calories: 0,
-  //   //   });
-  //   // }
+    const sortedData = [...formattedData].sort(
+      (a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()
+    );
 
-  //   const sortedData = [...formattedData].sort(
-  //     (a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()
-  //   );
-  //   console.log(formattedData);
-  //   return sortedData;
-  // }
+    return sortedData;
+  };
 
   const formatMacros = (meals: Array<Meal>) => {
     let calories = 0;
@@ -75,7 +61,11 @@ export default function Home(date?: string) {
     let carbs = 0;
     let fat = 0;
 
-    meals?.forEach((meal) => {
+    const dayMeals = meals.filter(
+      (meal) => meal.day.split("T")[0] === selectedDate
+    );
+
+    dayMeals?.forEach((meal) => {
       calories += meal.calories;
       protein += meal.protein;
       carbs += meal.carbs;
@@ -86,7 +76,9 @@ export default function Home(date?: string) {
   };
 
   const macros = formatMacros(meals);
-  // const activityData = formatActivityData();
+  const activityData = sortActivityData(meals);
+
+  if (isLoading) return <Loading />;
 
   return (
     <main className="flex w-full">
@@ -94,10 +86,7 @@ export default function Home(date?: string) {
       <div className="basis-4/5">
         <UserBar />
         <MainTiles macros={macros} />
-        <TertiaryTiles
-          meals={meals}
-          // activityData={activityData}
-        />
+        <TertiaryTiles activityData={activityData} />
         <SecondaryTiles />
       </div>
       <div className="basis-1/5">

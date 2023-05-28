@@ -8,6 +8,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -22,7 +29,7 @@ const AddMeal = (props: Props) => {
   const [status, setStatus] = useState("");
   const [protein, setProtein] = useState("");
   const [calories, setCalories] = useState("");
-  const { selectedDate } = useGlobalContext();
+  const { selectedDate, setMeals } = useGlobalContext();
 
   const handleSubmit = async () => {
     const response = await fetch(`/api/meals`, {
@@ -48,6 +55,7 @@ const AddMeal = (props: Props) => {
     setStatus("");
     setProtein("");
     setCalories("");
+    setMeals((meals) => [...meals, data]);
   };
 
   return (
@@ -61,7 +69,6 @@ const AddMeal = (props: Props) => {
           >
             <BsPlus size={24} className="text-gray-200 hover:text-black" />
           </div>
-
           {/* <h1 className="text-gray-200 hover:text-white text-sm cursor-pointer">
                     Add Meal
                   </h1> */}
@@ -75,6 +82,28 @@ const AddMeal = (props: Props) => {
           </DialogHeader>
           <div className="grid gap-4 py-4 text-white">
             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="username" className="text-right">
+                Status
+              </Label>
+              <Select onValueChange={setStatus} defaultValue={status}>
+                <SelectTrigger className="w-fit">
+                  <SelectValue placeholder="Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Breakfast">Breakfast</SelectItem>
+                  <SelectItem value="Lunch">Lunch</SelectItem>
+                  <SelectItem value="Dinner">Dinner</SelectItem>
+                  <SelectItem value="Snack">Snack</SelectItem>
+                </SelectContent>
+              </Select>
+              {/* <Input
+                id="status"
+                value={status}
+                className="col-span-3"
+                onChange={(e) => setStatus(e.target.value)}
+              /> */}
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
                 Meal
               </Label>
@@ -83,17 +112,6 @@ const AddMeal = (props: Props) => {
                 value={name}
                 className="col-span-3"
                 onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Status
-              </Label>
-              <Input
-                id="status"
-                value={status}
-                className="col-span-3"
-                onChange={(e) => setStatus(e.target.value)}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
