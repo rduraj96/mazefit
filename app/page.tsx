@@ -35,14 +35,14 @@ export default function Home() {
 
     data.forEach((meal) => {
       const existingData = formattedData.find(
-        (data) => data.day === meal.day.split("T")[0]
+        (data) => data.day === new Date(meal.day).toLocaleString().split(",")[0]
       );
 
       if (existingData) {
         existingData.calories += meal.calories;
       } else {
         formattedData.push({
-          day: meal.day.split("T")[0],
+          day: new Date(meal.day).toLocaleString().split(",")[0],
           calories: meal.calories,
         });
       }
@@ -62,7 +62,9 @@ export default function Home() {
     let fat = 0;
 
     const dayMeals = meals.filter(
-      (meal) => meal.day.split("T")[0] === selectedDate
+      (meal) =>
+        new Date(meal.day).toLocaleString().split(",")[0] ===
+        selectedDate?.toLocaleString().split(",")[0]
     );
 
     dayMeals?.forEach((meal) => {

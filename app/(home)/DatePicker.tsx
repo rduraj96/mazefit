@@ -17,14 +17,14 @@ import { useGlobalContext } from "../Context/store";
 
 export function CalendarDatePicker() {
   const today = Date.now();
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  // const [date, setDate] = useState<Date | undefined>(new Date());
   const { selectedDate, setSelectedDate } = useGlobalContext();
 
-  useEffect(() => {
-    const formattedDate = date?.toISOString().split("T")[0];
-    setSelectedDate(formattedDate as string);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date]);
+  // useEffect(() => {
+  //   const formattedDate = date?.toISOString().split("T")[0];
+  //   setSelectedDate(formattedDate as string);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [date]);
 
   return (
     <Popover>
@@ -33,21 +33,21 @@ export function CalendarDatePicker() {
           variant={"custom"}
           className={cn(
             "w-[190px] justify-start text-left font-normal text-sm p-0",
-            !date && "text-gray-400"
+            !selectedDate && "text-gray-400"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : format(today, "PPP")}
+          {selectedDate ? format(selectedDate, "PPP") : format(today, "PPP")}
           <AiOutlineDown className="ml-4 relative right-0" size={14} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={date}
-          onSelect={setDate}
-          required={true}
+          selected={selectedDate}
+          onSelect={setSelectedDate}
           initialFocus={true}
+          required={true}
         />
       </PopoverContent>
     </Popover>

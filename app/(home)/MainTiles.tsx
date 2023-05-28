@@ -4,8 +4,6 @@ import { GiPathDistance } from "react-icons/gi";
 import { AiFillFire } from "react-icons/ai";
 import { Progress } from "@/components/ui/progress";
 import MainCard from "../(shared)/MainCard";
-import { useGlobalContext } from "../Context/store";
-import { Meal } from "@prisma/client";
 import { Macros } from "../types";
 
 type Props = {

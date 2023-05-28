@@ -42,7 +42,7 @@ const AddMeal = (props: Props) => {
         type: status,
         calories: parseInt(calories),
         protein: parseInt(protein),
-        day: new Date(selectedDate),
+        day: selectedDate,
         carbs: 40,
         fat: 15,
       }),

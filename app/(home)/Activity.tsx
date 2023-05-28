@@ -18,7 +18,7 @@ type Props = {
 const Activity = ({ activityData }: Props) => {
   const { selectedDate, setSelectedDate } = useGlobalContext();
   const handleClick = (date: string) => {
-    setSelectedDate(date);
+    setSelectedDate(new Date(date));
   };
 
   return (

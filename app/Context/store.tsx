@@ -11,19 +11,19 @@ import {
 import { ActivityData, Meal } from "../types";
 
 interface ContextProps {
-  selectedDate: string;
-  setSelectedDate: Dispatch<SetStateAction<string>>;
+  selectedDate: Date | undefined;
+  setSelectedDate: Dispatch<SetStateAction<Date | undefined>>;
   meals: Meal[];
   setMeals: Dispatch<SetStateAction<Meal[]>>;
   activityData: ActivityData[];
   setActivityData: Dispatch<SetStateAction<ActivityData[]>>;
 }
 
-const today = new Date().toISOString().split("T")[0];
+// const today = new Date().toISOString().split("T")[0];
 
 const GlobalContext = createContext<ContextProps>({
-  selectedDate: today,
-  setSelectedDate: (): string => "",
+  selectedDate: new Date(),
+  setSelectedDate: () => {},
   meals: [],
   setMeals: (): Meal[] => [],
   activityData: [],
@@ -35,7 +35,9 @@ export const GlobalContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    new Date()
+  );
   const [meals, setMeals] = useState<Meal[] | []>([]);
   const [activityData, setActivityData] = useState<ActivityData[] | []>([]);
 

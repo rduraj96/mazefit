@@ -18,8 +18,13 @@ const TertiaryTiles = ({ activityData }: Props) => {
   const { meals, selectedDate } = useGlobalContext();
   const [dayMeals, setDayMeals] = useState<Meal[]>([]);
   useEffect(() => {
+    console.log(meals);
     setDayMeals(
-      meals.filter((meal) => meal.day.split("T")[0] === selectedDate)
+      meals.filter(
+        (meal) =>
+          new Date(meal.day).toLocaleString().split(",")[0] ===
+          selectedDate?.toLocaleString().split(",")[0]
+      )
     );
   }, [selectedDate, meals]);
 
