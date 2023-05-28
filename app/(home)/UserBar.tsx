@@ -10,11 +10,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarDatePicker } from "./DatePicker";
+import { useGlobalContext } from "../Context/store";
 
 type Props = {};
 
 const UserBar = (props: Props) => {
   const { data: session } = useSession();
+  const { profileClicked, setProfileClicked } = useGlobalContext();
+
+  const handleClick = () => {
+    setProfileClicked(!profileClicked);
+  };
 
   return (
     <div className="relative flex mt-10 mb-14">
@@ -32,7 +38,10 @@ const UserBar = (props: Props) => {
             </PopoverTrigger>
             <PopoverContent>No new notifications.</PopoverContent>
           </Popover>
-          <Avatar className="rounded-xl aspect-auto h-11 w-11">
+          <Avatar
+            className="rounded-xl aspect-auto h-11 w-11 cursor-pointer"
+            onClick={handleClick}
+          >
             <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80" />
             <AvatarFallback>
               {session?.user?.name?.substring(0, 2).toUpperCase()}

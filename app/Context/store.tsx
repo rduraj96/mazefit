@@ -17,6 +17,8 @@ interface ContextProps {
   setMeals: Dispatch<SetStateAction<Meal[]>>;
   activityData: ActivityData[];
   setActivityData: Dispatch<SetStateAction<ActivityData[]>>;
+  profileClicked: Boolean;
+  setProfileClicked: Dispatch<SetStateAction<Boolean>>;
 }
 
 // const today = new Date().toISOString().split("T")[0];
@@ -28,6 +30,8 @@ const GlobalContext = createContext<ContextProps>({
   setMeals: (): Meal[] => [],
   activityData: [],
   setActivityData: (): ActivityData[] => [],
+  profileClicked: false,
+  setProfileClicked: () => {},
 });
 
 export const GlobalContextProvider = ({
@@ -40,6 +44,7 @@ export const GlobalContextProvider = ({
   );
   const [meals, setMeals] = useState<Meal[] | []>([]);
   const [activityData, setActivityData] = useState<ActivityData[] | []>([]);
+  const [profileClicked, setProfileClicked] = useState<Boolean>(false);
 
   return (
     <GlobalContext.Provider
@@ -50,6 +55,8 @@ export const GlobalContextProvider = ({
         setActivityData,
         selectedDate,
         setSelectedDate,
+        profileClicked,
+        setProfileClicked,
       }}
     >
       {children}

@@ -12,7 +12,7 @@ import Loading from "./loading";
 
 export default function Home() {
   const [isLoading, setLoading] = useState(false);
-  const { meals, setMeals, selectedDate } = useGlobalContext();
+  const { meals, setMeals, selectedDate, profileClicked } = useGlobalContext();
 
   useEffect(() => {
     setLoading(true);
@@ -102,15 +102,21 @@ export default function Home() {
   return (
     <main className="flex w-full">
       {/* <Navbar /> */}
-      <div className="basis-4/5">
+      <div
+        className={`${
+          profileClicked ? "basis-4/5" : "basis-full"
+        } duration-700`}
+      >
         <UserBar />
         <MainTiles macros={macros} />
         <TertiaryTiles activityData={activityData} />
         <SecondaryTiles />
       </div>
-      <div className="basis-1/5">
-        <UserDetails />
-      </div>
+      {profileClicked && (
+        <div className="basis-1/5">
+          <UserDetails />
+        </div>
+      )}
     </main>
   );
 }

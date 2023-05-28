@@ -57,7 +57,7 @@ const Activity = ({ activityData }: Props) => {
           </linearGradient>
         </defs>
         <XAxis dataKey="day" style={{ fontSize: "12px" }} />
-        <YAxis style={{ fontSize: "12px" }} />
+        <YAxis style={{ fontSize: "12px" }} domain={[0, 3000]} />
         <Tooltip
           cursor={{
             fill: "url(#colorHover)",
