@@ -49,10 +49,27 @@ export default function Home() {
     });
 
     const sortedData = [...formattedData].sort(
-      (a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()
+      (b, a) => new Date(a.day).getTime() - new Date(b.day).getTime()
     );
 
-    return sortedData;
+    const res: ActivityData[] = [];
+    for (let i = 0; i < 7; i++) {
+      let date = new Date();
+      date.setDate(date.getDate() - i);
+      if (
+        sortedData[i] &&
+        sortedData[i].day === date.toLocaleString().split(",")[0]
+      ) {
+        res.push(sortedData[i]);
+      } else {
+        res.push({
+          day: date.toLocaleString().split(",")[0],
+          calories: 0,
+        });
+      }
+    }
+
+    return res.reverse();
   };
 
   const formatMacros = (meals: Array<Meal>) => {
