@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ResponsiveContainer,
   XAxis,
@@ -16,16 +16,18 @@ type Props = {
 };
 
 const Activity = ({ activityData }: Props) => {
-  const { selectedDate, setSelectedDate } = useGlobalContext();
-  const handleClick = (date: string) => {
+  const { calories, setSelectedDate } = useGlobalContext();
+  const [activeIndex, setActiveIndex] = useState(6);
+  const handleClick = (date: string, index: number) => {
     setSelectedDate(new Date(date));
+    setActiveIndex(index);
   };
 
   return (
     <ResponsiveContainer
       width="100%"
       height="100%"
-      className="bg-[#1b1b1b] rounded-3xl"
+      className="bg-foreground rounded-3xl"
     >
       <BarChart
         width={475}
@@ -57,7 +59,7 @@ const Activity = ({ activityData }: Props) => {
           </linearGradient>
         </defs>
         <XAxis dataKey="day" style={{ fontSize: "12px" }} />
-        <YAxis style={{ fontSize: "12px" }} domain={[0, 3000]} />
+        <YAxis style={{ fontSize: "12px" }} domain={[0, calories * 1.25]} />
         <Tooltip
           cursor={{
             fill: "url(#colorHover)",
@@ -69,12 +71,13 @@ const Activity = ({ activityData }: Props) => {
           {activityData?.map((entry, index) => (
             // eslint-disable-next-line react/jsx-key
             <Cell
+              cursor="pointer"
               fill={
-                entry.calories > 2300
+                index === activeIndex
                   ? "url(#colorDataOver)"
                   : "url(#colorData)"
               }
-              onClick={() => handleClick(entry.day)}
+              onClick={() => handleClick(entry.day, index)}
             />
           ))}
         </Bar>

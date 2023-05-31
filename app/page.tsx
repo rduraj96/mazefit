@@ -12,7 +12,14 @@ import Loading from "./loading";
 
 export default function Home() {
   const [isLoading, setLoading] = useState(false);
-  const { meals, setMeals, selectedDate, profileClicked } = useGlobalContext();
+  const {
+    meals,
+    setMeals,
+    selectedDate,
+    profileClicked,
+    calories,
+    setCalories,
+  } = useGlobalContext();
 
   useEffect(() => {
     setLoading(true);
@@ -28,7 +35,19 @@ export default function Home() {
         setLoading(false);
       });
   }, [setMeals]);
-  // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    fetch("/api/user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCalories(data.calories);
+      });
+  }, [setCalories]);
 
   const sortActivityData = (data: Meal[]) => {
     const formattedData: ActivityData[] = [];
@@ -51,24 +70,20 @@ export default function Home() {
     const sortedData = [...formattedData].sort(
       (b, a) => new Date(a.day).getTime() - new Date(b.day).getTime()
     );
-
+    console.log("Sorted Data:", sortedData);
     const res: ActivityData[] = [];
     for (let i = 0; i < 7; i++) {
       let date = new Date();
       date.setDate(date.getDate() - i);
-      if (
-        sortedData[i] &&
-        sortedData[i].day === date.toLocaleString().split(",")[0]
-      ) {
-        res.push(sortedData[i]);
-      } else {
-        res.push({
-          day: date.toLocaleString().split(",")[0],
-          calories: 0,
-        });
-      }
+      res.push({
+        day: date.toLocaleString().split(",")[0],
+        calories:
+          sortedData[i]?.day === date.toLocaleString().split(",")[0]
+            ? sortedData[i].calories
+            : 0,
+      });
     }
-
+    console.log("Res:", res);
     return res.reverse();
   };
 
@@ -113,7 +128,10 @@ export default function Home() {
         <SecondaryTiles />
       </div>
       {profileClicked && (
-        <div className="basis-1/5">
+        <div
+          className="basis-1/5 duration-700"
+          style={{ transitionDelay: "1300ms" }}
+        >
           <UserDetails />
         </div>
       )}

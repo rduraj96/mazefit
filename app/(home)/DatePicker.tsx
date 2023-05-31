@@ -12,19 +12,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useEffect, useState } from "react";
 import { useGlobalContext } from "../Context/store";
 
 export function CalendarDatePicker() {
   const today = Date.now();
-  // const [date, setDate] = useState<Date | undefined>(new Date());
   const { selectedDate, setSelectedDate } = useGlobalContext();
-
-  // useEffect(() => {
-  //   const formattedDate = date?.toISOString().split("T")[0];
-  //   setSelectedDate(formattedDate as string);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [date]);
 
   return (
     <Popover>
