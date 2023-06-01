@@ -31,14 +31,14 @@ const TertiaryTiles = ({ activityData }: Props) => {
   return (
     <section className="px-7">
       <div className="flex justify-between gap-x-7">
-        <div className="basis-3/5">
+        <div className="basis-1/2">
           <div className="flex justify-between pb-4 items-center">
             <div className="text-white font-semibold text-lg">Recent Meals</div>
             <AddMeal />
           </div>
           <MealTable dayMeals={dayMeals} />
         </div>
-        <div className="basis-2/5 h-80">
+        <div className="basis-1/2 h-80">
           <div className="flex justify-between pb-5 items-center">
             <div className="text-white font-semibold text-lg">Activity</div>
           </div>
