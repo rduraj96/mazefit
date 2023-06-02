@@ -7,9 +7,12 @@ import {
   BarChart,
   Bar,
   Cell,
+  Label,
+  ReferenceLine,
 } from "recharts";
 import { ActivityData } from "../types";
 import { useGlobalContext } from "../Context/store";
+import CustomTooltip from "../(shared)/CustomTooltip";
 
 type Props = {
   activityData: Array<ActivityData>;
@@ -18,6 +21,7 @@ type Props = {
 const Activity = ({ activityData }: Props) => {
   const { calories, setSelectedDate } = useGlobalContext();
   const [activeIndex, setActiveIndex] = useState(6);
+  const duration = 1000;
   const handleClick = (date: string, index: number) => {
     setSelectedDate(new Date(date));
     setActiveIndex(index);
@@ -27,23 +31,23 @@ const Activity = ({ activityData }: Props) => {
     <ResponsiveContainer
       width="100%"
       height="100%"
-      className="bg-foreground rounded-3xl"
+      // className="bg-foreground rounded-3xl"
     >
       <BarChart
-        width={475}
-        height={300}
+        // width={475}
+        // height={300}
         data={activityData}
         margin={{
-          top: 45,
-          right: 15,
-          left: 0,
-          bottom: 15,
+          top: 0,
+          right: 0,
+          left: -15,
+          bottom: 0,
         }}
       >
         <defs>
           <linearGradient id="colorData" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#51D8D8" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#51D8D8" stopOpacity={0} />
+            <stop offset="5%" stopColor="#FFA600" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#FFA600" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="colorDataOver" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#F46082" stopOpacity={0.8} />
@@ -54,29 +58,59 @@ const Activity = ({ activityData }: Props) => {
             <stop offset="95%" stopColor="#777a7a" stopOpacity={0} />
           </linearGradient>
         </defs>
-        <XAxis dataKey="day" style={{ fontSize: "12px" }} />
-        <YAxis style={{ fontSize: "12px" }} domain={[0, calories * 1.25]} />
-        <Tooltip
-          cursor={{
-            fill: "url(#colorHover)",
-            radius: 20,
-          }}
+        <XAxis
+          dataKey="day"
+          style={{ fontSize: "10px" }}
+          axisLine={false}
+          tickLine={false}
         />
-        {/* <Bar dataKey="protein" stackId="a" fill="#F46082" /> */}
-        <Bar stackId="a" dataKey="calories" radius={[10, 10, 0, 0]}>
-          {activityData?.map((entry, index) => (
-            // eslint-disable-next-line react/jsx-key
-            <Cell
-              cursor="pointer"
-              fill={
-                index === activeIndex
-                  ? "url(#colorDataOver)"
-                  : "url(#colorData)"
-              }
-              onClick={() => handleClick(entry.day, index)}
-            />
-          ))}
-        </Bar>
+        <YAxis
+          style={{ fontSize: "10px" }}
+          domain={[0, "auto"]}
+          axisLine={false}
+          tickLine={false}
+        />
+        <ReferenceLine
+          y={calories}
+          // label="Caloric Goal"
+          opacity="35"
+          stroke="#fff"
+          strokeDasharray="2 3"
+          strokeOpacity="35%"
+        />
+        <Tooltip
+          content={<CustomTooltip />}
+          cursor={false}
+          // position={{ y: -10 }}
+        />
+        {activityData.length > 0 && (
+          <Bar
+            stackId="a"
+            dataKey="calories"
+            radius={[10, 10, 0, 0]}
+            animationDuration={duration}
+            barSize={100}
+            // label={{
+            //   position: "top",
+            //   offset: 15,
+            // }}
+          >
+            {activityData?.map((entry, index) => (
+              // eslint-disable-next-line react/jsx-key
+              <Cell
+                key={`cell-${index}`}
+                cursor="pointer"
+                fill={
+                  index === activeIndex ? "url(#colorData)" : "url(#colorHover)"
+                }
+                // style={{
+                //   filter: `drop-shadow(0px 0px 2px #FFA600)`,
+                // }}
+                onClick={() => handleClick(entry.day, index)}
+              />
+            ))}
+          </Bar>
+        )}
       </BarChart>
     </ResponsiveContainer>
   );
