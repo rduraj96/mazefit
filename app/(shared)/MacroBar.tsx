@@ -11,7 +11,7 @@ const MacroBar = ({ meal }: Props) => {
   const fat = 100 - (protein + carbs);
   console.log(protein, carbs, fat);
   return (
-    <div className="relative text-transparent hover:text-gray-200 shadow-md w-full h-4 overflow-hidden flex items-center rounded-full text-xs">
+    <div className="relative text-transparent hover:text-gray-200 shadow-md w-full h-4 overflow-hidden flex items-center rounded-full text-xs hover:scale-125 hover:transition-all">
       <div
         className={`text-center bg-[#FF7C46] h-full`}
         style={{

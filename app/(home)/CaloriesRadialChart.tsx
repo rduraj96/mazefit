@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { Macros } from "../types";
 import { getPercentage } from "@/lib/utils";
+import CustomTooltip from "../(shared)/CustomTooltip";
 
 type Props = {
   macros: Macros;
@@ -18,6 +19,7 @@ type Props = {
 
 const CaloriesRadialChart = ({ macros }: Props) => {
   const { calories } = useGlobalContext();
+  const duration = 1000;
   const data = [
     {
       name: "Fat",
@@ -44,11 +46,10 @@ const CaloriesRadialChart = ({ macros }: Props) => {
       fill: "#FFA600",
     },
   ];
-  const COLORS = ["#0088FE", "#03C39F", "#FFB827", "#FE8042"];
 
   const style = {
     top: "50%",
-    left: 0,
+    right: 0,
     transform: "translate(0, -50%)",
     lineHeight: "30px",
     padding: 5,
@@ -58,15 +59,15 @@ const CaloriesRadialChart = ({ macros }: Props) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <RadialBarChart
-        cx="50%"
+        cx="45%"
         cy="50%"
         innerRadius="25%"
         outerRadius="110%"
-        barSize={12}
+        barSize={20}
         data={data}
         barCategoryGap="60%"
-        // startAngle={135}
-        // endAngle={-135}
+        startAngle={135}
+        endAngle={-135}
       >
         <PolarAngleAxis
           type="number"
@@ -79,6 +80,7 @@ const CaloriesRadialChart = ({ macros }: Props) => {
           // fill="#0BEFF2"
           background={{ fill: "#1B1B1B" }}
           cornerRadius={10}
+          animationDuration={duration}
         />
 
         {/* <Legend

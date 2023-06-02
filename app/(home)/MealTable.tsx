@@ -44,12 +44,14 @@ const MealTable = ({ dayMeals }: Props) => {
   };
 
   return (
-    <ScrollArea className="h-80 rounded-3xl shadow-inner">
+    <ScrollArea className="rounded-3xl shadow-inner">
       {dayMeals &&
         dayMeals.map((meal) => (
           <Dialog key={meal.id}>
             <DialogTrigger asChild>
-              <TableRow key={meal.id} meal={meal} />
+              <div>
+                <TableRow key={meal.id} meal={meal} />
+              </div>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>

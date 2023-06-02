@@ -4,73 +4,59 @@ import { GiPathDistance } from "react-icons/gi";
 import { AiFillFire } from "react-icons/ai";
 import { Progress } from "@/components/ui/progress";
 import MainCard from "../(shared)/MainCard";
-import { Macros } from "../types";
+import { ActivityData, Macros } from "../types";
 import { useGlobalContext } from "../Context/store";
 import CaloriesRadialChart from "./CaloriesRadialChart";
 import WeightChart from "./WeightChart";
+import BoxHeader from "../(shared)/BoxHeader";
+import ChartBox from "../(shared)/ChartBox";
+import Activity from "./Activity";
 
 type Props = {
   macros: Macros;
+  activityData: Array<ActivityData>;
 };
 
-const MainTiles = ({ macros }: Props) => {
+const MainTiles = ({ macros, activityData }: Props) => {
   const { calories } = useGlobalContext();
 
   return (
     <section className="relative py-3 px-7">
-      {/* <h1 className="text-white pb-3 font-semibold text-lg">Overview</h1> */}
-      <div className="grid grid-cols-8 grid-rows-1 h-44 gap-x-7 gap-y-6 my-5">
-        <MainCard className="bg-foreground cursor-pointer col-span-1">
-          {/* <div className="flex gap-3 p-4 items-center">
-            <AiFillFire size={30} />
-            <p className="font-bold text-xl">Calories</p>
-          </div>
-          <div className="p-4">
-            <p className="font-bold text-4xl">{macros.calories}</p>
-            <Progress
-              value={(macros.calories / calories) * 100}
-              className="mt-2"
-            />
-          </div> */}
-          <CaloriesRadialChart macros={macros} />
+      <div className="grid grid-cols-6 grid-rows-2 h-80 gap-x-7 gap-y-6 my-5">
+        <MainCard className="cursor-pointer col-span-1 row-span-2">
+          <BoxHeader>Overview</BoxHeader>
+          {/* <div className="grid grid-cols-2 grid-rows-1 h-full w-full"> */}
+          <ChartBox
+          // className="cols-span-1 row-span-1"
+          >
+            <CaloriesRadialChart macros={macros} />
+          </ChartBox>
+          {/* <div className="cols-span-1 row-span-1 text-white"> */}
+          {/* <h1>{macros.calories}</h1> */}
+          {/* <h1>{macros.protein}</h1> */}
+          {/* <h1>{macros.carbs}</h1> */}
+          {/* <h1>{macros.fat}</h1> */}
+          {/* </div> */}
+          {/* </div> */}
         </MainCard>
-
-        <MainCard className="bg-foreground hover:shadow-[#867BFC] col-span-3 shadow-md cursor-pointer">
-          {/* <div className="flex gap-3 p-4 items-center">
-            <MdAccessTimeFilled size={30} />
-            <p className="font-bold text-xl">Protein</p>
-          </div>
-          <div className="p-4">
-            <p className="font-bold text-3xl">{macros.protein}</p>
-            <Progress value={(macros.protein / 2000) * 100} className="mt-2" />
-          </div> */}
-          <WeightChart />
+        <MainCard className="hover:bg-[#FFA600] delay-150 bg-opacity-75 hover:bg-opacity-100 duration-500 hover:scale-110 hover:translate-x-2 hover:-translate-y-2 ease-in-out hover:transition-all col-span-1 row-span-1">
+          <BoxHeader>Calories</BoxHeader>
+          <h1 className="hidden hover:visible text-white"> Poopies</h1>
         </MainCard>
-        <MainCard className="bg-[#51D8D8] hover:shadow-[#51D8D8] shadow-md cursor-pointer">
-          <div className="flex gap-3 p-4 items-center">
-            <MdAccessTimeFilled size={30} />
-            <p className="font-bold text-xl">Carbs</p>
-          </div>
-          <div className="p-4">
-            <p className="font-bold text-4xl">
-              {macros.carbs}
-              {/* <span className="font-bold text-lg">min</span> */}
-            </p>
-            <Progress value={(macros.carbs / 2000) * 100} className="mt-2" />
-          </div>
+        <MainCard className="hover:bg-[#FF7C46] col-span-1 row-span-1">
+          <BoxHeader>Protein</BoxHeader>
         </MainCard>
-        <MainCard className="bg-[#F97A4D] hover:shadow-[#F97A4D] shadow-md cursor-pointer">
-          <div className="flex gap-3 p-4 items-center">
-            <GiPathDistance size={30} />
-            <p className="font-bold text-xl">Fat</p>
-          </div>
-          <div className="p-4">
-            <p className="font-bold text-4xl">
-              {macros.fat}
-              {/* <span className="font-bold text-lg">mi</span> */}
-            </p>
-            <Progress value={(macros.fat / 2000) * 100} className="mt-2" />
-          </div>
+        <MainCard className="col-span-3 row-span-2 shadow-md cursor-pointer">
+          <BoxHeader>Activity</BoxHeader>
+          <ChartBox>
+            <Activity activityData={activityData} />
+          </ChartBox>
+        </MainCard>
+        <MainCard className="hover:bg-[#F95D67] col-span-1 row-span-1">
+          <BoxHeader>Carbs</BoxHeader>
+        </MainCard>
+        <MainCard className="hover:bg-[#D45088] col-span-1 row-span-1">
+          <BoxHeader>Fat</BoxHeader>
         </MainCard>
       </div>
     </section>

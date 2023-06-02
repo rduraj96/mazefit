@@ -18,51 +18,6 @@ import WeightChart from "./WeightChart";
 
 type Props = {};
 
-const data = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
-
 const UserDetails = (props: Props) => {
   const { data: session } = useSession();
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -109,15 +64,15 @@ const UserDetails = (props: Props) => {
           </div>
           <div className="mt-8 flex justify-around text-gray-200 py-3 rounded-xl border-2 border-neutral-700">
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-bold text-lg">189 lb</p>
+              <p className="font-semibold text-lg">189 lb</p>
               <p className="text-neutral-500">Weight</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-bold text-lg">6ft 0in</p>
+              <p className="font-semibold text-lg">6ft 0in</p>
               <p className="text-neutral-500">Height</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-bold text-lg">26</p>
+              <p className="font-semibold text-lg">26</p>
               <p className="text-neutral-500">Age</p>
             </div>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Activity from "./Activity";
 // import { Meal } from "@prisma/client";
 
@@ -8,13 +8,17 @@ import AddMeal from "./AddMeal";
 import { ActivityData, Meal } from "../types";
 import MealTable from "./MealTable";
 import { useGlobalContext } from "../Context/store";
+import BoxHeader from "../(shared)/BoxHeader";
+import ChartBox from "../(shared)/ChartBox";
+import MainCard from "../(shared)/MainCard";
+import WeightChart from "./WeightChart";
 
 type Props = {
   // meals: Array<Meal>;
-  activityData: Array<ActivityData>;
+  // activityData: Array<ActivityData>;
 };
 
-const TertiaryTiles = ({ activityData }: Props) => {
+const TertiaryTiles = (props: Props) => {
   const { meals, selectedDate } = useGlobalContext();
   const [dayMeals, setDayMeals] = useState<Meal[]>([]);
   useEffect(() => {
@@ -30,20 +34,20 @@ const TertiaryTiles = ({ activityData }: Props) => {
 
   return (
     <section className="px-7">
-      <div className="flex justify-between gap-x-7">
-        <div className="basis-1/2">
-          <div className="flex justify-between pb-4 items-center">
-            <div className="text-white font-semibold text-lg">Recent Meals</div>
+      <div className="grid grid-cols-5 grid-rows-1 gap-x-7 my-5 h-80">
+        <MainCard className="col-span-3 row-span-1 bg-transparent rounded-none">
+          <div className="flex justify-between items-center pb-2">
+            <BoxHeader>Recent Meals</BoxHeader>
             <AddMeal />
           </div>
           <MealTable dayMeals={dayMeals} />
-        </div>
-        <div className="basis-1/2 h-80">
-          <div className="flex justify-between pb-5 items-center">
-            <div className="text-white font-semibold text-lg">Activity</div>
-          </div>
-          <Activity activityData={activityData} />
-        </div>
+        </MainCard>
+        <MainCard className="col-span-2 row-span-1">
+          <BoxHeader>Weight</BoxHeader>
+          <ChartBox>
+            <WeightChart />
+          </ChartBox>
+        </MainCard>
       </div>
     </section>
   );

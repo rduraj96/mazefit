@@ -112,19 +112,17 @@ export default function Home() {
   const macros = formatMacros(meals);
   const activityData = sortActivityData(meals);
 
-  if (isLoading) return <Loading />;
-
   return (
     <main className="flex w-full">
       {/* <Navbar /> */}
       <div
         className={`${
           profileClicked ? "basis-4/5" : "basis-full"
-        } duration-700`}
+        } duration-700 min-h-screen`}
       >
         <UserBar />
-        <MainTiles macros={macros} />
-        <TertiaryTiles activityData={activityData} />
+        <MainTiles macros={macros} activityData={activityData} />
+        <TertiaryTiles />
         <SecondaryTiles />
       </div>
       {profileClicked && (

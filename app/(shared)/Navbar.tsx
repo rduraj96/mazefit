@@ -31,6 +31,7 @@ type Props = {};
 
 const Navbar = (props: Props) => {
   const [open, setOpen] = useState(false);
+  const [index, setIndex] = useState(0);
   const menus = [
     { name: "Dashboard", link: "/", icon: RiHomeSmile2Fill },
     { name: "Profile", link: "/profile", icon: RiUser3Fill },
@@ -40,6 +41,7 @@ const Navbar = (props: Props) => {
     { name: "Settings", link: "/", icon: RiSettings3Fill },
     // { name: "Log Out", link: "/", icon: IoLogOut, auth: true },
   ];
+  const COLORS = ["FFA600", "F6951B", "EE8436", "E57252", "DD616D", "D45088"];
 
   return (
     <section className="flex gap-6">
@@ -67,17 +69,18 @@ const Navbar = (props: Props) => {
             <Link
               href={menu?.link}
               key={i}
-              className={`group flex ${
-                open && "w-2/3"
-              } items-center text-sm gap-3.5 font-medium py-1 px-0.5 hover:bg-[#51d8d8] hover:text-black rounded-md selected:bg-[#51d8d8]`}
+              onClick={() => {
+                setIndex(i);
+              }}
+              className={`group flex ${open && "w-2/3"} ${
+                index === i && `bg-[#F6951B] text-black`
+              } items-center text-sm gap-3.5 font-medium py-1 px-0.5 rounded-md`}
             >
               <div>{React.createElement(menu?.icon, { size: "30" })}</div>
               <h2
-                style={
-                  {
-                    // transitionDelay: `${i + 3}00ms`,
-                  }
-                }
+                style={{
+                  transitionDelay: `${i + 3}00ms`,
+                }}
                 className={`whitespace-pre duration-500 ${
                   !open && "opacity-0 translate-x-28 overflow-hidden"
                 }`}
