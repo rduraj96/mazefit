@@ -15,10 +15,10 @@ import WeightChart from "./WeightChart";
 
 type Props = {
   // meals: Array<Meal>;
-  // activityData: Array<ActivityData>;
+  activityData: Array<ActivityData>;
 };
 
-const TertiaryTiles = (props: Props) => {
+const TertiaryTiles = ({ activityData }: Props) => {
   const { meals, selectedDate } = useGlobalContext();
   const [dayMeals, setDayMeals] = useState<Meal[]>([]);
   useEffect(() => {
@@ -43,9 +43,9 @@ const TertiaryTiles = (props: Props) => {
           <MealTable dayMeals={dayMeals} />
         </MainCard>
         <MainCard className="col-span-2 row-span-1">
-          <BoxHeader>Weight</BoxHeader>
+          <BoxHeader>Recent Activity</BoxHeader>
           <ChartBox>
-            <WeightChart />
+            <Activity activityData={activityData} />
           </ChartBox>
         </MainCard>
       </div>

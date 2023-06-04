@@ -12,14 +12,8 @@ import Loading from "./loading";
 
 export default function Home() {
   const [isLoading, setLoading] = useState(false);
-  const {
-    meals,
-    setMeals,
-    selectedDate,
-    profileClicked,
-    calories,
-    setCalories,
-  } = useGlobalContext();
+  const { meals, setMeals, selectedDate, profileClicked, setMacroGoals } =
+    useGlobalContext();
 
   useEffect(() => {
     setLoading(true);
@@ -45,9 +39,15 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setCalories(data.calories);
+        const goalCalories = parseInt(data.calories, 10);
+        setMacroGoals({
+          calories: goalCalories,
+          protein: Math.round((goalCalories * 0.4) / 4),
+          carbs: Math.round((goalCalories * 0.3) / 4),
+          fat: Math.round((goalCalories * 0.3) / 9),
+        });
       });
-  }, [setCalories]);
+  }, [setMacroGoals]);
 
   const sortActivityData = (data: Meal[]) => {
     const formattedData: ActivityData[] = [];
@@ -121,8 +121,8 @@ export default function Home() {
         } duration-700 min-h-screen`}
       >
         <UserBar />
-        <MainTiles macros={macros} activityData={activityData} />
-        <TertiaryTiles />
+        <MainTiles macros={macros} />
+        <TertiaryTiles activityData={activityData} />
         <SecondaryTiles />
       </div>
       {profileClicked && (

@@ -19,7 +19,7 @@ type Props = {
 };
 
 const Activity = ({ activityData }: Props) => {
-  const { calories, setSelectedDate } = useGlobalContext();
+  const { macroGoals, setSelectedDate } = useGlobalContext();
   const [activeIndex, setActiveIndex] = useState(6);
   const duration = 1000;
   const handleClick = (date: string, index: number) => {
@@ -71,7 +71,7 @@ const Activity = ({ activityData }: Props) => {
           tickLine={false}
         />
         <ReferenceLine
-          y={calories}
+          y={macroGoals?.calories}
           // label="Caloric Goal"
           opacity="35"
           stroke="#fff"
@@ -100,6 +100,7 @@ const Activity = ({ activityData }: Props) => {
               <Cell
                 key={`cell-${index}`}
                 cursor="pointer"
+                // onMouseOver={}y
                 fill={
                   index === activeIndex ? "url(#colorData)" : "url(#colorHover)"
                 }

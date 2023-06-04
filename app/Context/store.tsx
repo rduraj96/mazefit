@@ -8,7 +8,7 @@ import {
   SetStateAction,
   useState,
 } from "react";
-import { ActivityData, Meal } from "../types";
+import { ActivityData, Macros, Meal } from "../types";
 
 interface ContextProps {
   selectedDate: Date | undefined;
@@ -17,8 +17,8 @@ interface ContextProps {
   setMeals: Dispatch<SetStateAction<Meal[]>>;
   activityData: ActivityData[];
   setActivityData: Dispatch<SetStateAction<ActivityData[]>>;
-  calories: number;
-  setCalories: Dispatch<SetStateAction<number>>;
+  macroGoals: Macros;
+  setMacroGoals: Dispatch<SetStateAction<Macros>>;
   profileClicked: Boolean;
   setProfileClicked: Dispatch<SetStateAction<Boolean>>;
 }
@@ -32,8 +32,13 @@ const GlobalContext = createContext<ContextProps>({
   setMeals: (): Meal[] => [],
   activityData: [],
   setActivityData: (): ActivityData[] => [],
-  calories: 0,
-  setCalories: () => {},
+  macroGoals: {
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  },
+  setMacroGoals: () => undefined,
   profileClicked: true,
   setProfileClicked: () => {},
 });
@@ -48,7 +53,12 @@ export const GlobalContextProvider = ({
   );
   const [meals, setMeals] = useState<Meal[] | []>([]);
   const [activityData, setActivityData] = useState<ActivityData[] | []>([]);
-  const [calories, setCalories] = useState<number>(0);
+  const [macroGoals, setMacroGoals] = useState<Macros>({
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  });
   const [profileClicked, setProfileClicked] = useState<Boolean>(true);
 
   return (
@@ -62,8 +72,8 @@ export const GlobalContextProvider = ({
         setSelectedDate,
         profileClicked,
         setProfileClicked,
-        calories,
-        setCalories,
+        macroGoals,
+        setMacroGoals,
       }}
     >
       {children}

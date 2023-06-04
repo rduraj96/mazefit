@@ -18,30 +18,30 @@ type Props = {
 };
 
 const CaloriesRadialChart = ({ macros }: Props) => {
-  const { calories } = useGlobalContext();
+  const { macroGoals } = useGlobalContext();
   const duration = 1000;
   const data = [
     {
       name: "Fat",
-      uv: getPercentage(macros.fat, calories, 9),
+      uv: getPercentage(macros.fat, macroGoals.fat),
       pv: macros.fat,
       fill: "#D45088",
     },
     {
       name: "Carbs",
-      uv: getPercentage(macros.carbs, calories, 4),
+      uv: getPercentage(macros.carbs, macroGoals.carbs),
       pv: macros.carbs,
       fill: "#F95D67",
     },
     {
       name: "Protein",
-      uv: getPercentage(macros.protein, calories, 4),
+      uv: getPercentage(macros.protein, macroGoals.protein),
       pv: macros.protein,
       fill: "#FF7C46",
     },
     {
       name: "Calories",
-      uv: (macros.calories * 100) / calories,
+      uv: getPercentage(macros.calories, macroGoals.calories),
       pv: macros.calories,
       fill: "#FFA600",
     },
@@ -59,15 +59,15 @@ const CaloriesRadialChart = ({ macros }: Props) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <RadialBarChart
-        cx="45%"
+        cx="50%"
         cy="50%"
         innerRadius="25%"
         outerRadius="110%"
         barSize={20}
         data={data}
         barCategoryGap="60%"
-        startAngle={135}
-        endAngle={-135}
+        // startAngle={135}
+        // endAngle={-135}
       >
         <PolarAngleAxis
           type="number"

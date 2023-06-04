@@ -11,53 +11,58 @@ import WeightChart from "./WeightChart";
 import BoxHeader from "../(shared)/BoxHeader";
 import ChartBox from "../(shared)/ChartBox";
 import Activity from "./Activity";
+import MacroCard from "../(shared)/MacroCard";
+import { getPercentage } from "@/lib/utils";
 
 type Props = {
   macros: Macros;
-  activityData: Array<ActivityData>;
 };
 
-const MainTiles = ({ macros, activityData }: Props) => {
-  const { calories } = useGlobalContext();
-
+const MainTiles = ({ macros }: Props) => {
   return (
     <section className="relative py-3 px-7">
-      <div className="grid grid-cols-6 grid-rows-2 h-80 gap-x-7 gap-y-6 my-5">
-        <MainCard className="cursor-pointer col-span-1 row-span-2">
+      <div className="grid grid-cols-6 grid-rows-4 h-80 gap-x-7 gap-y-6 my-5">
+        <MainCard className="cursor-pointer col-span-1 row-span-4">
           <BoxHeader>Overview</BoxHeader>
-          {/* <div className="grid grid-cols-2 grid-rows-1 h-full w-full"> */}
-          <ChartBox
-          // className="cols-span-1 row-span-1"
-          >
+          <ChartBox>
             <CaloriesRadialChart macros={macros} />
           </ChartBox>
-          {/* <div className="cols-span-1 row-span-1 text-white"> */}
-          {/* <h1>{macros.calories}</h1> */}
-          {/* <h1>{macros.protein}</h1> */}
-          {/* <h1>{macros.carbs}</h1> */}
-          {/* <h1>{macros.fat}</h1> */}
-          {/* </div> */}
-          {/* </div> */}
         </MainCard>
-        <MainCard className="hover:bg-[#FFA600] delay-150 bg-opacity-75 hover:bg-opacity-100 duration-500 hover:scale-110 hover:translate-x-2 hover:-translate-y-2 ease-in-out hover:transition-all col-span-1 row-span-1">
-          <BoxHeader>Calories</BoxHeader>
-          <h1 className="hidden hover:visible text-white"> Poopies</h1>
-        </MainCard>
-        <MainCard className="hover:bg-[#FF7C46] col-span-1 row-span-1">
-          <BoxHeader>Protein</BoxHeader>
-        </MainCard>
-        <MainCard className="col-span-3 row-span-2 shadow-md cursor-pointer">
-          <BoxHeader>Activity</BoxHeader>
+        <MacroCard
+          header="Calories"
+          className="hover:bg-[#FFA600]"
+          macro={macros.calories}
+        >
+          {macros.calories}
+        </MacroCard>
+        <MacroCard
+          header="Protein"
+          className="hover:bg-[#FF7C46]"
+          macro={macros.protein}
+        >
+          {macros.protein}
+        </MacroCard>
+        <MainCard className="col-span-3 row-span-4 shadow-md cursor-pointer">
+          <BoxHeader>Weight</BoxHeader>
           <ChartBox>
-            <Activity activityData={activityData} />
+            <WeightChart />
           </ChartBox>
         </MainCard>
-        <MainCard className="hover:bg-[#F95D67] col-span-1 row-span-1">
-          <BoxHeader>Carbs</BoxHeader>
-        </MainCard>
-        <MainCard className="hover:bg-[#D45088] col-span-1 row-span-1">
-          <BoxHeader>Fat</BoxHeader>
-        </MainCard>
+        <MacroCard
+          header="Carbs"
+          className="hover:bg-[#F95D67]"
+          macro={macros.carbs}
+        >
+          {macros.carbs}
+        </MacroCard>
+        <MacroCard
+          header="Fat"
+          className="hover:bg-[#D45088]"
+          macro={macros.fat}
+        >
+          {macros.fat}
+        </MacroCard>
+        {/* <MainCard className="col-span-2 row-span-2">p</MainCard> */}
       </div>
     </section>
   );
