@@ -18,7 +18,7 @@ const MainCard = ({ className, children }: Props) => {
   return (
     <div
       className={cn(
-        "bg-foreground rounded-3xl flex flex-col justify-right gap-y-1 p-3",
+        "bg-foreground rounded-xl flex flex-col justify-right gap-y-1 p-3",
         className
       )}
     >

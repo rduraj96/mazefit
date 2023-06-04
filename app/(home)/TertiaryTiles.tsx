@@ -35,7 +35,7 @@ const TertiaryTiles = ({ activityData }: Props) => {
   return (
     <section className="px-7">
       <div className="grid grid-cols-5 grid-rows-1 gap-x-7 my-5 h-80">
-        <MainCard className="col-span-3 row-span-1 bg-transparent rounded-none">
+        <MainCard className="col-span-3 row-span-1 bg-transparent">
           <div className="flex justify-between items-center pb-2">
             <BoxHeader>Recent Meals</BoxHeader>
             <AddMeal />

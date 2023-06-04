@@ -25,7 +25,7 @@ const UserDetails = (props: Props) => {
 
   return (
     <section className="py-10 mr-7 h-screen">
-      <div className="relative bg-[#1b1b1b] px-7 py-5 rounded-3xl">
+      <div className="relative bg-[#1b1b1b] px-7 py-5 rounded-xl">
         <div className="flex justify-between items-center">
           <p className="text-gray-300 text-md font-bold">Profile</p>
           <div>

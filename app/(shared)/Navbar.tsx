@@ -48,7 +48,7 @@ const Navbar = (props: Props) => {
       <div
         className={`${
           open ? "w-72" : "w-16"
-        } duration-500  min-h-screen bg-foreground text-gray-400 px-4 rounded-r-3xl flex flex-col justify-between shadow-md`}
+        } duration-500  min-h-screen bg-foreground text-gray-400 px-4 rounded-r-xl flex flex-col justify-between shadow-md`}
       >
         <div className="mt-10 flex justify-center">
           <Image
