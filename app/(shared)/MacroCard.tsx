@@ -22,7 +22,7 @@ const MacroCard = ({ children, header, className, macro }: Props) => {
       macro,
       macroGoals[header.toLowerCase() as keyof typeof macroGoals]
     );
-    const timer = setTimeout(() => setProgress(percentage), 500);
+    const timer = setTimeout(() => setProgress(percentage), 100);
     return () => clearTimeout(timer);
   }, [macro]); //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -33,21 +33,31 @@ const MacroCard = ({ children, header, className, macro }: Props) => {
         className
       )}
     >
-      <BoxHeader className="group-hover:text-opacity-60">{header}</BoxHeader>
-      <h1 className="absolute group-hover:-translate-x-16 bottom-5 right-5 transition-all duration-300 ease-in-out text-3xl font-bold text-[#FFA600] group-hover:text-white">
+      <BoxHeader className="mb-0">{header}</BoxHeader>
+      <div className="">
+        <Progress
+          value={progress}
+          className="absolute h-2 top-0 left-0 w-full rounded-xl transition-all 
+          group-hover:w-[80%] group-hover:translate-y-16 group-hover:bg-white group-hover:bg-opacity-30
+          group-hover:translate-x-5 group-hover:inline ease-in-out duration-300 group-hover:h-4"
+        />
+      </div>
+
+      <h1
+        className={cn(
+          "absollute w-fit mt-5 p-2 bg-[#FFA600] shadow-sm rounded-xl transition-all duration-500 ease-in-out text-4xl font-bold text-foreground group-hover:text-white",
+          className?.split(":")[1]
+        )}
+      >
         {macro}
       </h1>
-      <h1 className="absolute invisible group-hover:visible bottom-5 right-5 transition-all group-hover:delay-350 ease-in-out text-lg font-bold text-black">
+      <h1 className="absolute w-full text-transparent invisible group-hover:visible bottom-5 left-5 transition-all group-hover:translate-x-1/2 group-hover:delay-0 duration:300 ease-in-out text-lg font-bold group-hover:text-black">
         / {macroGoals[header.toLowerCase() as keyof typeof macroGoals]}
       </h1>
-      <Progress
-        value={progress}
-        className="hidden group-hover:block ease-in-out group-hover:delay-300 duration-300 mt-2"
-      />
-      {/* <AiFillFire
-        size={"10rem"}
-        className="rotate-20 text-neutral-800 opac absolute bottom-0 left-0 group-hover:invisible"
-      /> */}
+
+      <div className="rotate-20 text-[#a8bbd1] opacity-40 absolute bottom-2 right-2 group-hover:invisible">
+        {children}
+      </div>
     </MainCard>
   );
 };
