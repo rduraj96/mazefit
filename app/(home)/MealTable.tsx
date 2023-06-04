@@ -44,7 +44,7 @@ const MealTable = ({ dayMeals }: Props) => {
   };
 
   return (
-    <ScrollArea className="rounded-xl shadow-inner">
+    <ScrollArea className="rounded-xl">
       {dayMeals &&
         dayMeals.map((meal) => (
           <Dialog key={meal.id}>

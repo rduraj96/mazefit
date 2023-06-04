@@ -25,9 +25,9 @@ const UserDetails = (props: Props) => {
 
   return (
     <section className="py-10 mr-7 h-screen">
-      <div className="relative bg-[#1b1b1b] px-7 py-5 rounded-xl">
+      <div className="relative bg-foreground h-full shadow-md px-7 py-5 rounded-xl">
         <div className="flex justify-between items-center">
-          <p className="text-gray-300 text-md font-bold">Profile</p>
+          <p className="text-black text-lg font-bold">Profile</p>
           <div>
             <Dialog>
               <DialogTrigger>
@@ -64,15 +64,15 @@ const UserDetails = (props: Props) => {
           </div>
           <div className="mt-8 flex justify-around text-gray-200 py-3 rounded-xl border-2 border-neutral-700">
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg">189 lb</p>
+              <p className="font-semibold text-lg text-black">189 lb</p>
               <p className="text-neutral-500">Weight</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg">6ft 0in</p>
+              <p className="font-semibold text-lg text-black">6ft 0in</p>
               <p className="text-neutral-500">Height</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg">26</p>
+              <p className="font-semibold text-lg text-black">26</p>
               <p className="text-neutral-500">Age</p>
             </div>
           </div>

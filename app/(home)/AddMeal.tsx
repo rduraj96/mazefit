@@ -68,7 +68,7 @@ const AddMeal = (props: Props) => {
         <DialogTrigger asChild>
           {/* <Button variant="outline">Add Meal</Button> */}
           <div
-            className="h-9 w-9 bg-foreground rounded-xl flex justify-center items-center 
+            className="h-9 w-9 bg-[#a8bbd1] rounded-xl flex justify-center items-center 
                   hover:bg-gray-200 hover:text-foreground cursor-pointer"
           >
             <BsPlus size={24} className="text-gray-200 hover:text-black" />

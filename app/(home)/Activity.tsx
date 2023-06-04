@@ -46,16 +46,16 @@ const Activity = ({ activityData }: Props) => {
       >
         <defs>
           <linearGradient id="colorData" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#FFA600" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#FFA600" stopOpacity={0} />
+            <stop offset="5%" stopColor="#FFA600" stopOpacity={1} />
+            <stop offset="95%" stopColor="#FFA600" stopOpacity={0.6} />
           </linearGradient>
           <linearGradient id="colorDataOver" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#F46082" stopOpacity={0.8} />
+            <stop offset="5%" stopColor="#F46082" stopOpacity={1} />
             <stop offset="95%" stopColor="#F46082" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="colorHover" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#777a7a" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#777a7a" stopOpacity={0} />
+            <stop offset="5%" stopColor="#a8bbd1" stopOpacity={1} />
+            <stop offset="95%" stopColor="#a8bbd1" stopOpacity={0.6} />
           </linearGradient>
         </defs>
         <XAxis
