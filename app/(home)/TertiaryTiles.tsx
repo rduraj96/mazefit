@@ -12,6 +12,7 @@ import BoxHeader from "../(shared)/BoxHeader";
 import ChartBox from "../(shared)/ChartBox";
 import MainCard from "../(shared)/MainCard";
 import WeightChart from "./WeightChart";
+import MacroRadarChart from "./MacroRadarChart";
 
 type Props = {
   // meals: Array<Meal>;
@@ -34,8 +35,8 @@ const TertiaryTiles = ({ activityData }: Props) => {
 
   return (
     <section className="px-7">
-      <div className="grid grid-cols-5 grid-rows-1 gap-x-7 my-5 h-80">
-        <MainCard className="col-span-3 row-span-1 bg-transparent">
+      <div className="grid grid-cols-9 grid-rows-1 gap-x-7 my-5 h-80">
+        <MainCard className="col-span-4 row-span-1">
           <div className="flex justify-between items-center pb-2">
             <BoxHeader>Recent Meals</BoxHeader>
             <AddMeal />
@@ -43,6 +44,10 @@ const TertiaryTiles = ({ activityData }: Props) => {
           <MealTable dayMeals={dayMeals} />
         </MainCard>
         <MainCard className="col-span-2 row-span-1">
+          <BoxHeader>Radar Chart</BoxHeader>
+          <MacroRadarChart />
+        </MainCard>
+        <MainCard className="col-span-3 row-span-1">
           <BoxHeader>Recent Activity</BoxHeader>
           <ChartBox>
             <Activity activityData={activityData} />
