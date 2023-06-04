@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGlobalContext } from "../Context/store";
 import {
   RadialBarChart,
@@ -56,18 +56,36 @@ const CaloriesRadialChart = ({ macros }: Props) => {
     gapy: 10,
   };
 
+  const [startAngle, setStartAngle] = useState(135);
+  const [endAngle, setEndAngle] = useState(-135);
+  const [isLabel, setIsLabel] = useState(false);
+
+  const onRadialEnter = () => {
+    setStartAngle(90);
+    setEndAngle(-180);
+    setIsLabel(true);
+  };
+
+  const onRadialLeave = () => {
+    setStartAngle(135);
+    setEndAngle(-135);
+    setIsLabel(false);
+  };
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <RadialBarChart
-        cx="50%"
+        cx="45%"
         cy="50%"
         innerRadius="25%"
         outerRadius="110%"
         barSize={20}
         data={data}
         barCategoryGap="60%"
-        // startAngle={135}
-        // endAngle={-135}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        onMouseEnter={onRadialEnter}
+        onMouseLeave={onRadialLeave}
       >
         <PolarAngleAxis
           type="number"
@@ -78,9 +96,10 @@ const CaloriesRadialChart = ({ macros }: Props) => {
         <RadialBar
           dataKey="uv"
           // fill="#0BEFF2"
-          background={{ fill: "#1B1B1B" }}
+          background={{ fill: "#a8bbd1" }}
           cornerRadius={10}
           animationDuration={duration}
+          label={isLabel && { position: "outside", fill: "#fff" }}
         />
 
         {/* <Legend
