@@ -113,12 +113,12 @@ export default function Home() {
   const activityData = sortActivityData(meals);
 
   return (
-    <main className="flex w-full">
+    <main className="flex w-full h-screen">
       {/* <Navbar /> */}
       <div
         className={`${
           profileClicked ? "basis-4/5" : "basis-full"
-        } duration-700 min-h-screen`}
+        } duration-700 max-h-full`}
       >
         <UserBar />
         <MainTiles macros={macros} />
