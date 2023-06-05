@@ -33,11 +33,18 @@ const UserBar = (props: Props) => {
           <Popover>
             <PopoverTrigger>
               <div className="h-10 w-10 bg-foreground rounded-xl flex justify-center items-center">
-                <IoNotificationsOutline size={18} className="text-gray-300" />
+                <IoNotificationsOutline
+                  size={18}
+                  className="text-neutral-700"
+                />
               </div>
             </PopoverTrigger>
             <PopoverContent>No new notifications.</PopoverContent>
           </Popover>
+          <span className="absolute flex top-2 left-[30%] h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
+          </span>
           <Avatar
             className="rounded-xl aspect-auto h-11 w-11 cursor-pointer"
             onClick={handleClick}
