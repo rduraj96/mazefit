@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useGlobalContext } from "../Context/store";
 import TableRow from "../(shared)/TableRow";
+import UpdateMeal from "../(shared)/UpdateMeal";
 
 type Props = {
   dayMeals: Array<Meal>;
@@ -53,22 +54,14 @@ const MealTable = ({ dayMeals }: Props) => {
                 <TableRow key={meal.id} meal={meal} />
               </div>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>{meal.name}</DialogTitle>
-                {/* <DialogDescription>
-                              This action cannot be undone. This will
-                              permanently delete your account and remove your
-                              data from our servers.
-                            </DialogDescription> */}
+                <DialogTitle className="text-black">{meal.name}</DialogTitle>
+                <DialogDescription className="text-black">
+                  Edit or delete your meal.
+                </DialogDescription>
               </DialogHeader>
-              <DialogFooter>
-                <DialogClose>
-                  <Button type="submit" onClick={() => handleDelete(meal.id)}>
-                    Delete Meal
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
+              <UpdateMeal meal={meal} />
             </DialogContent>
           </Dialog>
         ))}
