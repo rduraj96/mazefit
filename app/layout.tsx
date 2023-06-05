@@ -3,6 +3,7 @@ import "./globals.css";
 import { Nunito } from "next/font/google";
 import { Providers } from "./providers";
 import { GlobalContextProvider } from "./Context/store";
+import { Toaster } from "@/components/ui/toaster";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default async function RootLayout({
         <Providers>
           <Navbar />
           <GlobalContextProvider>{children}</GlobalContextProvider>
+          <Toaster />
         </Providers>
       </body>
     </html>
