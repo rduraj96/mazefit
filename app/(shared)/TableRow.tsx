@@ -15,7 +15,7 @@ const TableRow = ({ meal }: Props) => {
     Snack: "https://i.gyazo.com/8b8bdba3bd3a4dbd39464162343ed96f.png",
   };
   return (
-    <div className="w-full text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] flex justify-between items-center rounded-xl mb-4 px-6 cursor-pointer">
+    <div className="w-full text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
       <div className="basis-2/4 text-left">
         <div className="flex items-center justify-start gap-3">
           <Avatar className="rounded-xl aspect-auto h-8 w-8">
