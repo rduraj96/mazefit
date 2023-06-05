@@ -16,7 +16,7 @@ import BoxHeader from "../(shared)/BoxHeader";
 import ChartBox from "../(shared)/ChartBox";
 import Activity from "./Activity";
 import MacroCard from "../(shared)/MacroCard";
-import { Slider } from "@/components/slider";
+import SuplementList from "./SuplementList";
 
 type Props = {
   macros: Macros;
@@ -25,7 +25,7 @@ type Props = {
 const MainTiles = ({ macros }: Props) => {
   return (
     <section className="relative py-3 px-7">
-      <div className="grid grid-cols-6 grid-rows-4 h-80 gap-x-7 gap-y-6 my-5">
+      <div className="grid grid-cols-6 grid-rows-4 h-80 gap-7 my-5">
         <MainCard className="cursor-pointer col-span-1 row-span-4">
           <BoxHeader>Overview</BoxHeader>
           <ChartBox>
@@ -46,20 +46,15 @@ const MainTiles = ({ macros }: Props) => {
         >
           <GiMeat size={"6rem"} />
         </MacroCard>
-        {/* <MainCard className="col-span-2 row-span-1">
-          <Slider
-            defaultValue={[33]}
-            max={100}
-            step={1}
-            className="justify-center mt-4"
-          />
-        </MainCard>
-        <MainCard className="col-span-1 row-span-1">WaterDial</MainCard> */}
-        <MainCard className="col-span-3 row-span-4 shadow-md cursor-pointer">
+        <MainCard className="col-span-2 row-span-4 shadow-md cursor-pointer">
           <BoxHeader>Weight</BoxHeader>
           <ChartBox>
             <WeightChart />
           </ChartBox>
+        </MainCard>
+        <MainCard className="col-span-1 row-span-4">
+          <BoxHeader>Suplements</BoxHeader>
+          <SuplementList />
         </MainCard>
         <MacroCard
           header="Carbs"
@@ -75,7 +70,6 @@ const MainTiles = ({ macros }: Props) => {
         >
           <GiDroplets size={"6rem"} />
         </MacroCard>
-        {/* <MainCard className="col-span-2 row-span-2">p</MainCard> */}
       </div>
     </section>
   );
