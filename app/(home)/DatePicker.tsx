@@ -20,7 +20,7 @@ export function CalendarDatePicker() {
 
   return (
     <Popover>
-      <PopoverTrigger asChild className="text-gray-400 hover:text-white">
+      <PopoverTrigger asChild className="text-gray-400 hover:text-black">
         <Button
           variant={"custom"}
           className={cn(

@@ -91,3 +91,11 @@ body,
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+.recharts-layer.recharts-pie,
+.recharts-sector:focus {
+    outline: none !important;
+    outline-color: none;
+    outline-style: none;
+    outline-width: none;
+}
