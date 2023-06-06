@@ -121,8 +121,8 @@ export default function Home() {
         } duration-700 max-h-full`}
       >
         <UserBar />
-        <MainTiles macros={macros} />
-        <TertiaryTiles activityData={activityData} />
+        <MainTiles macros={macros} activityData={activityData} />
+        <TertiaryTiles />
         <SecondaryTiles />
       </div>
       {profileClicked && (

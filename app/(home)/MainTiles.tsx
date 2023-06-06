@@ -20,9 +20,10 @@ import SuplementList from "./SuplementList";
 
 type Props = {
   macros: Macros;
+  activityData: Array<ActivityData>;
 };
 
-const MainTiles = ({ macros }: Props) => {
+const MainTiles = ({ macros, activityData }: Props) => {
   return (
     <section className="relative py-3 px-7">
       <div className="grid grid-cols-6 grid-rows-4 h-80 gap-7 my-5">
@@ -47,9 +48,9 @@ const MainTiles = ({ macros }: Props) => {
           <GiMeat size={"6rem"} />
         </MacroCard>
         <MainCard className="col-span-2 row-span-4 shadow-md cursor-pointer">
-          <BoxHeader>Weight</BoxHeader>
+          <BoxHeader>Recent Activity</BoxHeader>
           <ChartBox>
-            <WeightChart />
+            <Activity activityData={activityData} />
           </ChartBox>
         </MainCard>
         <MainCard className="col-span-1 row-span-4">

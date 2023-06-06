@@ -16,10 +16,9 @@ import MacroRadarChart from "./MacroRadarChart";
 
 type Props = {
   // meals: Array<Meal>;
-  activityData: Array<ActivityData>;
 };
 
-const TertiaryTiles = ({ activityData }: Props) => {
+const TertiaryTiles = (props: Props) => {
   const { meals, selectedDate } = useGlobalContext();
   const [dayMeals, setDayMeals] = useState<Meal[]>([]);
   useEffect(() => {
@@ -48,9 +47,9 @@ const TertiaryTiles = ({ activityData }: Props) => {
           <MacroRadarChart />
         </MainCard>
         <MainCard className="col-span-3 row-span-1">
-          <BoxHeader>Recent Activity</BoxHeader>
+          <BoxHeader>Weight</BoxHeader>
           <ChartBox>
-            <Activity activityData={activityData} />
+            <WeightChart />
           </ChartBox>
         </MainCard>
       </div>
