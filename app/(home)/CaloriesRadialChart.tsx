@@ -61,8 +61,8 @@ const CaloriesRadialChart = ({ macros }: Props) => {
   const [isLabel, setIsLabel] = useState(false);
 
   const onRadialEnter = () => {
-    setStartAngle(90);
-    setEndAngle(-180);
+    setStartAngle(-135);
+    setEndAngle(135);
     setIsLabel(true);
   };
 
@@ -99,7 +99,7 @@ const CaloriesRadialChart = ({ macros }: Props) => {
           background={{ fill: "#a8bbd1" }}
           cornerRadius={10}
           animationDuration={duration}
-          label={isLabel && { position: "outside", fill: "#fff" }}
+          label={isLabel && { position: "insideStart", fill: "#fff" }}
         />
 
         {/* <Legend

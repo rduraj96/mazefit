@@ -7,7 +7,7 @@ type Props = {
 
 const SuplementRow = ({ children }: Props) => {
   return (
-    <div className="h-10 w-full flex items-center justify-start gap-3 p-2">
+    <div className="h-8 w-full flex items-center justify-start gap-3 p-2">
       <Checkbox />
       <div className="text-black text-md">{children}</div>
     </div>
