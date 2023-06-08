@@ -9,19 +9,32 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 import { BsPlus, BsThreeDots } from "react-icons/bs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSession } from "next-auth/react";
-import { Calendar } from "@/components/ui/calendar";
-import WeightChart from "./WeightChart";
+import { Button } from "@/components/ui/button";
+import { useGlobalContext } from "../Context/store";
 
 type Props = {};
 
 const UserDetails = (props: Props) => {
   const { data: session } = useSession();
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
-  // console.log(session?.user?.meals);
+  const { selectedDate } = useGlobalContext();
+
+  const handleSubmit = async () => {
+    const response = await fetch(`/api/supplements/6/logs`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        day: selectedDate,
+      }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <section className="py-10 mr-7 h-screen">
@@ -59,7 +72,7 @@ const UserDetails = (props: Props) => {
               </AvatarFallback>
             </Avatar>
           </div>
-          <div className="text-gray-200 text-xl font-bold flex items-center justify-center mt-5">
+          <div className="text-black text-xl font-bold flex items-center justify-center mt-5">
             {session?.user?.name}
           </div>
           <div className="mt-8 flex justify-around text-gray-200 py-3 rounded-xl border-2 border-neutral-700">
@@ -80,7 +93,11 @@ const UserDetails = (props: Props) => {
         <div className="mt-10">
           <p className="text-gray-300 text-md font-bold">Goals</p>
           {/* <WeightChart data={data} /> */}
-          <div className="h-96">poop</div>
+          <div className="h-96">
+            <div>
+              <Button onClick={handleSubmit}>ADD LOG</Button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -24,7 +24,8 @@ const MacroCard = ({ children, header, className, macro }: Props) => {
     );
     const timer = setTimeout(() => setProgress(percentage), 100);
     return () => clearTimeout(timer);
-  }, [macro]); //eslint-disable-line react-hooks/exhaustive-deps
+  }, [macro, header, macroGoals]);
+  //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MainCard

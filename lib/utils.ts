@@ -10,3 +10,7 @@ export function getPercentage(macro: number, calories: number) {
   if(res > 100) return 100
   else return res
 }
+
+export function dateToString(date: Date): string {
+  return date.toLocaleString().split(",")[0]
+}

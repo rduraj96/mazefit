@@ -9,11 +9,18 @@ import { ActivityData, Macros, Meal } from "./types";
 import { useGlobalContext } from "./Context/store";
 import { useEffect, useState } from "react";
 import Loading from "./loading";
+import { dateToString } from "@/lib/utils";
 
 export default function Home() {
   const [isLoading, setLoading] = useState(false);
-  const { meals, setMeals, selectedDate, profileClicked, setMacroGoals } =
-    useGlobalContext();
+  const {
+    meals,
+    setMeals,
+    selectedDate,
+    profileClicked,
+    setMacroGoals,
+    setSupplements,
+  } = useGlobalContext();
 
   useEffect(() => {
     setLoading(true);
@@ -49,19 +56,36 @@ export default function Home() {
       });
   }, [setMacroGoals]);
 
+  useEffect(() => {
+    fetch(`api/supplements?date=${dateToString(selectedDate as Date)}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(
+          `Supplement logs for ${dateToString(selectedDate as Date)}:`,
+          data
+        );
+        setSupplements(data);
+      });
+  }, [selectedDate, setSupplements]);
+
   const sortActivityData = (data: Meal[]) => {
     const formattedData: ActivityData[] = [];
 
     data.forEach((meal) => {
       const existingData = formattedData.find(
-        (data) => data.day === new Date(meal.day).toLocaleString().split(",")[0]
+        (data) => data.day === dateToString(new Date(meal.day))
       );
 
       if (existingData) {
         existingData.calories += meal.calories;
       } else {
         formattedData.push({
-          day: new Date(meal.day).toLocaleString().split(",")[0],
+          day: dateToString(new Date(meal.day)),
           calories: meal.calories,
         });
       }
@@ -70,20 +94,18 @@ export default function Home() {
     const sortedData = [...formattedData].sort(
       (b, a) => new Date(a.day).getTime() - new Date(b.day).getTime()
     );
-    console.log("Sorted Data:", sortedData);
     const res: ActivityData[] = [];
     for (let i = 0; i < 7; i++) {
       let date = new Date();
       date.setDate(date.getDate() - i);
       res.push({
-        day: date.toLocaleString().split(",")[0],
+        day: dateToString(date),
         calories:
-          sortedData[i]?.day === date.toLocaleString().split(",")[0]
+          sortedData[i]?.day === dateToString(date)
             ? sortedData[i].calories
             : 0,
       });
     }
-    console.log("Res:", res);
     return res.reverse();
   };
 
@@ -95,8 +117,7 @@ export default function Home() {
 
     const dayMeals = meals.filter(
       (meal) =>
-        new Date(meal.day).toLocaleString().split(",")[0] ===
-        selectedDate?.toLocaleString().split(",")[0]
+        dateToString(new Date(meal.day)) === dateToString(selectedDate as Date)
     );
 
     dayMeals?.forEach((meal) => {

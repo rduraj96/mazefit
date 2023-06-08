@@ -22,7 +22,6 @@ const TertiaryTiles = (props: Props) => {
   const { meals, selectedDate } = useGlobalContext();
   const [dayMeals, setDayMeals] = useState<Meal[]>([]);
   useEffect(() => {
-    console.log(meals);
     setDayMeals(
       meals.filter(
         (meal) =>

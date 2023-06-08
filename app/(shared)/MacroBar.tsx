@@ -9,7 +9,6 @@ const MacroBar = ({ meal }: Props) => {
   const protein = Math.round(((meal.protein * 4) / meal.calories) * 100);
   const carbs = Math.round(((meal.protein * 4) / meal.calories) * 100);
   const fat = 100 - (protein + carbs);
-  console.log(protein, carbs, fat);
   return (
     <div className="relative text-transparent hover:text-gray-200 shadow-md w-full h-4 overflow-hidden flex items-center rounded-full text-xs hover:scale-125 hover:transition-all">
       <div

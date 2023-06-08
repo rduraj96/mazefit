@@ -9,12 +9,14 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String
-  name     String?
-  calories String?
-  meals    Meal[]
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  password      String
+  name          String?
+  calories      String?
+  meals         Meal[]
+  supplements   Supplement[]    @relation("UserSupplements")
+  supplementLog SupplementLog[]
 }
 
 model Meal {
@@ -30,4 +32,27 @@ model Meal {
   user     User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
+}
+
+model Supplement {
+  id             Int             @id @default(autoincrement())
+  name           String
+  user           User            @relation("UserSupplements", fields: [userId], references: [id])
+  userId         Int
+  supplementLogs SupplementLog[] @relation("SupplementLogs")
+
+  @@index([userId])
+}
+
+model SupplementLog {
+  id           Int        @id @default(autoincrement())
+  day          DateTime   @db.Date
+  isTaken      Boolean
+  user         User       @relation(fields: [userId], references: [id])
+  userId       Int
+  supplement   Supplement @relation("SupplementLogs", fields: [supplementId], references: [id])
+  supplementId Int
+
+  @@index([userId])
+  @@index([supplementId])
 }

@@ -8,7 +8,7 @@ import {
   SetStateAction,
   useState,
 } from "react";
-import { ActivityData, Macros, Meal } from "../types";
+import { ActivityData, Macros, Meal, Supplements } from "../types";
 
 interface ContextProps {
   selectedDate: Date | undefined;
@@ -19,6 +19,8 @@ interface ContextProps {
   setActivityData: Dispatch<SetStateAction<ActivityData[]>>;
   macroGoals: Macros;
   setMacroGoals: Dispatch<SetStateAction<Macros>>;
+  supplements: Supplements[];
+  setSupplements: Dispatch<SetStateAction<Supplements[]>>;
   profileClicked: Boolean;
   setProfileClicked: Dispatch<SetStateAction<Boolean>>;
 }
@@ -39,6 +41,8 @@ const GlobalContext = createContext<ContextProps>({
     fat: 0,
   },
   setMacroGoals: () => undefined,
+  supplements: [],
+  setSupplements: () => {},
   profileClicked: true,
   setProfileClicked: () => {},
 });
@@ -59,6 +63,7 @@ export const GlobalContextProvider = ({
     carbs: 0,
     fat: 0,
   });
+  const [supplements, setSupplements] = useState<Supplements[] | []>([]);
   const [profileClicked, setProfileClicked] = useState<Boolean>(true);
 
   return (
@@ -74,6 +79,8 @@ export const GlobalContextProvider = ({
         setProfileClicked,
         macroGoals,
         setMacroGoals,
+        supplements,
+        setSupplements,
       }}
     >
       {children}

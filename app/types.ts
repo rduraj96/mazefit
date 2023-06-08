@@ -21,3 +21,19 @@ export type Meal = {
   carbs: number
   fat: number
 };
+
+export type SupplementLog = {
+  id: number
+  day: string
+  isTaken: boolean
+  supplemenId: number
+}
+
+export type Supplements = {
+  id: number
+  name: string
+  userId: number
+  supplementLogs: Array<SupplementLog>
+}
+
+
