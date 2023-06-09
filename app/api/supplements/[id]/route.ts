@@ -21,37 +21,22 @@ export async function GET(request:Request, {params}: {params: { id:string}}) {
     return NextResponse.json(supplement)
 }
 
-export async function PATCH(
-    request: Request,
-    { params }: { params: { id: string }}
-) {
-    const supplementId = params.id
-    const json = await request.json()
-    const session = await getServerSession(authOptions)
-    const userId = session?.user.id as string
-
-    const updatedMeal = await prisma.supplement.update({
-        where: {
-            id: parseInt(supplementId)
-        },
-        data: {
-            ...json,
-            userId: parseInt(userId)
-        }
-    })
-
-    return NextResponse.json(updatedMeal)
-}
-
 export async function DELETE(
     request: Request, 
     {params} : { params : { id: string }}
     ) {
 
     const supplementId = params.id
+
+    await prisma.supplementLog.deleteMany({
+        where: {
+            supplementId: Number(supplementId)
+        }
+    })
+
     const deleteMeal = await prisma.supplement.delete({
         where: {
-            id: parseInt(supplementId),
+            id: Number(supplementId),
         }
     })
 

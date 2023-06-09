@@ -13,7 +13,7 @@ export async function POST(request:Request, {params}: {params: {id: string}}) {
             ...json,
             userId: parseInt(userId),
             supplementId: Number(params.id),
-            isTaken: false,
+            // isTaken: false,
         }
     })
 
