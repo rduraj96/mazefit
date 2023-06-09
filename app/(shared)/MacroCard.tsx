@@ -46,7 +46,7 @@ const MacroCard = ({ children, header, className, macro }: Props) => {
 
       <h1
         className={cn(
-          "absollute w-fit mt-5 p-2 bg-[#FFA600] shadow-sm rounded-xl transition-all duration-500 ease-in-out text-4xl font-bold text-foreground group-hover:text-white",
+          "absollute w-fit mt-3 p-2 bg-[#FFA600] shadow-sm rounded-xl transition-all duration-500 ease-in-out text-4xl font-bold text-foreground group-hover:text-white",
           className?.split(":")[1]
         )}
       >
