@@ -36,4 +36,11 @@ export type Supplements = {
   supplementLogs: Array<SupplementLog>
 }
 
+export type TransformedSupplements = {
+  name: string,
+  isTaken: boolean,
+  id: number,
+  logId: number,
+}
+
 

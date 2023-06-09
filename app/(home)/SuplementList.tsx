@@ -8,54 +8,37 @@ import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import BoxHeader from "../(shared)/BoxHeader";
 import { useGlobalContext } from "../Context/store";
-import { Supplements } from "../types";
-import { dateToString } from "@/lib/utils";
+import { Supplements, TransformedSupplements } from "../types";
 
 type Props = {};
 
 const SuplementList = (props: Props) => {
   const { toast } = useToast();
   const { selectedDate, supplements, setSupplements } = useGlobalContext();
-  const [daySupplements, setDaySupplements] = useState<Supplements[]>([]);
+  const [daySupplements, setDaySupplements] = useState<
+    TransformedSupplements[]
+  >([]);
   const [newSupp, setNewSupp] = useState("");
   const [isNewSupp, setIsNewSupp] = useState(false);
 
-  const formatDate = (date: string): string => {
-    const newDate = new Date(date);
-    return newDate.toLocaleDateString();
-  };
-
   useEffect(() => {
-    const trasformedArray = supplements
-      .filter((supplement) => {
-        return supplement.supplementLogs.some(
-          (log) =>
-            dateToString(new Date(log.day)) ===
-            dateToString(selectedDate as Date)
-        );
-      })
-      .map((supplement) => {
-        const log = supplement.supplementLogs.find((log) => {
-          log.day.split("T")[0] === selectedDate?.toISOString().split("T")[0];
-          console.log(
-            formatDate(log.day),
-            "<===>",
-            dateToString(selectedDate as Date)
-          );
-        });
-
-        return {
-          supplementId: supplement.id,
-          name: supplement.name,
-          supplementLogsId: log?.id,
-          isTake: log?.isTaken,
-        };
-      });
-
-    console.log("Transformed Array:", trasformedArray);
-  }, [selectedDate, supplements]);
+    const trasformedArray = supplements.map((supplement) => {
+      return {
+        name: supplement.name,
+        isTaken:
+          supplement.supplementLogs && supplement.supplementLogs[0]
+            ? supplement.supplementLogs[0].isTaken
+            : false,
+        id: supplement.id,
+        logId:
+          supplement.supplementLogs && supplement.supplementLogs[0]
+            ? supplement.supplementLogs[0].id
+            : 0,
+      };
+    });
+    setDaySupplements(trasformedArray);
+  }, [selectedDate, supplements, setSupplements]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,7 +57,12 @@ const SuplementList = (props: Props) => {
       if (response.ok) {
         const data = await response.json();
         console.log("New Supplement Added: ", data);
-        setSupplements((supplements) => [...supplements, data]);
+        setSupplements((supplements) => [
+          ...supplements,
+          {
+            ...data,
+          },
+        ]);
         setIsNewSupp(false);
         setNewSupp("");
         toast({
@@ -104,45 +92,94 @@ const SuplementList = (props: Props) => {
     });
   };
 
-  const handleUpdate = async (supplementId: number, checked: boolean) => {
-    const response = await fetch(`/api/supplements/${supplementId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        taken: checked,
-      }),
-    });
+  const handleUpdateExisting = async (
+    supplementId: number,
+    logId: number,
+    checked: boolean
+  ) => {
+    const response = await fetch(
+      `/api/supplements/${supplementId}/logs/${logId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isTaken: checked,
+        }),
+      }
+    );
 
     const data = await response.json();
     console.log(data);
 
-    setSupplements(
-      supplements.map((supplement) =>
-        supplementId === supplement.id
-          ? { ...supplement, taken: checked }
-          : supplement
-      )
-    );
+    const updatedArray = supplements.map((supplement) => {
+      return {
+        ...supplement,
+        supplementLogs:
+          supplement.id === supplementId ? [data] : supplement.supplementLogs,
+      };
+    });
+
+    setSupplements(updatedArray);
+  };
+
+  const handleUpdateNew = async (supplementId: number) => {
+    try {
+      const response = await fetch(`/api/supplements/${supplementId}/logs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          day: selectedDate,
+          isTaken: true,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+
+        const updatedArray = supplements.map((supplement) => {
+          return {
+            ...supplement,
+            supplementLogs:
+              supplement.id === supplementId
+                ? [data]
+                : supplement.supplementLogs,
+          };
+        });
+
+        setSupplements(updatedArray);
+      }
+    } catch (error: any) {
+      console.log(error?.message);
+    }
   };
 
   return (
     <div className="relative h-full">
       <div className="h-48 mb-2">
         <ScrollArea className="h-full px-2">
-          {supplements &&
-            supplements.map((supplement, index) => (
+          {daySupplements &&
+            daySupplements.map((supplement, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 mb-3 group"
+                className="flex items-center space-x-2 mb-3 group transition-transform"
               >
                 <Checkbox
                   id={supplement.name}
-                  // checked={supplement.taken}
-                  // onCheckedChange={(checked) =>
-                  //   handleUpdate(supplement.id, checked as boolean)
-                  // }
+                  checked={supplement.isTaken}
+                  onCheckedChange={(checked) => {
+                    supplement.logId === 0
+                      ? handleUpdateNew(supplement.id)
+                      : handleUpdateExisting(
+                          supplement.id,
+                          supplement.logId,
+                          checked as boolean
+                        );
+                  }}
                 />
                 <Label
                   htmlFor={supplement.name}

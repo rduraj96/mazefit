@@ -46,7 +46,7 @@ model Supplement {
 
 model SupplementLog {
   id           Int        @id @default(autoincrement())
-  day          DateTime   @db.Date
+  day          DateTime
   isTaken      Boolean
   user         User       @relation(fields: [userId], references: [id])
   userId       Int
