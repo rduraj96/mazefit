@@ -74,7 +74,7 @@ const SuplementList = (props: Props) => {
     }
   };
 
-  const handleDelete = async (supplementId: number) => {
+  const handleDelete = async (supplementId: number, supplementName: string) => {
     const response = await fetch(`/api/supplements/${supplementId}`, {
       method: "DELETE",
       headers: {
@@ -88,7 +88,7 @@ const SuplementList = (props: Props) => {
     const data = await response.json();
     console.log(data);
     toast({
-      description: `Supplement removed from supplement list`,
+      description: `${supplementName} removed from list!`,
     });
   };
 
@@ -189,7 +189,7 @@ const SuplementList = (props: Props) => {
                 </Label>
                 <div
                   className="invisible absolute right-2 group-hover:visible"
-                  onClick={() => handleDelete(supplement.id)}
+                  onClick={() => handleDelete(supplement.id, supplement.name)}
                 >
                   <TiDelete className="text-[#a8bbd1]" />
                 </div>
