@@ -8,11 +8,10 @@ import UserDetails from "./(home)/UserDetails";
 import { ActivityData, Macros, Meal } from "./types";
 import { useGlobalContext } from "./Context/store";
 import { useEffect, useState } from "react";
-import Loading from "./loading";
 import { dateToString } from "@/lib/utils";
+import Loading from "./loading";
 
 export default function Home() {
-  const [isLoading, setLoading] = useState(false);
   const {
     meals,
     setMeals,
@@ -21,9 +20,9 @@ export default function Home() {
     setMacroGoals,
     setSupplements,
   } = useGlobalContext();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     fetch("/api/meals", {
       method: "GET",
       headers: {
@@ -33,7 +32,6 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         setMeals(data);
-        setLoading(false);
       });
   }, [setMeals]);
 
@@ -72,6 +70,10 @@ export default function Home() {
         setSupplements(data);
       });
   }, [selectedDate, setSupplements]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const sortActivityData = (data: Meal[]) => {
     const formattedData: ActivityData[] = [];
@@ -132,6 +134,10 @@ export default function Home() {
 
   const macros = formatMacros(meals);
   const activityData = sortActivityData(meals);
+
+  if (!mounted) {
+    return <Loading />;
+  }
 
   return (
     <main className="flex w-full h-screen">

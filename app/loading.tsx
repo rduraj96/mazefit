@@ -1,7 +1,9 @@
 import React from "react";
 
-function Loading() {
-  return <div>Loading</div>;
-}
+type Props = {};
 
-export default Loading;
+const loading = (props: Props) => {
+  return <div className="text-white">Loading...</div>;
+};
+
+export default loading;
