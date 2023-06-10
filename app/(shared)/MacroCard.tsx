@@ -25,7 +25,6 @@ const MacroCard = ({ children, header, className, macro }: Props) => {
     const timer = setTimeout(() => setProgress(percentage), 100);
     return () => clearTimeout(timer);
   }, [macro, header, macroGoals]);
-  //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MainCard
@@ -38,26 +37,27 @@ const MacroCard = ({ children, header, className, macro }: Props) => {
       <div className="">
         <Progress
           value={progress}
-          className="absolute h-2 top-0 left-0 w-full rounded-xl transition-all 
-          group-hover:w-[80%] group-hover:translate-y-16 group-hover:bg-white group-hover:bg-opacity-30
-          group-hover:translate-x-5 group-hover:inline ease-in-out duration-300 group-hover:h-4"
+          className="absolute h-2 top-0.5 left-0 w-full rounded-xl transition-all 
+          group-hover:w-[80%] group-hover:translate-y-14 group-hover:bg-white group-hover:bg-opacity-30
+          group-hover:translate-x-4 group-hover:inline ease-in-out duration-300 group-hover:h-4"
         />
       </div>
+      <div className="flex justify-between h-fit w-full">
+        <h1
+          className={cn(
+            "w-fit h-fit mt-3 p-2 bg-[#FFA600] shadow-sm rounded-xl transition-all duration-500 ease-in-out text-4xl font-extrabold text-foreground group-hover:text-white",
+            className?.split(":")[1]
+          )}
+        >
+          {macro}
+        </h1>
+        <h1 className="absolute w-1/2 text-transparent invisible group-hover:visible bottom-6 left-5 transition-all group-hover:translate-x-3/4 group-hover:delay-0 duration:300 ease-in-out text-lg font-bold group-hover:text-black">
+          / {macroGoals[header.toLowerCase() as keyof typeof macroGoals]}
+        </h1>
 
-      <h1
-        className={cn(
-          "absollute w-fit mt-3 p-2 bg-[#FFA600] shadow-sm rounded-xl transition-all duration-500 ease-in-out text-4xl font-bold text-foreground group-hover:text-white",
-          className?.split(":")[1]
-        )}
-      >
-        {macro}
-      </h1>
-      <h1 className="absolute w-full text-transparent invisible group-hover:visible bottom-5 left-5 transition-all group-hover:translate-x-1/2 group-hover:delay-0 duration:300 ease-in-out text-lg font-bold group-hover:text-black">
-        / {macroGoals[header.toLowerCase() as keyof typeof macroGoals]}
-      </h1>
-
-      <div className="rotate-20 text-[#a8bbd1] opacity-40 absolute bottom-2 right-2 group-hover:invisible">
-        {children}
+        <div className="rotate-20 text-[#a8bbd1] opacity-40 group-hover:invisible">
+          {children}
+        </div>
       </div>
     </MainCard>
   );
