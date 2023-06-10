@@ -38,14 +38,14 @@ const MainTiles = ({ macros, activityData }: Props) => {
           className="hover:bg-[#FFA600]"
           macro={macros.calories}
         >
-          <GiCharcuterie size={"6rem"} />
+          <GiCharcuterie size={"5rem"} />
         </MacroCard>
         <MacroCard
           header="Protein"
           className="hover:bg-[#FF7C46]"
           macro={macros.protein}
         >
-          <GiMeat size={"6rem"} />
+          <GiMeat size={"5rem"} />
         </MacroCard>
         <MainCard className="col-span-2 row-span-4 shadow-md cursor-pointer">
           <BoxHeader>Recent Activity</BoxHeader>
@@ -62,14 +62,14 @@ const MainTiles = ({ macros, activityData }: Props) => {
           className="hover:bg-[#F95D67]"
           macro={macros.carbs}
         >
-          <GiGrainBundle size={"6rem"} />
+          <GiGrainBundle size={"5rem"} />
         </MacroCard>
         <MacroCard
           header="Fat"
           className="hover:bg-[#D45088]"
           macro={macros.fat}
         >
-          <GiDroplets size={"6rem"} />
+          <GiDroplets size={"5rem"} />
         </MacroCard>
       </div>
     </section>
