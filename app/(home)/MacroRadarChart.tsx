@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Radar,
   RadarChart,
@@ -8,52 +8,51 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from "recharts";
+import { useGlobalContext } from "../Context/store";
 
 type Props = {};
 
+type Supplement = {
+  name: string;
+  taken: number;
+  fullMark: number;
+};
+
 const MacroRadarChart = (props: Props) => {
-  const data = [
-    {
-      subject: "Math",
-      A: 120,
-      B: 110,
-      fullMark: 150,
-    },
-    {
-      subject: "Chinese",
-      A: 98,
-      B: 130,
-      fullMark: 150,
-    },
-    {
-      subject: "English",
-      A: 86,
-      B: 130,
-      fullMark: 150,
-    },
-  ];
+  const { selectedDate, supplements } = useGlobalContext();
+  const [chartData, setChartData] = useState<Supplement[]>([]);
+
+  useEffect(() => {
+    const transformArray = supplements.map((supplement) => {
+      return {
+        name: supplement.name,
+        taken:
+          supplement.supplementLogs &&
+          supplement.supplementLogs[0] &&
+          supplement.supplementLogs[0].isTaken
+            ? 1
+            : 0,
+        fullMark: 1,
+      };
+    });
+
+    setChartData(transformArray);
+  }, [supplements, selectedDate]);
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+      <RadarChart cx="50%" cy="50%" outerRadius="65%" data={chartData}>
         <PolarGrid />
-        <PolarAngleAxis dataKey="subject" />
-        <PolarRadiusAxis angle={30} domain={[0, 150]} />
+        <PolarAngleAxis dataKey="name" />
+        <PolarRadiusAxis angle={30} domain={[0, 1.5]} />
         <Radar
-          name="Mike"
-          dataKey="A"
+          // name="Mike"
+          dataKey="taken"
           stroke="#8884d8"
           fill="#8884d8"
           fillOpacity={0.6}
+          label={false}
         />
-        {/* <Radar
-          name="Lily"
-          dataKey="B"
-          stroke="#82ca9d"
-          fill="#82ca9d"
-          fillOpacity={0.6}
-        /> */}
-        {/* <Legend /> */}
       </RadarChart>
     </ResponsiveContainer>
   );
