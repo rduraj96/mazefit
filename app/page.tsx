@@ -63,10 +63,6 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(
-          `Supplement logs for ${dateToString(selectedDate as Date)}:`,
-          data
-        );
         setSupplements(data);
       });
   }, [selectedDate, setSupplements]);
@@ -96,18 +92,25 @@ export default function Home() {
     const sortedData = [...formattedData].sort(
       (b, a) => new Date(a.day).getTime() - new Date(b.day).getTime()
     );
+
     const res: ActivityData[] = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     for (let i = 0; i < 7; i++) {
-      let date = new Date();
-      date.setDate(date.getDate() - i);
-      res.push({
-        day: dateToString(date),
-        calories:
-          sortedData[i]?.day === dateToString(date)
-            ? sortedData[i].calories
-            : 0,
-      });
+      const currentDate = new Date(today);
+      currentDate.setDate(today.getDate() - i);
+      const sortedEntry = sortedData.find(
+        (entry) => entry.day === dateToString(currentDate)
+      );
+
+      if (sortedEntry) {
+        res.push(sortedEntry);
+      } else {
+        res.push({ day: dateToString(currentDate), calories: 0 });
+      }
     }
+
     return res.reverse();
   };
 
