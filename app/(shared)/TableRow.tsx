@@ -27,7 +27,12 @@ const TableRow = ({ meal }: Props) => {
       </div>
       {/* <div className="basis-1/4 text-center">{meal.type}</div> */}
       <div className="basis-1/4">
-        <MacroBar meal={meal} />
+        <MacroBar
+          calories={meal.calories}
+          protein={meal.protein}
+          carbs={meal.carbs}
+          fat={meal.fat}
+        />
       </div>
       <div className="basis-1/4 text-right font-semibold">{meal.calories}</div>
     </div>

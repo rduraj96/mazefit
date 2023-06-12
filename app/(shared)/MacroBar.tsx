@@ -1,39 +1,50 @@
 import React from "react";
 import { Meal } from "../types";
+import { cn } from "@/lib/utils";
 
 type Props = {
-  meal: Meal;
+  className?: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
 };
 
-const MacroBar = ({ meal }: Props) => {
-  const protein = Math.round(((meal.protein * 4) / meal.calories) * 100);
-  const carbs = Math.round(((meal.protein * 4) / meal.calories) * 100);
-  const fat = 100 - (protein + carbs);
+const MacroBar = ({ className, calories, protein, carbs, fat }: Props) => {
+  const proteinPer = Math.round(((protein * 4) / calories) * 100);
+  const carbsPer = Math.round(((carbs * 4) / calories) * 100);
+  const fatPer = 100 - (proteinPer + carbsPer);
+
   return (
-    <div className="relative text-transparent hover:text-gray-200 shadow-md w-full h-4 overflow-hidden flex items-center rounded-full text-xs hover:scale-125 hover:transition-all">
+    <div
+      className={cn(
+        "relative text-transparent hover:text-gray-200 shadow-md w-full h-4 overflow-hidden flex items-center rounded-full text-xs hover:scale-125 hover:transition-all",
+        className
+      )}
+    >
       <div
         className={`text-center bg-[#FF7C46] h-full`}
         style={{
-          width: `${protein}%`,
+          width: `${proteinPer}%`,
         }}
       >
-        {meal.protein}
+        {protein}
       </div>
       <div
         className={`text-center bg-[#F95D67] h-full`}
         style={{
-          width: `${carbs}%`,
+          width: `${carbsPer}%`,
         }}
       >
-        {meal.carbs}
+        {carbs}
       </div>
       <div
         className={`text-center bg-[#D45088] rounded-r-xl h-full`}
         style={{
-          width: `${fat}%`,
+          width: `${fatPer}%`,
         }}
       >
-        {meal.fat}
+        {fat}
       </div>
     </div>
   );
