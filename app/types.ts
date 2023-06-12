@@ -43,4 +43,13 @@ export type TransformedSupplements = {
   logId: number,
 }
 
+export type FoodItem = {
+  brand: string | null;
+  name: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+};
+
 
