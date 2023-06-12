@@ -13,6 +13,7 @@ import ChartBox from "../(shared)/ChartBox";
 import MainCard from "../(shared)/MainCard";
 import WeightChart from "./WeightChart";
 import MacroRadarChart from "./MacroRadarChart";
+import SpeedDial from "@/components/SpeedDial";
 
 type Props = {
   // meals: Array<Meal>;
@@ -37,7 +38,14 @@ const TertiaryTiles = (props: Props) => {
         <MainCard className="col-span-4 row-span-1">
           <div className="flex justify-between items-center pb-2">
             <BoxHeader>Recent Meals</BoxHeader>
-            <AddMeal />
+            <div className="">
+              <SpeedDial>
+                <AddMeal />
+                {/* <AddMeal /> */}
+              </SpeedDial>
+            </div>
+
+            {/* <AddMeal /> */}
           </div>
           <MealTable dayMeals={dayMeals} />
         </MainCard>

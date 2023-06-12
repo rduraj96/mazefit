@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DialogClose } from "@radix-ui/react-dialog";
 import React, { useEffect, useState } from "react";
-import { BsPlus } from "react-icons/bs";
+import { TbBoxMultiple } from "react-icons/tb";
 import { useGlobalContext } from "../Context/store";
 
 import { useToast } from "@/components/ui/use-toast";
@@ -40,6 +40,16 @@ const AddMeal = (props: Props) => {
   const [collapsed, setCollapsed] = useState(true);
 
   const { toast } = useToast();
+
+  useEffect(() => {
+    setName("");
+    setStatus("");
+    setProtein("");
+    setCalories("");
+    setCarbs("");
+    setFat("");
+    setCollapsed(true);
+  }, []);
 
   const handleSubmit = async () => {
     const response = await fetch(`/api/meals`, {
@@ -86,10 +96,13 @@ const AddMeal = (props: Props) => {
         <DialogTrigger asChild>
           {/* <Button variant="outline">Add Meal</Button> */}
           <div
-            className="h-9 w-9 bg-[#a8bbd1] rounded-xl flex justify-center items-center 
-                  hover:bg-gray-200 hover:text-foreground cursor-pointer"
+            className="h-8 w-8 rounded-xl flex justify-center items-center 
+                  hover:bg-[#a8bbd1] hover:text-foreground cursor-pointer group"
           >
-            <BsPlus size={24} className="text-gray-200 hover:text-black" />
+            <TbBoxMultiple
+              size={16}
+              className="text-gray-200 group-hover:text-black"
+            />
           </div>
           {/* <h1 className="text-gray-200 hover:text-white text-sm cursor-pointer">
                     Add Meal
@@ -246,6 +259,7 @@ const AddMeal = (props: Props) => {
               setProtein={setProtein}
               setCarbs={setCarbs}
               setFat={setFat}
+              setCollapsed={setCollapsed}
             />
           </div>
         </DialogContent>
