@@ -21,21 +21,6 @@ const UserDetails = (props: Props) => {
   const { data: session } = useSession();
   const { selectedDate } = useGlobalContext();
 
-  const handleSubmit = async () => {
-    const response = await fetch(`/api/supplements/6/logs`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        day: selectedDate,
-      }),
-    });
-
-    const data = await response.json();
-    console.log(data);
-  };
-
   return (
     <section className="py-10 mr-7 h-screen">
       <div className="relative bg-foreground h-full shadow-md px-7 py-5 rounded-xl">
@@ -45,10 +30,7 @@ const UserDetails = (props: Props) => {
             <Dialog>
               <DialogTrigger>
                 <div className="h-10 w-10 flex justify-center items-center cursor-pointer">
-                  <BsThreeDots
-                    size={20}
-                    className="text-gray-200 hover:text-white"
-                  />
+                  <BsThreeDots size={20} className="text-black" />
                 </div>
               </DialogTrigger>
               <DialogContent>
@@ -75,29 +57,25 @@ const UserDetails = (props: Props) => {
           <div className="text-black text-xl font-bold flex items-center justify-center mt-5">
             {session?.user?.name}
           </div>
-          <div className="mt-8 flex justify-around text-gray-200 py-3 rounded-xl border-2 border-neutral-700">
+          <div className="mt-8 flex text-sm justify-around text-neutral-600 py-3 rounded-xl bg-[#a8bbd1] shadow-md">
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg text-black">189 lb</p>
-              <p className="text-neutral-500">Weight</p>
+              <p className="font-semibold text-lg text-gray-100">189 lb</p>
+              <p>Weight</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg text-black">6ft 0in</p>
-              <p className="text-neutral-500">Height</p>
+              <p className="font-semibold text-lg text-gray-100">6ft 0in</p>
+              <p>Height</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg text-black">26</p>
-              <p className="text-neutral-500">Age</p>
+              <p className="font-semibold text-lg text-gray-100">26</p>
+              <p>Age</p>
             </div>
           </div>
         </div>
         <div className="mt-10">
-          <p className="text-gray-300 text-md font-bold">Goals</p>
+          <p className="text-black text-md font-bold">Goals</p>
           {/* <WeightChart data={data} /> */}
-          <div className="h-96">
-            <div>
-              <Button onClick={handleSubmit}>ADD LOG</Button>
-            </div>
-          </div>
+          <div className="h-96"></div>
         </div>
       </div>
     </section>
