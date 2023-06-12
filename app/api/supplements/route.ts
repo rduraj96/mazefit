@@ -22,9 +22,7 @@ export async function GET(request:NextRequest) {
     const userId = session?.user.id as string
     const day = new Date(request.nextUrl.search.split("=")[1])
     const startDate = new Date(new Date(day).setUTCHours(0, 0, 0, 0));
-    const endDate = new Date(new Date(day).setUTCHours(23, 59, 59, 999));
-
-    console.log(day, startDate, endDate)
+    const endDate = new Date(new Date(day).setUTCHours(23, 59, 59, 999))
 
     const supplements = await prisma.supplement.findMany({
         where: {
