@@ -51,7 +51,7 @@ const MacroCard = ({ children, header, className, macro }: Props) => {
         >
           {macro}
         </h1>
-        <h1 className="absolute w-1/2 text-transparent invisible group-hover:visible bottom-6 left-5 transition-all group-hover:translate-x-3/4 group-hover:delay-0 duration:300 ease-in-out text-lg font-bold group-hover:text-black">
+        <h1 className="absolute w-1/2 text-transparent invisible group-hover:visible bottom-6 left-5 transition-all group-hover:translate-x-full group-hover:delay-0 duration:300 ease-in-out text-lg font-bold group-hover:text-black">
           / {macroGoals[header.toLowerCase() as keyof typeof macroGoals]}
         </h1>
 

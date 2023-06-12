@@ -43,15 +43,18 @@ const MacroRadarChart = (props: Props) => {
     <ResponsiveContainer width="100%" height="100%">
       <RadarChart cx="50%" cy="50%" outerRadius="65%" data={chartData}>
         <PolarGrid />
-        <PolarAngleAxis dataKey="name" />
-        <PolarRadiusAxis angle={30} domain={[0, 1.5]} />
+        <PolarAngleAxis dataKey="name" style={{ fontSize: "10px" }} />
+        <PolarRadiusAxis
+          angle={30}
+          domain={[0, 1.5]}
+          tick={false}
+          axisLine={false}
+        />
         <Radar
-          // name="Mike"
           dataKey="taken"
           stroke="#8884d8"
           fill="#8884d8"
           fillOpacity={0.6}
-          label={false}
         />
       </RadarChart>
     </ResponsiveContainer>
