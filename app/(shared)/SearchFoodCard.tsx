@@ -13,20 +13,24 @@ const SearchFoodCard = ({ food }: Props) => {
       <div className="w-3/4 h-full">
         <div className="flex items-center justify-start gap-2 h-1/2 ">
           <p className="font-bold line-clamp-1 whitespace-nowrap flex items-center h-full w-fit">
-            {food.brand ? food.brand : ""}
+            {food.brand ? food.brand : " "}
           </p>
-          <div
-            className={`${
-              food.brand ? "" : "hidden"
-            }h-full flex items-center justify-center`}
-          >
-            <LuVerified className="text-green-600 relative" />
-          </div>
+          {food.brand && (
+            <div className={`h-full flex items-center justify-center`}>
+              <LuVerified className="text-green-600 relative" />
+            </div>
+          )}
         </div>
-        <p className="line-clamp-1 mt-1">{food.name}</p>
+
+        <div className="flex w-full items-center">
+          <p className="line-clamp-1 pt-1">{food.name}</p>
+        </div>
       </div>
       <div className="w-1/4 text-center h-full">
-        <p className="font-bold text-lg p-2 h-3/4">{food.calories}</p>
+        <p className="font-bold text-lg p-2 h-3/4">
+          {food.calories}
+          <span className="text-sm font-normal"> cal</span>
+        </p>
         <MacroBar
           calories={food.calories}
           protein={food.protein}
