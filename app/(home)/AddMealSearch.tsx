@@ -3,16 +3,19 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { AiOutlineSearch } from "react-icons/ai";
 import React, { Dispatch, useEffect, useState } from "react";
 import SearchFoodCard from "../(shared)/SearchFoodCard";
-import { FoodItem } from "../types";
+import { FoodItem, Macros, Measure } from "../types";
 import Spinner from "@/components/Spinner";
 
 type Props = {
   setName: Dispatch<React.SetStateAction<string>>;
-  setCalories: Dispatch<React.SetStateAction<string>>;
-  setProtein: Dispatch<React.SetStateAction<string>>;
-  setCarbs: Dispatch<React.SetStateAction<string>>;
-  setFat: Dispatch<React.SetStateAction<string>>;
+  setCalories: Dispatch<React.SetStateAction<number>>;
+  setProtein: Dispatch<React.SetStateAction<number>>;
+  setCarbs: Dispatch<React.SetStateAction<number>>;
+  setFat: Dispatch<React.SetStateAction<number>>;
   setCollapsed: Dispatch<React.SetStateAction<boolean>>;
+  setServing: Dispatch<React.SetStateAction<string>>;
+  setServingList: Dispatch<React.SetStateAction<Measure[]>>;
+  setMacrosCoef: Dispatch<React.SetStateAction<Macros | null>>;
 };
 
 const AddMealSearch = ({
@@ -22,19 +25,23 @@ const AddMealSearch = ({
   setCarbs,
   setFat,
   setCollapsed,
+  setServing,
+  setServingList,
+  setMacrosCoef,
 }: Props) => {
   const [searchFood, setSearchFood] = useState("");
   const [foodList, setFoodList] = useState<Array<FoodItem>>([]);
   const [nextPage, setNextPage] = useState<string | null>("");
   const [searching, setSearching] = useState(false);
   const [searchClicked, setSearchClicked] = useState(false);
+  // const [macros, setMacros] = useState<Macros>();
 
   useEffect(() => {
     setFoodList([]);
     setSearchClicked(false);
     setSearching(false);
     setSearchFood("");
-  }, []);
+  }, [setCollapsed]);
 
   const handleSearch = async (viewMore?: string | null) => {
     if (!viewMore) {
@@ -55,7 +62,6 @@ const AddMealSearch = ({
         const data = await response.json();
         const params = new URL(data._links.next.href).searchParams;
         const session = params.get("session");
-        console.log(session);
         setNextPage(session);
         data.hints.forEach((item: any) => {
           setFoodList((foodList) => [
@@ -67,8 +73,15 @@ const AddMealSearch = ({
               protein: Math.round(item.food.nutrients.PROCNT),
               carbs: Math.round(item.food.nutrients.CHOCDF),
               fat: Math.round(item.food.nutrients.FAT),
+              serving: item.measures[0].label,
+              nutrients: {
+                foodId: item.food.foodId,
+                measureUri: item.measures[0].uri,
+              },
+              measures: item.measures,
             },
           ]);
+          console.log(item.measures.label);
         });
         setSearching(false);
       }
@@ -77,12 +90,45 @@ const AddMealSearch = ({
     }
   };
 
-  const handleSet = (food: FoodItem) => {
-    setName(food.name);
-    setCalories(food.calories.toString());
-    setProtein(food.protein.toString());
-    setCarbs(food.carbs.toString());
-    setFat(food.fat.toString());
+  const handleNutritionSearch = async (food: FoodItem) => {
+    try {
+      const response = await fetch(`/api/search`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ingredients: [
+            {
+              quantity: 1,
+              measureURI: food.nutrients.measureUri,
+              foodId: food.nutrients.foodId,
+            },
+          ],
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Food Nutrients: ", data);
+        const weight = food.measures[0].weight;
+        setMacrosCoef({
+          calories: data.calories / weight,
+          protein: data.protein / weight,
+          carbs: data.carbs / weight,
+          fat: data.fat / weight,
+        });
+        setName(food.name);
+        setCalories(data.calories);
+        setProtein(data.protein);
+        setCarbs(data.carbs);
+        setFat(data.fat);
+        setServing(food.serving);
+        setServingList(food.measures);
+      }
+    } catch (error: any) {
+      console.log(error?.message);
+    }
   };
 
   return (
@@ -119,7 +165,7 @@ const AddMealSearch = ({
 
       <ScrollArea className="mt-2 pr-3 h-96">
         {foodList.map((food, index) => (
-          <div key={index} onClick={() => handleSet(food)}>
+          <div key={index} onClick={() => handleNutritionSearch(food)}>
             <SearchFoodCard food={food} />
           </div>
         ))}
@@ -128,7 +174,7 @@ const AddMealSearch = ({
             className="w-full h-2 text-center text-white hover:text-blue-400 text-sm cursor-pointer"
             onClick={() => handleSearch(nextPage)}
           >
-            View More
+            Load More
           </p>
         )}
       </ScrollArea>

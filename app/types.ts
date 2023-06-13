@@ -50,6 +50,18 @@ export type FoodItem = {
   protein: number;
   carbs: number;
   fat: number;
+  serving: string,
+  nutrients: {
+    foodId: string,
+    measureUri: string,
+  },
+  measures: Array<Measure>
+};
+
+export type Measure = {
+  uri: string,
+  label: string;
+  weight: number;
 };
 
 
