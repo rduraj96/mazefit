@@ -14,9 +14,31 @@ model User {
   password      String
   name          String?
   calories      String?
+  userDetails   UserDetails?
+  weight        Weight[]
   meals         Meal[]
   supplements   Supplement[]    @relation("UserSupplements")
   supplementLog SupplementLog[]
+}
+
+model UserDetails {
+  userId   Int  @unique
+  age      Int
+  height   Int
+  weight   Int
+  calories Int
+  user     User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Weight {
+  userId Int      @unique
+  day    DateTime
+  weight Int
+  user   User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model Meal {
