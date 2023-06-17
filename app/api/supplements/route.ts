@@ -26,7 +26,7 @@ export async function GET(request:NextRequest) {
 
     const supplements = await prisma.supplement.findMany({
         where: {
-          userId: 1,
+          userId: Number(userId),
         },
         include: {
             supplementLogs: {
