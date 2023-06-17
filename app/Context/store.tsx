@@ -8,7 +8,7 @@ import {
   SetStateAction,
   useState,
 } from "react";
-import { ActivityData, Macros, Meal, Supplements } from "../types";
+import { ActivityData, Macros, Meal, Supplements, UserDetails } from "../types";
 
 interface ContextProps {
   selectedDate: Date | undefined;
@@ -23,6 +23,8 @@ interface ContextProps {
   setSupplements: Dispatch<SetStateAction<Supplements[]>>;
   profileClicked: Boolean;
   setProfileClicked: Dispatch<SetStateAction<Boolean>>;
+  userDetails: UserDetails;
+  setUserDetails: Dispatch<SetStateAction<UserDetails>>;
 }
 
 // const today = new Date().toISOString().split("T")[0];
@@ -45,6 +47,14 @@ const GlobalContext = createContext<ContextProps>({
   setSupplements: () => {},
   profileClicked: true,
   setProfileClicked: () => {},
+  userDetails: {
+    age: 0,
+    gender: "",
+    weight: 0,
+    height: 0,
+    activityLevel: "",
+  },
+  setUserDetails: () => {},
 });
 
 export const GlobalContextProvider = ({
@@ -65,6 +75,13 @@ export const GlobalContextProvider = ({
   });
   const [supplements, setSupplements] = useState<Supplements[] | []>([]);
   const [profileClicked, setProfileClicked] = useState<Boolean>(true);
+  const [userDetails, setUserDetails] = useState<UserDetails>({
+    age: 0,
+    gender: "",
+    weight: 0,
+    height: 0,
+    activityLevel: "",
+  });
 
   return (
     <GlobalContext.Provider
@@ -81,6 +98,8 @@ export const GlobalContextProvider = ({
         setMacroGoals,
         supplements,
         setSupplements,
+        userDetails,
+        setUserDetails,
       }}
     >
       {children}

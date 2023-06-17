@@ -64,4 +64,12 @@ export type Measure = {
   weight: number;
 };
 
+export type UserDetails = {
+  age: number,
+  gender: string,
+  weight: number,
+  height: number,
+  activityLevel: string
+};
+
 

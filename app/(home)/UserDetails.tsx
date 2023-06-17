@@ -19,7 +19,7 @@ type Props = {};
 
 const UserDetails = (props: Props) => {
   const { data: session } = useSession();
-  const { selectedDate } = useGlobalContext();
+  const { userDetails } = useGlobalContext();
 
   return (
     <section className="py-10 mr-7 h-screen">
@@ -59,15 +59,22 @@ const UserDetails = (props: Props) => {
           </div>
           <div className="mt-8 flex text-sm justify-around text-neutral-600 py-3 rounded-xl bg-[#a8bbd1] shadow-md">
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg text-gray-100">189 lb</p>
+              <p className="font-semibold text-lg text-gray-100">
+                {userDetails.weight} lb
+              </p>
               <p>Weight</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg text-gray-100">6ft 0in</p>
+              <p className="font-semibold text-lg text-gray-100">
+                {Math.floor(userDetails.height / 12)}ft{" "}
+                {userDetails.height % 12}in
+              </p>
               <p>Height</p>
             </div>
             <div className="flex flex-col items-center justify-center gap-1">
-              <p className="font-semibold text-lg text-gray-100">26</p>
+              <p className="font-semibold text-lg text-gray-100">
+                {userDetails.age}
+              </p>
               <p>Age</p>
             </div>
           </div>

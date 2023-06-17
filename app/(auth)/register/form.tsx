@@ -12,8 +12,10 @@ import {
   AlertTitle,
 } from "@/components/ui/alert/alert";
 import { AlertCircle } from "lucide-react";
+import { useSearchParams, useRouter } from "next/navigation";
 
 export const RegisterForm = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -34,8 +36,10 @@ export const RegisterForm = () => {
           "Content-Type": "application/json",
         },
       });
+
       if (res.ok) {
         signIn();
+        // router.push("/getting-started");
       } else {
         setError((await res.json()).error);
       }

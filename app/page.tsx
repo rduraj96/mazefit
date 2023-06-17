@@ -19,6 +19,7 @@ export default function Home() {
     profileClicked,
     setMacroGoals,
     setSupplements,
+    setUserDetails,
   } = useGlobalContext();
   const [mounted, setMounted] = useState(false);
 
@@ -44,7 +45,9 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((data) => {
-        const goalCalories = parseInt(data.calories, 10);
+        console.log(data);
+        const goalCalories = Number(data.calories);
+        setUserDetails(data);
         setMacroGoals({
           calories: goalCalories,
           protein: Math.round((goalCalories * 0.4) / 4),
@@ -52,7 +55,7 @@ export default function Home() {
           fat: Math.round((goalCalories * 0.3) / 9),
         });
       });
-  }, [setMacroGoals]);
+  }, [setMacroGoals, setUserDetails]);
 
   useEffect(() => {
     fetch(`api/supplements?date=${dateToString(selectedDate as Date)}`, {
