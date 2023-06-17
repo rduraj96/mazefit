@@ -1,16 +1,21 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
 type Props = {
   className?: string;
+  spinColor?: string;
 };
 
-const Spinner = ({ className }: Props) => {
+const Spinner = ({ className, spinColor }: Props) => {
   return (
     <div className={className}>
       <div role="status">
         <svg
           aria-hidden="true"
-          className="w-4 h-4 mr-2 text-transparent animate-spin fill-[#ffa600]"
+          className={cn(
+            "w-4 h-4 text-transparent animate-spin fill-[#ffa600]",
+            spinColor
+          )}
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
