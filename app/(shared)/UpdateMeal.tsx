@@ -62,7 +62,6 @@ const UpdateMeal = ({ meal }: Props) => {
     setMeals([...filteredMeals, data]);
     toast({
       title: "Meal updated successfully!",
-      // description: "Friday, February 10, 2023 at 5:57 PM",
     });
   };
 
@@ -77,6 +76,9 @@ const UpdateMeal = ({ meal }: Props) => {
     setMeals(meals.filter((meal, i) => meal.id !== id));
     const data = await response.json();
     console.log(data);
+    toast({
+      title: "Meal deleted successfully!",
+    });
   };
 
   const data = [
@@ -168,14 +170,20 @@ const UpdateMeal = ({ meal }: Props) => {
       </div>
       {/* </div> */}
       <DialogFooter>
-        <DialogClose>
-          <div className="flex justify-between items-center gap-5">
-            <div
-              className="flex justify-center items-center h-8 w-8 rounded-lg"
-              onClick={() => handleDelete(meal.id)}
+        <div className="w-full flex justify-between items-center">
+          <DialogClose>
+            <Button
+              type="button"
+              variant={"destructive"}
+              onClick={() => {
+                handleDelete(meal.id);
+              }}
+              className="bg-red-400"
             >
-              <MdDeleteOutline size={20} className="text-red-400" />
-            </div>
+              Delete
+            </Button>
+          </DialogClose>
+          <DialogClose>
             <Button
               type="submit"
               onClick={() => {
@@ -184,8 +192,8 @@ const UpdateMeal = ({ meal }: Props) => {
             >
               Save changes
             </Button>
-          </div>
-        </DialogClose>
+          </DialogClose>
+        </div>
       </DialogFooter>
     </div>
   );
