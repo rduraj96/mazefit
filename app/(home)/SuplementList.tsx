@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { useGlobalContext } from "../Context/store";
 import { Supplements, TransformedSupplements } from "../types";
+import Spinner from "@/components/Spinner";
 
 type Props = {};
 
@@ -21,6 +22,10 @@ const SuplementList = (props: Props) => {
   >([]);
   const [newSupp, setNewSupp] = useState("");
   const [isNewSupp, setIsNewSupp] = useState(false);
+  const [loading, setLoading] = useState({
+    index: 0,
+    state: false,
+  });
 
   useEffect(() => {
     const trasformedArray = supplements.map((supplement) => {
@@ -95,33 +100,50 @@ const SuplementList = (props: Props) => {
   const handleUpdateExisting = async (
     supplementId: number,
     logId: number,
-    checked: boolean
+    checked: boolean,
+    idx: number
   ) => {
-    const response = await fetch(
-      `/api/supplements/${supplementId}/logs/${logId}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          isTaken: checked,
-        }),
+    try {
+      setLoading({
+        index: idx,
+        state: true,
+      });
+      const response = await fetch(
+        `/api/supplements/${supplementId}/logs/${logId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            isTaken: checked,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+
+        const updatedArray = supplements.map((supplement) => {
+          return {
+            ...supplement,
+            supplementLogs:
+              supplement.id === supplementId
+                ? [data]
+                : supplement.supplementLogs,
+          };
+        });
+
+        setSupplements(updatedArray);
+        setLoading({
+          index: 0,
+          state: false,
+        });
       }
-    );
-
-    const data = await response.json();
-    console.log(data);
-
-    const updatedArray = supplements.map((supplement) => {
-      return {
-        ...supplement,
-        supplementLogs:
-          supplement.id === supplementId ? [data] : supplement.supplementLogs,
-      };
-    });
-
-    setSupplements(updatedArray);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleUpdateNew = async (supplementId: number) => {
@@ -168,22 +190,29 @@ const SuplementList = (props: Props) => {
                 key={index}
                 className="flex items-center space-x-2 mb-3 group transition-transform"
               >
-                <Checkbox
-                  id={supplement.name}
-                  checked={supplement.isTaken}
-                  onCheckedChange={(checked) => {
-                    supplement.logId === 0
-                      ? handleUpdateNew(supplement.id)
-                      : handleUpdateExisting(
-                          supplement.id,
-                          supplement.logId,
-                          checked as boolean
-                        );
-                  }}
-                />
+                {loading.index === index && loading.state ? (
+                  <Spinner spinColor="fill-[#a8bbd1]" />
+                ) : (
+                  <Checkbox
+                    className="duration-300"
+                    id={supplement.name}
+                    checked={supplement.isTaken}
+                    onCheckedChange={(checked) => {
+                      supplement.logId === 0
+                        ? handleUpdateNew(supplement.id)
+                        : handleUpdateExisting(
+                            supplement.id,
+                            supplement.logId,
+                            checked as boolean,
+                            index
+                          );
+                    }}
+                  />
+                )}
+
                 <Label
                   htmlFor={supplement.name}
-                  className="text-md text-black font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="text-md text-card-foreground font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   {supplement.name}
                 </Label>
