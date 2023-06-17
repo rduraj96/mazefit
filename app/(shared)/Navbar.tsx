@@ -42,6 +42,15 @@ const Navbar = (props: Props) => {
     // { name: "Log Out", link: "/", icon: IoLogOut, auth: true },
   ];
   const COLORS = ["FFA600", "F6951B", "EE8436", "E57252", "DD616D", "D45088"];
+  const pathname = usePathname();
+
+  if (
+    pathname === "/login" ||
+    pathname === "/register" ||
+    pathname === "/getting-started"
+  ) {
+    return <></>;
+  }
 
   return (
     <section className="flex gap-6">
