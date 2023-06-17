@@ -25,6 +25,7 @@ import { useToast } from "@/components/ui/use-toast";
 import MealPieChart from "../(shared)/MealPieChart";
 import AddMealSearch from "./AddMealSearch";
 import { Macros, Measure } from "../types";
+import { Loader2 } from "lucide-react";
 
 type Props = {};
 
@@ -41,36 +42,45 @@ const AddMeal = (props: Props) => {
   const [servingList, setServingList] = useState<Array<Measure>>([]);
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const { selectedDate, setMeals } = useGlobalContext();
 
   const { toast } = useToast();
 
   const handleSubmit = async () => {
-    const response = await fetch(`/api/meals`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        type: status,
-        calories: calories,
-        protein: protein,
-        day: selectedDate,
-        carbs: carbs,
-        fat: fat,
-      }),
-    });
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/meals`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          type: status,
+          calories: calories,
+          protein: protein,
+          day: selectedDate,
+          carbs: carbs,
+          fat: fat,
+        }),
+      });
 
-    const data = await response.json();
-    console.log(data);
-    handleDefaults();
-    setMeals((meals) => [...meals, data]);
-    toast({
-      title: "Meal added successfully!",
-      // description: "Friday, February 10, 2023 at 5:57 PM",
-    });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        handleDefaults();
+        setMeals((meals) => [...meals, data]);
+        setLoading(false);
+        toast({
+          title: "Meal added successfully!",
+          // description: "Friday, February 10, 2023 at 5:57 PM",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDefaults = () => {
@@ -81,7 +91,7 @@ const AddMeal = (props: Props) => {
     setCalories(0);
     setCarbs(0);
     setFat(0);
-    setQuantity(0);
+    setQuantity(1);
     setServing("");
     setServingList([]);
     setCollapsed(true);
@@ -89,7 +99,7 @@ const AddMeal = (props: Props) => {
 
   const handleUpdateMacros = () => {
     const currentServing = servingList.filter((item) => item.label === serving);
-    const weight = currentServing[0].weight;
+    const weight = currentServing[0]?.weight;
     setCalories(Math.round(quantity * macrosCoef!.calories * weight));
     setProtein(Math.round(quantity * macrosCoef!.protein * weight));
     setCarbs(Math.round(quantity * macrosCoef!.carbs * weight));
@@ -110,6 +120,7 @@ const AddMeal = (props: Props) => {
           <div
             className="h-8 w-8 rounded-xl flex justify-center items-center 
                   hover:bg-[#a8bbd1] hover:text-foreground cursor-pointer group"
+            onClick={() => handleDefaults}
           >
             <TbBoxMultiple
               size={16}
@@ -191,6 +202,7 @@ const AddMeal = (props: Props) => {
                 <Input
                   id="calories"
                   value={calories}
+                  type="number"
                   className="col-span-2 text-black"
                   onChange={(e) => setCalories(Number(e.target.value))}
                 />
@@ -247,6 +259,7 @@ const AddMeal = (props: Props) => {
                 <Input
                   id="protein"
                   value={protein}
+                  type="number"
                   className="col-span-1 text-black"
                   onChange={(e) => setProtein(Number(e.target.value))}
                 />
@@ -264,6 +277,7 @@ const AddMeal = (props: Props) => {
                 <Input
                   id="carbs"
                   value={carbs}
+                  type="number"
                   className="col-span-1 text-black"
                   onChange={(e) => setCarbs(Number(e.target.value))}
                 />
@@ -281,6 +295,7 @@ const AddMeal = (props: Props) => {
                 <Input
                   id="fat"
                   value={fat}
+                  type="number"
                   className="col-span-1 text-black"
                   onChange={(e) => setFat(Number(e.target.value))}
                 />
@@ -294,6 +309,7 @@ const AddMeal = (props: Props) => {
                   handleSubmit().then(() => handleDefaults());
                 }}
               >
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Add Meal
               </Button>
             </DialogFooter>
