@@ -2,6 +2,7 @@ import React from "react";
 import MacroBar from "./MacroBar";
 import { Meal } from "../types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AiFillFire } from "react-icons/ai";
 
 type Props = {
   meal: Meal;
@@ -15,8 +16,8 @@ const TableRow = ({ meal }: Props) => {
     Snack: "https://i.gyazo.com/8b8bdba3bd3a4dbd39464162343ed96f.png",
   };
   return (
-    <div className="w-full gap-3 text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] hover:bg-opacity-50 flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
-      <div className="basis-2/4 text-left min-w-0">
+    <div className="gap-3 text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] hover:bg-opacity-50 flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
+      <div className="basis-2/4 text-left min-w-0 flex-1">
         <div className="flex items-center justify-start gap-3 whitespace-nowrap overflow-hidden">
           <Avatar className="rounded-xl aspect-auto h-8 w-8">
             <AvatarImage src={images[`${meal.type as keyof typeof images}`]} />
@@ -26,7 +27,7 @@ const TableRow = ({ meal }: Props) => {
         </div>
       </div>
       {/* <div className="basis-1/4 text-center">{meal.type}</div> */}
-      <div className="basis-1/4">
+      <div className="sm:flex sm:basis-1/4 hidden">
         <MacroBar
           calories={meal.calories}
           protein={meal.protein}
@@ -34,9 +35,10 @@ const TableRow = ({ meal }: Props) => {
           fat={meal.fat}
         />
       </div>
-      <div className="shrink basis-1/4 font-semibold flex justify-end items-center pl-2">
+      <div className="basis-1/4 sm:justify-end font-bold flex justify-start items-center min-w-fit shrink gap-2">
         {/* <p className="text-center text-red-500 text-xs">24%</p> */}
-        {meal.calories}
+        <AiFillFire />
+        <p className="w-1/2">{meal.calories}</p>
       </div>
     </div>
   );

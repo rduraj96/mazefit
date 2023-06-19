@@ -35,6 +35,8 @@ const Activity = ({ activityData }: Props) => {
     >
       <BarChart
         data={activityData}
+        barCategoryGap={"5%"}
+        barSize={20}
         margin={{
           top: 0,
           right: 0,
@@ -89,7 +91,7 @@ const Activity = ({ activityData }: Props) => {
             dataKey="calories"
             // radius={[10, 10, 0, 0]}
             animationDuration={duration}
-            barSize={20}
+            // barSize={20}
             // label={{
             //   position: "top",
             //   offset: 15,
