@@ -26,11 +26,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert/alert-dialog";
 import { usePathname } from "next/navigation";
+import { useGlobalContext } from "../Context/store";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [index, setIndex] = useState(0);
   const menus = [
     { name: "Dashboard", link: "/", icon: RiHomeSmile2Fill },
@@ -53,11 +54,10 @@ const Navbar = (props: Props) => {
   }
 
   return (
-    <section className="flex gap-6">
+    <aside className="h-screen sticky top-0 gap-6">
       <div
-        className={`${
-          open ? "w-72" : "w-16"
-        } duration-500  min-h-screen bg-foreground text-gray-400 px-4 rounded-r-xl flex flex-col justify-between shadow-md`}
+        className={`${open ? "w-72" : "w-16"} 
+        duration-500  min-h-screen bg-foreground text-gray-400 px-4 rounded-r-xl flex flex-col justify-between shadow-lg`}
       >
         <div className="mt-10 flex justify-center">
           <Image
@@ -153,7 +153,7 @@ const Navbar = (props: Props) => {
           </AlertDialog>
         </div>
       </div>
-    </section>
+    </aside>
   );
 };
 

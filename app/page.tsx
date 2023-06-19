@@ -10,6 +10,7 @@ import { useGlobalContext } from "./Context/store";
 import { useEffect, useState } from "react";
 import { dateToString } from "@/lib/utils";
 import Loading from "./loading";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
   const {
@@ -50,8 +51,8 @@ export default function Home() {
         setUserDetails(data);
         setMacroGoals({
           calories: goalCalories,
-          protein: Math.round((goalCalories * 0.4) / 4),
-          carbs: Math.round((goalCalories * 0.3) / 4),
+          protein: Math.round((goalCalories * 0.35) / 4),
+          carbs: Math.round((goalCalories * 0.35) / 4),
           fat: Math.round((goalCalories * 0.3) / 9),
         });
       });
@@ -84,10 +85,12 @@ export default function Home() {
 
       if (existingData) {
         existingData.calories += meal.calories;
+        existingData.protein += meal.protein * 4;
       } else {
         formattedData.push({
           day: dateToString(new Date(meal.day)),
           calories: meal.calories,
+          protein: meal.protein,
         });
       }
     });
@@ -110,7 +113,7 @@ export default function Home() {
       if (sortedEntry) {
         res.push(sortedEntry);
       } else {
-        res.push({ day: dateToString(currentDate), calories: 0 });
+        res.push({ day: dateToString(currentDate), calories: 0, protein: 0 });
       }
     }
 
@@ -146,26 +149,22 @@ export default function Home() {
   }
 
   return (
-    <main className="flex w-full h-screen">
-      {/* <Navbar /> */}
-      <div
-        className={`${
-          profileClicked ? "basis-4/5" : "basis-full"
-        } duration-700 max-h-full`}
-      >
-        <UserBar />
-        <MainTiles macros={macros} activityData={activityData} />
-        <TertiaryTiles />
-        <SecondaryTiles />
-      </div>
-      {profileClicked && (
-        <div
-          className="basis-1/5 duration-700"
-          style={{ transitionDelay: "1300ms" }}
-        >
+    <ScrollArea className="w-full h-screen">
+      <UserBar />
+      {/* <div className={`flex w-full`}> */}
+      {/* <div className={`grid grid-cols-1 grid-rows-2`}> */}
+      {/* <div className="col-span-1 row-span-1"> */}
+      <MainTiles macros={macros} activityData={activityData} />
+      {/* </div> */}
+      {/* <div className="col-span-1 row-span-1"> */}
+      <TertiaryTiles />
+      {/* </div> */}
+      {/* </div> */}
+      {/* <SecondaryTiles /> */}
+      {/* <div className="basis-1/5">
           <UserDetails />
-        </div>
-      )}
-    </main>
+        </div> */}
+      {/* </div> */}
+    </ScrollArea>
   );
 }

@@ -20,6 +20,7 @@ const UserBar = (props: Props) => {
 
   const handleClick = () => {
     setProfileClicked(!profileClicked);
+    console.log("Clicked!");
   };
 
   return (

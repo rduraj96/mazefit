@@ -19,7 +19,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${nunito.className} flex h-100vh relative`}>
+      <body className={`${nunito.className} flex`}>
         <Providers>
           <Navbar />
           <GlobalContextProvider>{children}</GlobalContextProvider>

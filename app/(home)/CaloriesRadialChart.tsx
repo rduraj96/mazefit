@@ -84,8 +84,8 @@ const CaloriesRadialChart = ({ macros }: Props) => {
         barCategoryGap="60%"
         startAngle={startAngle}
         endAngle={endAngle}
-        onMouseEnter={onRadialEnter}
-        onMouseLeave={onRadialLeave}
+        // onMouseEnter={onRadialEnter}
+        // onMouseLeave={onRadialLeave}
       >
         <PolarAngleAxis
           type="number"
@@ -99,7 +99,7 @@ const CaloriesRadialChart = ({ macros }: Props) => {
           background={{ fill: "#a8bbd1" }}
           cornerRadius={10}
           animationDuration={duration}
-          label={isLabel && { position: "insideStart", fill: "#fff" }}
+          label={isLabel && { position: "end", fill: "#fff" }}
         />
 
         {/* <Legend

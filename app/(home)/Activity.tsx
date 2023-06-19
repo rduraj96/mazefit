@@ -34,8 +34,6 @@ const Activity = ({ activityData }: Props) => {
       // className="bg-foreground rounded-3xl"
     >
       <BarChart
-        // width={475}
-        // height={300}
         data={activityData}
         margin={{
           top: 0,
@@ -87,9 +85,9 @@ const Activity = ({ activityData }: Props) => {
           <Bar
             stackId="a"
             dataKey="calories"
-            radius={[10, 10, 0, 0]}
+            // radius={[10, 10, 0, 0]}
             animationDuration={duration}
-            barSize={100}
+            barSize={20}
             // label={{
             //   position: "top",
             //   offset: 15,
@@ -112,6 +110,12 @@ const Activity = ({ activityData }: Props) => {
             ))}
           </Bar>
         )}
+        <Bar
+          stackId={"a"}
+          dataKey={"protein"}
+          animationDuration={duration}
+          barSize={20}
+        ></Bar>
       </BarChart>
     </ResponsiveContainer>
   );

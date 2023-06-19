@@ -43,7 +43,7 @@ const WeightChart = (props: Props) => {
     },
     {
       name: "Apr",
-      uv: 190,
+      uv: 205,
       pv: 4800,
       amt: 2181,
     },
@@ -68,7 +68,7 @@ const WeightChart = (props: Props) => {
         height={100}
         data={data}
         margin={{
-          top: 0,
+          top: 10,
           right: 0,
           left: -25,
           bottom: 5,
@@ -98,7 +98,7 @@ const WeightChart = (props: Props) => {
           style={{ fontSize: "10px" }}
           axisLine={false}
           tickLine={false}
-          domain={["auto", "auto"]}
+          domain={["dataMin - 20", "auto"]}
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>

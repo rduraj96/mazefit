@@ -118,7 +118,7 @@ const AddMeal = (props: Props) => {
         <DialogTrigger asChild>
           {/* <Button variant="outline">Add Meal</Button> */}
           <div
-            className="h-8 w-8 rounded-xl flex justify-center items-center 
+            className="h-10 w-10 rounded-xl flex justify-center items-center 
                   hover:bg-[#a8bbd1] hover:text-foreground cursor-pointer group"
             onClick={() => handleDefaults}
           >

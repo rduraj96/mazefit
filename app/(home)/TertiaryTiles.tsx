@@ -33,27 +33,29 @@ const TertiaryTiles = (props: Props) => {
   }, [selectedDate, meals]);
 
   return (
-    <section className="px-7">
-      <div className="grid grid-cols-9 grid-rows-1 gap-x-7 h-80">
-        <MainCard className="col-span-4 row-span-1">
+    <section className="relative mx-7 mt-7">
+      <div className="w-full grid grid-auto-fit-lg gap-7 mx-auto">
+        <MainCard className="col-span-2 min-h-full">
           <div className="flex justify-between items-center pb-2">
             <BoxHeader>Recent Meals</BoxHeader>
-            <div className="">
-              <SpeedDial>
-                <AddMeal />
-                {/* <AddMeal /> */}
-              </SpeedDial>
+            <div className="lg:h-full">
+              {/* <SpeedDial> */}
+              <AddMeal />
+              {/* <AddMeal /> */}
+              {/* </SpeedDial> */}
             </div>
 
             {/* <AddMeal /> */}
           </div>
           <MealTable dayMeals={dayMeals} />
         </MainCard>
-        <MainCard className="col-span-2 row-span-1">
+        <MainCard className="lg:col-span-1 col-span-2">
           <BoxHeader>Radar Chart</BoxHeader>
-          <MacroRadarChart />
+          <ChartBox>
+            <MacroRadarChart />
+          </ChartBox>
         </MainCard>
-        <MainCard className="col-span-3 row-span-1">
+        <MainCard className="col-span-2">
           <BoxHeader>Weight</BoxHeader>
           <ChartBox>
             <WeightChart />

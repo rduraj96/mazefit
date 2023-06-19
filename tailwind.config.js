@@ -69,5 +69,5 @@ module.exports = {
       },
     },
   },
-  plugins: [ require("tailwindcss-animate") ],
+  plugins: [ require('@shrutibalasa/tailwind-grid-auto-fit'), require("tailwindcss-animate") ],
 }

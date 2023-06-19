@@ -15,9 +15,9 @@ const TableRow = ({ meal }: Props) => {
     Snack: "https://i.gyazo.com/8b8bdba3bd3a4dbd39464162343ed96f.png",
   };
   return (
-    <div className="w-full text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] hover:bg-opacity-50 flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
-      <div className="basis-2/4 text-left">
-        <div className="flex items-center justify-start gap-3">
+    <div className="w-full gap-3 text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] hover:bg-opacity-50 flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
+      <div className="basis-2/4 text-left min-w-0">
+        <div className="flex items-center justify-start gap-3 whitespace-nowrap overflow-hidden">
           <Avatar className="rounded-xl aspect-auto h-8 w-8">
             <AvatarImage src={images[`${meal.type as keyof typeof images}`]} />
             <AvatarFallback>Food</AvatarFallback>
@@ -34,7 +34,10 @@ const TableRow = ({ meal }: Props) => {
           fat={meal.fat}
         />
       </div>
-      <div className="basis-1/4 text-right font-semibold">{meal.calories}</div>
+      <div className="shrink basis-1/4 font-semibold flex justify-end items-center pl-2">
+        {/* <p className="text-center text-red-500 text-xs">24%</p> */}
+        {meal.calories}
+      </div>
     </div>
   );
 };

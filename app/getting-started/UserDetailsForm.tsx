@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import Spinner from "@/components/Spinner";
 
 type Props = {};
 
@@ -43,7 +44,6 @@ const UserDetailsForm = (props: Props) => {
       height: Number(heightFt) * 12 + Number(heightIn),
       activityLevel: activityLevel,
     };
-    console.log(calculateTDEE(userDetails));
 
     return calculateTDEE(userDetails);
   };
@@ -78,74 +78,87 @@ const UserDetailsForm = (props: Props) => {
   };
 
   const PersonalDetails = () => (
-    <section className="grid grid-cols-2 gap-3 animate-in fade-in-80">
-      <div className="grid w-full items-center gap-1.5 col-span-1">
-        <Label className="text-black font-semibold text-lg">Age</Label>
-        <Input
-          id="age"
-          value={age}
-          type="number"
-          required
-          placeholder={"Ex: 25"}
-          onChange={(e) => setAge(e.target.value)}
-          className="text-black"
-        />
-      </div>
-      <div className="grid w-full items-center gap-1.5 col-span-1">
-        <Label className="text-black font-semibold text-lg">Sex</Label>
-        <Select onValueChange={setSex} defaultValue={sex}>
-          <SelectTrigger className="text-black">
-            <SelectValue placeholder="Serving" className="text-black" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="male">Male</SelectItem>
-            <SelectItem value="female">Female</SelectItem>
-          </SelectContent>
-        </Select>
+    <section>
+      <h1 className="font-bold text-2xl text-center text-black pb-7">
+        General Information
+      </h1>
+      <div className="grid grid-cols-2 gap-3 animate-in fade-in-80">
+        <div className="grid w-full items-center gap-1.5 col-span-1">
+          <Label className="text-black font-semibold text-lg">Age</Label>
+          <Input
+            id="age"
+            value={age}
+            type="number"
+            required
+            placeholder={"Ex: 25"}
+            onChange={(e) => setAge(e.target.value)}
+            className="text-black"
+          />
+        </div>
+        <div className="grid w-full items-center gap-1.5 col-span-1">
+          <Label className="text-black font-semibold text-lg">Sex</Label>
+          <Select onValueChange={setSex} defaultValue={sex}>
+            <SelectTrigger className="text-black">
+              <SelectValue placeholder="Serving" className="text-black" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="male">Male</SelectItem>
+              <SelectItem value="female">Female</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </section>
   );
 
   const Measurements = () => (
-    <section className="grid grid-cols-4 gap-3 animate-in fade-in-80">
-      <div className="grid w-full items-center gap-1.5 col-span-2">
-        <Label className="text-black font-semibold text-lg">Weight</Label>
-        <Input
-          id="weight"
-          value={weight}
-          type="number"
-          required
-          placeholder="Pounds (lb)"
-          onChange={(e) => setWeight(e.target.value)}
-        />
-      </div>
-      <div className="grid w-full items-center gap-1.5 col-span-1">
-        <Label className="text-black font-semibold text-lg">Height</Label>
-        <Input
-          id="heightFt"
-          value={heightFt}
-          type="number"
-          required
-          placeholder="Feet (ft)"
-          onChange={(e) => setHeightFt(e.target.value)}
-        />
-      </div>
-      <div className="grid w-full items-center gap-1.5 col-span-1">
-        <Label className="invisible text-black font-semibold text-lg">
-          Height
-        </Label>
-        <Input
-          id="heightIn"
-          value={heightIn}
-          placeholder="Inches (in)"
-          onChange={(e) => setHeightIn(e.target.value)}
-        />
+    <section>
+      <h1 className="font-bold text-2xl text-center text-black py-7">
+        Mesurements
+      </h1>
+      <div className="grid grid-cols-4 gap-3 animate-in fade-in-80">
+        <div className="grid w-full items-center gap-1.5 col-span-2">
+          <Label className="text-black font-semibold text-lg">Weight</Label>
+          <Input
+            id="weight"
+            value={weight}
+            type="number"
+            required
+            placeholder="Pounds (lb)"
+            onChange={(e) => setWeight(e.target.value)}
+          />
+        </div>
+        <div className="grid w-full items-center gap-1.5 col-span-1">
+          <Label className="text-black font-semibold text-lg">Height</Label>
+          <Input
+            id="heightFt"
+            value={heightFt}
+            type="number"
+            required
+            placeholder="Feet (ft)"
+            onChange={(e) => setHeightFt(e.target.value)}
+          />
+        </div>
+        <div className="grid w-full items-center gap-1.5 col-span-1">
+          <Label className="invisible text-black font-semibold text-lg">
+            Height
+          </Label>
+          <Input
+            id="heightIn"
+            value={heightIn}
+            placeholder="Inches (in)"
+            onChange={(e) => setHeightIn(e.target.value)}
+          />
+        </div>
       </div>
     </section>
   );
 
   const ActivityLevel = () => (
     <section>
+      <h1 className="font-bold text-2xl text-center text-black py-7">
+        Activity Level
+      </h1>
       <div className="grid w-full items-center gap-1.5">
         <Label className="text-black font-semibold text-lg">
           Activity Level
@@ -174,9 +187,15 @@ const UserDetailsForm = (props: Props) => {
 
   const Results = () => (
     <section>
+      <h1 className="font-bold text-2xl text-center text-black py-7">
+        Results
+      </h1>
       {loading ? (
-        <Loader2 className="h-16 w-16 animate-spin" />
+        <div className="flex justify-center items-center">
+          <Loader2 className="h-16 w-16 animate-spin rounded-full text-blue-600" />
+        </div>
       ) : (
+        // <Spinner spinColor="h-16 w-16 text-center" />
         <div className="w-full h-16 grid grid-cols-3 gap-5 transition-all animate-in fade-in-80">
           <button
             type="button"
