@@ -61,12 +61,14 @@ const Activity = ({ activityData }: Props) => {
           style={{ fontSize: "10px" }}
           axisLine={false}
           tickLine={false}
+          padding={{ left: 15, right: 15 }}
         />
         <YAxis
           style={{ fontSize: "10px" }}
           domain={[0, "auto"]}
           axisLine={false}
           tickLine={false}
+          padding={{ top: 15, bottom: 15 }}
         />
         <ReferenceLine
           y={macroGoals?.calories}

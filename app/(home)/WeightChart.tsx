@@ -25,39 +25,15 @@ const WeightChart = (props: Props) => {
     },
     {
       name: "Jan",
-      uv: 182,
-      pv: 1398,
-      amt: 2210,
+      uv: 180,
+      pv: 2400,
+      amt: 2400,
     },
     {
       name: "Feb",
-      uv: 185,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Mar",
-      uv: 185,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Apr",
-      uv: 205,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "May",
-      uv: 183,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Jun",
-      uv: 180,
-      pv: 4300,
-      amt: 2100,
+      uv: 178,
+      pv: 2400,
+      amt: 2400,
     },
   ];
 
@@ -92,6 +68,8 @@ const WeightChart = (props: Props) => {
           style={{ fontSize: "10px" }}
           axisLine={false}
           tickLine={false}
+          padding={{ left: 15, right: 15 }}
+
           // tick={false}
         />
         <YAxis
@@ -99,6 +77,7 @@ const WeightChart = (props: Props) => {
           axisLine={false}
           tickLine={false}
           domain={["dataMin - 20", "auto"]}
+          padding={{ top: 15, bottom: 15 }}
         />
         <Tooltip content={<CustomTooltip />} />
       </LineChart>
