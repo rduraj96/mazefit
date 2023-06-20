@@ -17,13 +17,23 @@ import ChartBox from "../(shared)/ChartBox";
 import Activity from "./Activity";
 import MacroCard from "../(shared)/MacroCard";
 import SuplementList from "./SuplementList";
+import { Button } from "@/components/ui/button";
+import { useGlobalContext } from "../Context/store";
+import { DropdownMenuCheckboxes } from "../(shared)/ActivityDropdownMenu";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 
 type Props = {
   macros: Macros;
   activityData: Array<ActivityData>;
 };
 
+type Checked = DropdownMenuCheckboxItemProps["checked"];
+
 const MainTiles = ({ macros, activityData }: Props) => {
+  const [proteinEnabled, setProteinEnabled] = useState<Checked>(false);
+  const [carbsEnabled, setCarbsEnabled] = useState<Checked>(false);
+  const [fatEnabled, setFatEnabled] = useState<Checked>(false);
+
   return (
     <section className="relative mx-7 pt-5">
       <div className="w-full grid grid-auto-fit-md gap-7 mx-auto">
@@ -65,9 +75,26 @@ const MainTiles = ({ macros, activityData }: Props) => {
         </div>
 
         <MainCard className="shadow-md cursor-pointer col-span-2">
-          <BoxHeader>Recent Activity</BoxHeader>
+          <BoxHeader>
+            {"Recent Activity"}
+            <DropdownMenuCheckboxes
+              protein={proteinEnabled}
+              setProtein={setProteinEnabled}
+              carbs={carbsEnabled}
+              setCarbs={setCarbsEnabled}
+              fat={fatEnabled}
+              setFat={setFatEnabled}
+            />
+          </BoxHeader>
           <ChartBox>
-            <Activity activityData={activityData} />
+            <Activity
+              activityData={activityData}
+              flags={{
+                protein: proteinEnabled as boolean,
+                carbs: carbsEnabled as boolean,
+                fat: fatEnabled as boolean,
+              }}
+            />
           </ChartBox>
         </MainCard>
         <MainCard className="lg:col-span-1 col-span-2">

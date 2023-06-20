@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   ResponsiveContainer,
   XAxis,
@@ -14,11 +14,18 @@ import { ActivityData } from "../types";
 import { useGlobalContext } from "../Context/store";
 import CustomTooltip from "../(shared)/CustomTooltip";
 
-type Props = {
-  activityData: Array<ActivityData>;
+type Flags = {
+  protein: boolean;
+  carbs: boolean;
+  fat: boolean;
 };
 
-const Activity = ({ activityData }: Props) => {
+type Props = {
+  activityData: Array<ActivityData>;
+  flags: Flags;
+};
+
+const Activity = ({ activityData, flags }: Props) => {
   const { macroGoals, setSelectedDate } = useGlobalContext();
   const [activeIndex, setActiveIndex] = useState(6);
   const duration = 1000;
@@ -27,6 +34,26 @@ const Activity = ({ activityData }: Props) => {
     setActiveIndex(index);
   };
 
+  const newData = activityData.map((activity) => {
+    let adjustecCalories = activity.calories;
+
+    if (flags.protein) {
+      adjustecCalories -= activity.protein;
+    }
+    if (flags.carbs) {
+      adjustecCalories -= activity.carbs;
+    }
+    if (flags.fat) {
+      adjustecCalories -= activity.fat;
+    }
+
+    return {
+      ...activity,
+      calories: adjustecCalories,
+    };
+  });
+  console.log(newData);
+
   return (
     <ResponsiveContainer
       width="100%"
@@ -34,7 +61,7 @@ const Activity = ({ activityData }: Props) => {
       // className="bg-foreground rounded-3xl"
     >
       <BarChart
-        data={activityData}
+        data={newData}
         barCategoryGap={"5%"}
         barSize={20}
         margin={{
@@ -59,7 +86,7 @@ const Activity = ({ activityData }: Props) => {
           </linearGradient>
         </defs>
         <XAxis
-          dataKey="day"
+          dataKey={"formattedDay"}
           style={{ fontSize: "10px" }}
           axisLine={false}
           tickLine={false}
@@ -88,38 +115,62 @@ const Activity = ({ activityData }: Props) => {
         {activityData.length > 0 && (
           <Bar
             stackId="a"
-            dataKey="calories"
+            dataKey={"calories"}
             // radius={[10, 10, 0, 0]}
             animationDuration={duration}
-            // barSize={20}
-            // label={{
-            //   position: "top",
-            //   offset: 15,
-            // }}
           >
             {activityData?.map((entry, index) => (
               // eslint-disable-next-line react/jsx-key
               <Cell
                 key={`cell-${index}`}
                 cursor="pointer"
-                // onMouseOver={}y
                 fill={
                   index === activeIndex ? "url(#colorData)" : "url(#colorHover)"
                 }
-                // style={{
-                //   filter: `drop-shadow(0px 0px 2px #FFA600)`,
-                // }}
                 onClick={() => handleClick(entry.day, index)}
               />
             ))}
           </Bar>
         )}
-        <Bar
-          stackId={"a"}
-          dataKey={"protein"}
-          animationDuration={duration}
-          barSize={20}
-        ></Bar>
+        {flags.protein && (
+          <Bar stackId={"a"} dataKey={"protein"} animationDuration={duration}>
+            {activityData?.map((entry, index) => (
+              // eslint-disable-next-line react/jsx-key
+              <Cell
+                key={`cell-${index}`}
+                cursor="pointer"
+                fill={"#FF7C46"}
+                onClick={() => handleClick(entry.day, index)}
+              />
+            ))}
+          </Bar>
+        )}
+        {flags.carbs && (
+          <Bar stackId={"a"} dataKey={"carbs"} animationDuration={duration}>
+            {activityData?.map((entry, index) => (
+              // eslint-disable-next-line react/jsx-key
+              <Cell
+                key={`cell-${index}`}
+                cursor="pointer"
+                fill={"#F95D67"}
+                onClick={() => handleClick(entry.day, index)}
+              />
+            ))}
+          </Bar>
+        )}
+        {flags.fat && (
+          <Bar stackId={"a"} dataKey={"fat"} animationDuration={duration}>
+            {activityData?.map((entry, index) => (
+              // eslint-disable-next-line react/jsx-key
+              <Cell
+                key={`cell-${index}`}
+                cursor="pointer"
+                fill={"#D45088"}
+                onClick={() => handleClick(entry.day, index)}
+              />
+            ))}
+          </Bar>
+        )}
       </BarChart>
     </ResponsiveContainer>
   );

@@ -1,7 +1,10 @@
 export type ActivityData = {
     day: string,
+    formattedDay?: string,
     calories: number,
-    protein: number
+    protein: number,
+    carbs: number,
+    fat: number
 }
 
 export type Macros = {

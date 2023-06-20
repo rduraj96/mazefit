@@ -85,12 +85,16 @@ export default function Home() {
 
       if (existingData) {
         existingData.calories += meal.calories;
-        existingData.protein += meal.protein * 4;
+        existingData.protein += meal.protein;
+        existingData.carbs += meal.protein;
+        existingData.fat += meal.fat;
       } else {
         formattedData.push({
           day: dateToString(new Date(meal.day)),
           calories: meal.calories,
           protein: meal.protein,
+          carbs: meal.carbs,
+          fat: meal.fat,
         });
       }
     });
@@ -111,9 +115,23 @@ export default function Home() {
       );
 
       if (sortedEntry) {
-        res.push(sortedEntry);
+        res.push({
+          day: sortedEntry.day,
+          formattedDay: sortedEntry.day.slice(0, -5),
+          calories: sortedEntry.calories,
+          protein: sortedEntry.protein * 4,
+          carbs: sortedEntry.carbs * 4,
+          fat: sortedEntry.fat * 9,
+        });
       } else {
-        res.push({ day: dateToString(currentDate), calories: 0, protein: 0 });
+        res.push({
+          day: dateToString(currentDate),
+          formattedDay: dateToString(currentDate).slice(0, -5),
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+        });
       }
     }
 

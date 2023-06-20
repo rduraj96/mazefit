@@ -16,7 +16,7 @@ const TableRow = ({ meal }: Props) => {
     Snack: "https://i.gyazo.com/8b8bdba3bd3a4dbd39464162343ed96f.png",
   };
   return (
-    <div className="gap-3 text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] hover:bg-opacity-50 flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
+    <div className="gap-5 text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] hover:bg-opacity-50 flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
       <div className="basis-2/4 text-left min-w-0 flex-1">
         <div className="flex items-center justify-start gap-3 whitespace-nowrap overflow-hidden">
           <Avatar className="rounded-xl aspect-auto h-8 w-8">
@@ -35,7 +35,7 @@ const TableRow = ({ meal }: Props) => {
           fat={meal.fat}
         />
       </div>
-      <div className="basis-1/4 sm:justify-end font-bold flex justify-start items-center min-w-fit shrink gap-2">
+      <div className="basis-1/5 sm:justify-end font-bold flex justify-start items-center min-w-fit shrink gap-2">
         {/* <p className="text-center text-red-500 text-xs">24%</p> */}
         <AiFillFire />
         <p className="w-1/2">{meal.calories}</p>
