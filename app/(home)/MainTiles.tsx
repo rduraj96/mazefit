@@ -37,7 +37,7 @@ const MainTiles = ({ macros, activityData }: Props) => {
   return (
     <section className="relative mx-7 pt-5">
       <div className="w-full grid grid-auto-fit-md gap-7 mx-auto">
-        <MainCard className="cursor-pointer lg:col-span-1 col-span-2">
+        <MainCard className="cursor-pointer sm:col-span-1 col-span-2">
           <BoxHeader>Overview</BoxHeader>
           <ChartBox>
             <CaloriesRadialChart macros={macros} />
@@ -73,8 +73,11 @@ const MainTiles = ({ macros, activityData }: Props) => {
             <GiDroplets size={"5rem"} />
           </MacroCard>
         </div>
-
-        <MainCard className="shadow-md cursor-pointer col-span-2">
+        <MainCard className="sm:col-span-1 col-span-2">
+          <BoxHeader>Suplements</BoxHeader>
+          <SuplementList />
+        </MainCard>
+        <MainCard className="shadow-md cursor-pointer md:col-span-1 lg:col-span-2 col-span-2">
           <BoxHeader>
             {"Recent Activity"}
             <DropdownMenuCheckboxes
@@ -96,10 +99,6 @@ const MainTiles = ({ macros, activityData }: Props) => {
               }}
             />
           </ChartBox>
-        </MainCard>
-        <MainCard className="lg:col-span-1 col-span-2">
-          <BoxHeader>Suplements</BoxHeader>
-          <SuplementList />
         </MainCard>
       </div>
     </section>

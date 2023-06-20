@@ -169,20 +169,17 @@ export default function Home() {
   return (
     <ScrollArea className="w-full h-screen">
       <UserBar />
-      {/* <div className={`flex w-full`}> */}
-      {/* <div className={`grid grid-cols-1 grid-rows-2`}> */}
-      {/* <div className="col-span-1 row-span-1"> */}
-      <MainTiles macros={macros} activityData={activityData} />
-      {/* </div> */}
-      {/* <div className="col-span-1 row-span-1"> */}
-      <TertiaryTiles />
-      {/* </div> */}
-      {/* </div> */}
-      {/* <SecondaryTiles /> */}
-      {/* <div className="basis-1/5">
-          <UserDetails />
-        </div> */}
-      {/* </div> */}
+      <div className="flex w-full">
+        <div className="flex-grow basis-4/5 transition-all duration-300">
+          <MainTiles macros={macros} activityData={activityData} />
+          <TertiaryTiles />
+        </div>
+        {profileClicked && (
+          <div className="sm:flex sm:basis-1/5 slide-in-from-right animate-in transition-all duration-300 hidden slide-out-to-right">
+            <UserDetails />
+          </div>
+        )}
+      </div>
     </ScrollArea>
   );
 }

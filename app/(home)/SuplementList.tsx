@@ -182,13 +182,13 @@ const SuplementList = (props: Props) => {
 
   return (
     <div className="relative h-full">
-      <div className="h-48 mb-2">
-        <ScrollArea className="h-full px-2">
+      <div className="h-48 mb-4">
+        <ScrollArea className="h-full px-2 mt-2">
           {daySupplements &&
             daySupplements.map((supplement, index) => (
               <div
                 key={index}
-                className="flex items-center space-x-2 mb-3 group transition-transform"
+                className="flex items-center space-x-3 mb-4 group transition-transform"
               >
                 {loading.index === index && loading.state ? (
                   <Spinner spinColor="fill-[#a8bbd1]" />

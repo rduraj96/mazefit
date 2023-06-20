@@ -22,7 +22,7 @@ const UserDetails = (props: Props) => {
   const { userDetails } = useGlobalContext();
 
   return (
-    <section className="py-10 mr-7 h-screen">
+    <section className="h-fit w-full pt-5 mr-7">
       <div className="relative bg-foreground h-full shadow-md px-7 py-5 rounded-xl">
         <div className="flex justify-between items-center">
           <p className="text-black text-lg font-bold">Profile</p>
@@ -82,7 +82,6 @@ const UserDetails = (props: Props) => {
         <div className="mt-10">
           <p className="text-black text-md font-bold">Goals</p>
           {/* <WeightChart data={data} /> */}
-          <div className="h-96"></div>
         </div>
       </div>
     </section>

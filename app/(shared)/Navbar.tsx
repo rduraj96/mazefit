@@ -31,7 +31,7 @@ import { useGlobalContext } from "../Context/store";
 type Props = {};
 
 const Navbar = (props: Props) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const menus = [
     { name: "Dashboard", link: "/", icon: RiHomeSmile2Fill },
