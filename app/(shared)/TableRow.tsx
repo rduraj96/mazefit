@@ -3,6 +3,7 @@ import MacroBar from "./MacroBar";
 import { Meal } from "../types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AiFillFire } from "react-icons/ai";
+import { Badge } from "@/components/ui/badge";
 
 type Props = {
   meal: Meal;
@@ -16,18 +17,20 @@ const TableRow = ({ meal }: Props) => {
     Snack: "https://i.gyazo.com/8b8bdba3bd3a4dbd39464162343ed96f.png",
   };
   return (
-    <div className="gap-5 text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] hover:bg-opacity-50 flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
-      <div className="basis-2/4 text-left min-w-0 flex-1">
-        <div className="flex items-center justify-start gap-3 whitespace-nowrap overflow-hidden">
-          <Avatar className="rounded-xl aspect-auto h-8 w-8">
+    <div className="group gap-5 text-black text-sm font-semibold h-14 hover:bg-[#a8bbd1] hover:bg-opacity-50 flex justify-between items-center rounded-xl mb-4 px-2 cursor-pointer">
+      <div className="sm:basis-3/5 basis-1/2 text-left min-w-0">
+        <div className="flex items-center justify-start gap-3">
+          <Avatar className="z-10 rounded-xl aspect-auto h-8 w-8">
             <AvatarImage src={images[`${meal.type as keyof typeof images}`]} />
             <AvatarFallback>Food</AvatarFallback>
           </Avatar>
-          {meal.name}
+          <div className="z-0 transition-transform duration-1000 ease-in-out line-clamp-1">
+            {meal.name}
+          </div>
         </div>
       </div>
       {/* <div className="basis-1/4 text-center">{meal.type}</div> */}
-      <div className="sm:flex sm:basis-1/4 hidden">
+      <div className="sm:flex sm:basis-2/5 hidden">
         <MacroBar
           calories={meal.calories}
           protein={meal.protein}
@@ -35,10 +38,12 @@ const TableRow = ({ meal }: Props) => {
           fat={meal.fat}
         />
       </div>
-      <div className="basis-1/5 sm:justify-end font-bold flex justify-start items-center min-w-fit shrink gap-2">
+      <div className="basis-1/2 sm:basis-1/5 flex-1 md:justify-end font-bold flex justify-center items-center w-full gap-2">
         {/* <p className="text-center text-red-500 text-xs">24%</p> */}
-        <AiFillFire />
-        <p className="w-1/2">{meal.calories}</p>
+        <Badge variant="outline" className="">
+          <p className="">{meal.calories}</p>
+          <AiFillFire />
+        </Badge>
       </div>
     </div>
   );
