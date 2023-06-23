@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  // TableRow,
-} from "@/components/ui/table";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -19,33 +10,43 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ActivityData, Meal } from "../types";
-import { Button } from "@/components/ui/button";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { useGlobalContext } from "../Context/store";
 import TableRow from "../(shared)/TableRow";
 import UpdateMeal from "../(shared)/UpdateMeal";
+import LoadingSpinner from "../(shared)/LoadingSpinner";
 
-type Props = {
-  dayMeals: Array<Meal>;
-};
+type Props = {};
 
-const MealTable = ({ dayMeals }: Props) => {
-  const { meals, setMeals } = useGlobalContext();
-  const handleDelete = async (id: number) => {
-    const response = await fetch(`/api/meals/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+const MealTable = ({}: Props) => {
+  const { meals, selectedDate, loading } = useGlobalContext();
+  const [dayMeals, setDayMeals] = useState<Meal[]>([]);
 
-    setMeals(meals.filter((meal, i) => meal.id !== id));
-    const data = await response.json();
-    console.log(data);
-  };
+  useEffect(() => {
+    setDayMeals(
+      meals.filter(
+        (meal) =>
+          new Date(meal.day).toLocaleString().split(",")[0] ===
+          selectedDate?.toLocaleString().split(",")[0]
+      )
+    );
+  }, [selectedDate, meals]);
 
-  return (
-    <ScrollArea className="rounded-xl h-72">
+  const MissingData = () => (
+    <div className="text-neutral-400 flex items-center justify-center h-full w-full">
+      <p>
+        Click{" "}
+        <span className="inline-flex bg-background rounded-md px-1 py-2 text-xs">
+          Add Meal
+        </span>{" "}
+        to log a meal.
+      </p>
+    </div>
+  );
+
+  return loading ? (
+    <LoadingSpinner />
+  ) : dayMeals.length > 0 ? (
+    <ScrollArea className="rounded-xl h-64">
       {dayMeals &&
         dayMeals.map((meal) => (
           <Dialog key={meal.id}>
@@ -66,6 +67,8 @@ const MealTable = ({ dayMeals }: Props) => {
           </Dialog>
         ))}
     </ScrollArea>
+  ) : (
+    <MissingData />
   );
 };
 

@@ -21,10 +21,12 @@ export default function Home() {
     setMacroGoals,
     setSupplements,
     setUserDetails,
+    setLoading,
   } = useGlobalContext();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/meals", {
       method: "GET",
       headers: {
@@ -34,6 +36,7 @@ export default function Home() {
       .then((res) => res.json())
       .then((data) => {
         setMeals(data);
+        setLoading(false);
       });
   }, [setMeals]);
 
@@ -73,6 +76,7 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
+    // setLoading(false);
   }, []);
 
   const sortActivityData = (data: Meal[]) => {
@@ -169,16 +173,18 @@ export default function Home() {
   return (
     <ScrollArea className="w-full h-screen">
       <UserBar />
-      <div className="flex w-full">
-        <div className="flex-grow basis-4/5 transition-all duration-300">
+      <div className="w-ful h-full flex-col">
+        <div
+          className={`${
+            profileClicked ? "h-48" : "h-0 invisible"
+          } transition-all duration-400 mx-7`}
+        >
+          <UserDetails />
+        </div>
+        <div className="flex-col-grow transition-all duration-300 w-full">
           <MainTiles macros={macros} activityData={activityData} />
           <TertiaryTiles />
         </div>
-        {profileClicked && (
-          <div className="sm:flex sm:basis-1/5 slide-in-from-right animate-in transition-all duration-300 hidden slide-out-to-right">
-            <UserDetails />
-          </div>
-        )}
       </div>
     </ScrollArea>
   );

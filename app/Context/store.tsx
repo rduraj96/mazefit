@@ -25,6 +25,8 @@ interface ContextProps {
   setProfileClicked: Dispatch<SetStateAction<Boolean>>;
   userDetails: UserDetails;
   setUserDetails: Dispatch<SetStateAction<UserDetails>>;
+  loading: Boolean;
+  setLoading: Dispatch<SetStateAction<Boolean>>;
 }
 
 // const today = new Date().toISOString().split("T")[0];
@@ -55,6 +57,8 @@ const GlobalContext = createContext<ContextProps>({
     activityLevel: "",
   },
   setUserDetails: () => {},
+  loading: false,
+  setLoading: () => {},
 });
 
 export const GlobalContextProvider = ({
@@ -74,7 +78,7 @@ export const GlobalContextProvider = ({
     fat: 0,
   });
   const [supplements, setSupplements] = useState<Supplements[] | []>([]);
-  const [profileClicked, setProfileClicked] = useState<Boolean>(true);
+  const [profileClicked, setProfileClicked] = useState<Boolean>(false);
   const [userDetails, setUserDetails] = useState<UserDetails>({
     age: 0,
     gender: "",
@@ -82,6 +86,7 @@ export const GlobalContextProvider = ({
     height: 0,
     activityLevel: "",
   });
+  const [loading, setLoading] = useState<Boolean>(false);
 
   return (
     <GlobalContext.Provider
@@ -100,6 +105,8 @@ export const GlobalContextProvider = ({
         setSupplements,
         userDetails,
         setUserDetails,
+        loading,
+        setLoading,
       }}
     >
       {children}
