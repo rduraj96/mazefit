@@ -51,10 +51,11 @@ const WeightChart = ({ range }: Props) => {
           // setWeeklyTicks(weekTicks);
           // setMonthlyTicks(monthTicks);
           setTicks(ticks);
-          setLoading(false);
         }
+        setLoading(false);
       });
   }, [range]);
+  0;
 
   const getTicks = (latestEntry: number, selectedRange: string) => {
     const ticks = [];
@@ -85,11 +86,6 @@ const WeightChart = ({ range }: Props) => {
       return dateToString(new Date(tickItem)).slice(0, -5);
     }
   };
-
-  const duration = 1000;
-
-  if (!loading && weightData.length === 0) {
-  }
 
   return (
     <ResponsiveContainer width="100%" height="100%">
