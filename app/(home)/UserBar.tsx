@@ -2,6 +2,7 @@
 
 import React from "react";
 import { IoLocationSharp, IoNotificationsOutline } from "react-icons/io5";
+import { GiStairsGoal } from "react-icons/gi";
 import { useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -31,6 +32,15 @@ const UserBar = (props: Props) => {
 
       <div className="absolute right-7 flex items-center justify-center py-2">
         <div className="flex items-center right-0 gap-x-3">
+          <div
+            className="h-10 w-10 rounded-xl flex justify-center items-center cursor-pointer bg-foreground"
+            style={{
+              background: profileClicked ? "white" : "hsl(var(--foreground))",
+            }}
+            onClick={handleClick}
+          >
+            <GiStairsGoal size={18} className="text-neutral-700" />
+          </div>
           <Popover>
             <PopoverTrigger>
               <div className="h-10 w-10 bg-foreground rounded-xl flex justify-center items-center">
@@ -42,10 +52,10 @@ const UserBar = (props: Props) => {
             </PopoverTrigger>
             <PopoverContent>No new notifications.</PopoverContent>
           </Popover>
-          <span className="absolute flex top-2 left-[30%] h-3 w-3">
+          {/* <span className="absolute flex top-2 left-[30%] h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
-          </span>
+          </span> */}
           <Avatar
             className="rounded-xl aspect-auto h-11 w-11 cursor-pointer"
             onClick={handleClick}
