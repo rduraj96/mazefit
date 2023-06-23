@@ -19,6 +19,7 @@ model User {
   meals         Meal[]
   supplements   Supplement[]    @relation("UserSupplements")
   supplementLog SupplementLog[]
+  journalLog    JournalLog[]
 }
 
 model UserDetails {
@@ -33,7 +34,8 @@ model UserDetails {
 }
 
 model Weight {
-  userId Int      @unique
+  id     Int      @id @default(autoincrement())
+  userId Int
   day    DateTime
   weight Int
   user   User     @relation(fields: [userId], references: [id])
@@ -77,4 +79,18 @@ model SupplementLog {
 
   @@index([userId])
   @@index([supplementId])
+}
+
+model JournalLog {
+  id        Int      @id @default(autoincrement())
+  day       DateTime
+  userId    Int
+  mood      Int
+  cravings  Int
+  energy    Int
+  stress    Int
+  happiness Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
