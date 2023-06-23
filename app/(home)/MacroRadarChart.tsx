@@ -16,6 +16,7 @@ import { dateToString } from "@/lib/utils";
 import { JournalLog } from "@prisma/client";
 import { Loader, Loader2 } from "lucide-react";
 import LoadingSpinner from "../(shared)/LoadingSpinner";
+import { formatISO } from "date-fns";
 
 type Props = {
   showChart: boolean;
@@ -114,7 +115,7 @@ const MacroRadarChart = ({ showChart, setShowChart }: Props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          day: selectedDate,
+          day: formatISO(selectedDate as Date),
           mood: mood,
           cravings: cravings,
           energy: energy,

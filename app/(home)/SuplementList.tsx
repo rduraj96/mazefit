@@ -13,12 +13,14 @@ import { Supplements, TransformedSupplements } from "../types";
 import Spinner from "@/components/Spinner";
 import BoxHeader from "../(shared)/BoxHeader";
 import { Button } from "@/components/ui/button";
+import { formatISO } from "date-fns";
 
 type Props = {};
 
 const SuplementList = (props: Props) => {
   const { toast } = useToast();
-  const { selectedDate, supplements, setSupplements } = useGlobalContext();
+  const { selectedDate, supplements, setSupplements, loading } =
+    useGlobalContext();
   const [daySupplements, setDaySupplements] = useState<
     TransformedSupplements[]
   >([]);
@@ -156,7 +158,7 @@ const SuplementList = (props: Props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          day: selectedDate,
+          day: formatISO(selectedDate as Date),
           isTaken: true,
         }),
       });
@@ -189,71 +191,73 @@ const SuplementList = (props: Props) => {
         <Button
           className="text-neutral-400 hover:text-white"
           onClick={() => setIsNewSupp(true)}
+          disabled={loading as boolean}
         >
           <AiOutlinePlus />
         </Button>
       </div>
 
-      <div className="h-48 mb-4">
-        <ScrollArea className="h-full px-2 mt-2">
-          {daySupplements &&
-            daySupplements.map((supplement, index) => (
-              <div
-                key={index}
-                className="flex items-center space-x-3 mb-4 group transition-transform"
-              >
-                {isLoading.index === index && isLoading.state ? (
-                  <Spinner spinColor="fill-[#a8bbd1]" />
-                ) : (
-                  <Checkbox
-                    className="duration-300"
-                    id={supplement.name}
-                    checked={supplement.isTaken}
-                    onCheckedChange={(checked) => {
-                      supplement.logId === 0
-                        ? handleUpdateNew(supplement.id)
-                        : handleUpdateExisting(
-                            supplement.id,
-                            supplement.logId,
-                            checked as boolean,
-                            index
-                          );
-                    }}
-                  />
-                )}
-                <Label
-                  htmlFor={supplement.name}
-                  className="text-md text-card-foreground font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {supplement.name}
-                </Label>
-                <div
-                  className="invisible absolute right-2 group-hover:visible"
-                  onClick={() => handleDelete(supplement.id, supplement.name)}
-                >
-                  <TiDelete className="text-[#a8bbd1]" />
-                </div>
-              </div>
-            ))}
-          {isNewSupp && (
-            <form
+      <ScrollArea
+        className="h-64 px-2 mt-2 mb-4 shadow-none"
+        placeholder="Poop"
+      >
+        {daySupplements &&
+          daySupplements.map((supplement, index) => (
+            <div
+              key={index}
               className="flex items-center space-x-3 mb-4 group transition-transform"
-              onSubmit={handleSubmit}
             >
-              <Checkbox disabled />
-              <Input
-                autoFocus
-                className="m-0 p-0 text-md text-card-foreground leading-none border-none ring-0 focus-visible:ring-0 h-5"
-                onBlur={() => setIsNewSupp(false)}
-                placeholder="Add new supplement"
-                type="text"
-                value={newSupp}
-                onChange={(e) => setNewSupp(e.target.value)}
-              />
-            </form>
-          )}
-        </ScrollArea>
-      </div>
+              {isLoading.index === index && isLoading.state ? (
+                <Spinner spinColor="fill-[#a8bbd1]" />
+              ) : (
+                <Checkbox
+                  className="duration-300"
+                  id={supplement.name}
+                  checked={supplement.isTaken}
+                  onCheckedChange={(checked) => {
+                    supplement.logId === 0
+                      ? handleUpdateNew(supplement.id)
+                      : handleUpdateExisting(
+                          supplement.id,
+                          supplement.logId,
+                          checked as boolean,
+                          index
+                        );
+                  }}
+                />
+              )}
+              <Label
+                htmlFor={supplement.name}
+                className="text-md text-card-foreground font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {supplement.name}
+              </Label>
+              <div
+                className="invisible group-hover:visible"
+                onClick={() => handleDelete(supplement.id, supplement.name)}
+              >
+                <TiDelete className="text-[#a8bbd1]" />
+              </div>
+            </div>
+          ))}
+        {isNewSupp && (
+          <form
+            className="flex items-center space-x-3 mb-4 group transition-transform"
+            onSubmit={handleSubmit}
+          >
+            <Checkbox disabled />
+            <Input
+              autoFocus
+              className="m-0 p-0 text-md text-card-foreground leading-none border-none ring-0 focus-visible:ring-0 h-5"
+              onBlur={() => setIsNewSupp(false)}
+              placeholder="Add new supplement"
+              type="text"
+              value={newSupp}
+              onChange={(e) => setNewSupp(e.target.value)}
+            />
+          </form>
+        )}
+      </ScrollArea>
       {/* <div className="absoute bottom-2 w-full h-10 flex items-center justify-center cursor-pointer bg-[#c6ced6] hover:bg-[#a8bbd1] rounded-lg mt-1">
         {!isNewSupp ? (
           <div

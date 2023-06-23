@@ -2,7 +2,6 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import AddMeal from "./AddMeal";
-import { ActivityData, Meal } from "../types";
 import MealTable from "./MealTable";
 import { useGlobalContext } from "../Context/store";
 import BoxHeader from "../(shared)/BoxHeader";
@@ -14,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { dateToString } from "@/lib/utils";
 import { GiWeight, GiWeightScale } from "react-icons/gi";
-import dynamic from "next/dynamic";
 import {
   Select,
   SelectContent,
@@ -23,14 +21,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AiFillEdit, AiOutlineRadarChart } from "react-icons/ai";
+import WeightChart from "./WeightChart";
+import { formatISO } from "date-fns";
 
 type Props = {};
-
-const WithCustomLoading = dynamic(() => import("./WeightChart"), {
-  loading: () => (
-    <p className="flex justify-center items-start text-white">Loading...</p>
-  ),
-});
 
 const TertiaryTiles = (props: Props) => {
   const { meals, selectedDate } = useGlobalContext();
@@ -50,7 +44,7 @@ const TertiaryTiles = (props: Props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          day: selectedDate,
+          day: formatISO(selectedDate as Date),
           weight: Number(newWeight),
         }),
       });
@@ -159,7 +153,7 @@ const TertiaryTiles = (props: Props) => {
           </div>
 
           <ChartBox>
-            <WithCustomLoading range={range} />
+            <WeightChart range={range} />
           </ChartBox>
         </MainCard>
       </div>
