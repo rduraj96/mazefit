@@ -7,7 +7,7 @@ type Props = {
 };
 
 const ChartBox = ({ children, className }: Props) => {
-  return <div className={cn("h-full w-full", className)}>{children}</div>;
+  return <div className={cn("h-64 w-full", className)}>{children}</div>;
 };
 
 export default ChartBox;

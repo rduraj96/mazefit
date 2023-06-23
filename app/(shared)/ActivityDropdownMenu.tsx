@@ -31,9 +31,9 @@ export function DropdownMenuCheckboxes({ ...Props }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="custom" className="group">
-          <div className="flex items-center justify-center gap-2">
-            {"Style"}
+        <Button variant="default" className="group p-2">
+          <div className="flex items-center justify-center gap-2 text-neutral-400">
+            {"Filter"}
             <AiOutlineDown className="group-hover:rotate-180 rotate-0 transform duration-100" />
           </div>
         </Button>

@@ -1,13 +1,5 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 type Props = {
   className?: string;
@@ -18,7 +10,7 @@ const MainCard = ({ className, children }: Props) => {
   return (
     <div
       className={cn(
-        "bg-card rounded-xl shadow-md flex flex-col justify-right gap-y-1 p-3",
+        "bg-foreground rounded-xl shadow-md flex flex-col justify-right gap-y-1 p-3",
         className
       )}
     >

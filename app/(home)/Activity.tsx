@@ -70,6 +70,7 @@ const Activity = ({ activityData, flags }: Props) => {
           left: -15,
           bottom: 0,
         }}
+        style={{ stroke: "hsl(var(--foreground))", strokeWidth: 2 }}
       >
         <defs>
           <linearGradient id="colorData" x1="0" y1="0" x2="0" y2="1">

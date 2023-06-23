@@ -74,7 +74,7 @@ const MainTiles = ({ macros, activityData }: Props) => {
           </MacroCard>
         </div>
         <MainCard className="sm:col-span-1 col-span-2">
-          <BoxHeader>Suplements</BoxHeader>
+          {/* <BoxHeader>Suplements</BoxHeader> */}
           <SuplementList />
         </MainCard>
         <MainCard className="shadow-md cursor-pointer md:col-span-1 lg:col-span-2 col-span-2">

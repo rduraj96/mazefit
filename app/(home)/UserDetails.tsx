@@ -22,9 +22,9 @@ const UserDetails = (props: Props) => {
   const { userDetails } = useGlobalContext();
 
   return (
-    <section className="h-fit w-full pt-5 mr-7">
-      <div className="relative bg-foreground h-full shadow-md px-7 py-5 rounded-xl">
-        <div className="flex justify-between items-center">
+    <section className="h-full w-full pt-7">
+      <div className="bg-foreground h-full shadow-md px-7 py-5 rounded-xl">
+        {/* <div className="flex justify-between items-center">
           <p className="text-black text-lg font-bold">Profile</p>
           <div>
             <Dialog>
@@ -81,8 +81,7 @@ const UserDetails = (props: Props) => {
         </div>
         <div className="mt-10">
           <p className="text-black text-md font-bold">Goals</p>
-          {/* <WeightChart data={data} /> */}
-        </div>
+        </div> */}
       </div>
     </section>
   );
