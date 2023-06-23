@@ -38,7 +38,7 @@ export default function Home() {
         setMeals(data);
         setLoading(false);
       });
-  }, [setMeals]);
+  }, [setMeals]); //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetch("/api/user", {
