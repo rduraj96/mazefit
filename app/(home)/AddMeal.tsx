@@ -116,20 +116,11 @@ const AddMeal = (props: Props) => {
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          {/* <Button variant="outline">Add Meal</Button> */}
-          <div
-            className="h-10 w-10 rounded-xl flex justify-center items-center 
-                  hover:bg-[#a8bbd1] hover:text-foreground cursor-pointer group"
-            onClick={() => handleDefaults}
-          >
-            <TbBoxMultiple
-              size={16}
-              className="text-gray-200 group-hover:text-black"
-            />
-          </div>
-          {/* <h1 className="text-gray-200 hover:text-white text-sm cursor-pointer">
-                    Add Meal
-                  </h1> */}
+          <Button variant="default" className="group p-2">
+            <div className="flex items-center justify-center gap-2 text-neutral-500 group-hover:text-neutral-200">
+              {"Add Meal"}
+            </div>
+          </Button>
         </DialogTrigger>
         <DialogContent
           className={`${
@@ -141,9 +132,6 @@ const AddMeal = (props: Props) => {
           <div className={`${collapsed ? "col-span-2" : "col-span-1"}`}>
             <DialogHeader>
               <DialogTitle className="text-black">Add Meal</DialogTitle>
-              {/* <DialogDescription className="text-black">
-                Add a meal here. Click save to log the meal.
-              </DialogDescription> */}
             </DialogHeader>
             <MealPieChart data={data} />
             <div className="grid grid-cols-3 items-center gap-4 mb-2">
@@ -154,11 +142,7 @@ const AddMeal = (props: Props) => {
                 >
                   Status
                 </Label>
-                <Select
-                  onValueChange={setStatus}
-                  defaultValue={status}
-                  // value={servingList[0].label || undefined}
-                >
+                <Select onValueChange={setStatus} defaultValue={status}>
                   <SelectTrigger className="text-black">
                     <SelectValue placeholder="Serving" className="text-black" />
                   </SelectTrigger>
