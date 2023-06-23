@@ -123,7 +123,7 @@ const AddMealSearch = ({
         setProtein(data.protein);
         setCarbs(data.carbs);
         setFat(data.fat);
-        setServing(food.serving);
+        setServing(food.measures[0].label);
         setServingList(food.measures);
       }
     } catch (error: any) {

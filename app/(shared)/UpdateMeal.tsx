@@ -10,19 +10,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DialogClose } from "@radix-ui/react-dialog";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, use, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { useGlobalContext } from "../Context/store";
 import { PieChart, Pie, Cell } from "recharts";
 import { Meal } from "../types";
 import { useToast } from "@/components/ui/use-toast";
 import MealPieChart from "./MealPieChart";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   meal: Meal;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const UpdateMeal = ({ meal }: Props) => {
+const UpdateMeal = ({ meal, setOpen }: Props) => {
   const [name, setName] = useState(meal.name);
   const [status, setStatus] = useState(meal.type as string);
   const [protein, setProtein] = useState(meal.protein.toString());
@@ -30,55 +32,73 @@ const UpdateMeal = ({ meal }: Props) => {
   const [carbs, setCarbs] = useState(meal.carbs.toString());
   const [fat, setFat] = useState(meal.fat.toString());
   const { meals, setMeals } = useGlobalContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDelLoading, setIsDelLoading] = useState(false);
 
   const { toast } = useToast();
 
   const handleUpdate = async (id: number) => {
-    const response = await fetch(`/api/meals/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        type: status,
-        calories: parseInt(calories),
-        protein: parseInt(protein),
-        carbs: parseInt(carbs),
-        fat: parseInt(fat),
-      }),
-    });
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/meals/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          type: status,
+          calories: parseInt(calories),
+          protein: parseInt(protein),
+          carbs: parseInt(carbs),
+          fat: parseInt(fat),
+        }),
+      });
 
-    const data = await response.json();
-    console.log(data);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
 
-    setName("");
-    setStatus("");
-    setProtein("");
-    setCalories("");
-    setCarbs("");
-    setFat("");
-    const filteredMeals = meals.filter((meal) => meal.id != id);
-    setMeals([...filteredMeals, data]);
-    toast({
-      title: "Meal updated successfully!",
-    });
+        setName("");
+        setStatus("");
+        setProtein("");
+        setCalories("");
+        setCarbs("");
+        setFat("");
+        const filteredMeals = meals.filter((meal) => meal.id != id);
+        setMeals([...filteredMeals, data]);
+        setOpen(false);
+        setIsLoading(false);
+        toast({
+          title: "Meal updated successfully!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDelete = async (id: number) => {
-    const response = await fetch(`/api/meals/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    setIsDelLoading(true);
+    try {
+      const response = await fetch(`/api/meals/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    setMeals(meals.filter((meal, i) => meal.id !== id));
-    const data = await response.json();
-    console.log(data);
-    toast({
-      title: "Meal deleted successfully!",
-    });
+      if (response.ok) {
+        setMeals(meals.filter((meal, i) => meal.id !== id));
+        setOpen(false);
+        setIsDelLoading(false);
+        toast({
+          title: "Meal deleted successfully!",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const data = [
@@ -90,6 +110,7 @@ const UpdateMeal = ({ meal }: Props) => {
   return (
     <div>
       <MealPieChart data={data} />
+      <form></form>
       <div className="mb-4">
         <div className="flex flex-col gap-2">
           <Label htmlFor="meal" className="text-left text-black mb-0.25">
@@ -171,28 +192,30 @@ const UpdateMeal = ({ meal }: Props) => {
       {/* </div> */}
       <DialogFooter>
         <div className="w-full flex justify-between items-center">
-          <DialogClose>
-            <Button
-              type="button"
-              variant={"destructive"}
-              onClick={() => {
-                handleDelete(meal.id);
-              }}
-              className="bg-red-400"
-            >
-              Delete
-            </Button>
-          </DialogClose>
-          <DialogClose>
-            <Button
-              type="submit"
-              onClick={() => {
-                handleUpdate(meal.id);
-              }}
-            >
-              Save changes
-            </Button>
-          </DialogClose>
+          {/* <DialogClose> */}
+          <Button
+            type="button"
+            variant={"destructive"}
+            onClick={() => {
+              handleDelete(meal.id);
+            }}
+            className="bg-red-400"
+          >
+            {isDelLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Delete
+          </Button>
+          {/* </DialogClose> */}
+          {/* <DialogClose> */}
+          <Button
+            type="submit"
+            onClick={() => {
+              handleUpdate(meal.id);
+            }}
+          >
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Save changes
+          </Button>
+          {/* </DialogClose> */}
         </div>
       </DialogFooter>
     </div>

@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DialogClose } from "@radix-ui/react-dialog";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { TbBoxMultiple } from "react-icons/tb";
 import { useGlobalContext } from "../Context/store";
 import { useToast } from "@/components/ui/use-toast";
@@ -31,7 +31,7 @@ type Props = {};
 
 const AddMeal = (props: Props) => {
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Breakfast");
   const [protein, setProtein] = useState(0);
   const [calories, setCalories] = useState(0);
   const [carbs, setCarbs] = useState(0);
@@ -48,7 +48,8 @@ const AddMeal = (props: Props) => {
 
   const { toast } = useToast();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       setLoading(true);
       const response = await fetch(`/api/meals`, {
@@ -86,7 +87,7 @@ const AddMeal = (props: Props) => {
   const handleDefaults = () => {
     setOpen(false);
     setName("");
-    setStatus("");
+    setStatus("Breakfast");
     setProtein(0);
     setCalories(0);
     setCarbs(0);
@@ -134,164 +135,186 @@ const AddMeal = (props: Props) => {
               <DialogTitle className="text-black">Add Meal</DialogTitle>
             </DialogHeader>
             <MealPieChart data={data} />
-            <div className="grid grid-cols-3 items-center gap-4 mb-2">
-              <div className="flex flex-col col-span-1 gap-2">
-                <Label
-                  htmlFor="status"
-                  className="text-left text-black mb-0.25"
-                >
-                  Status
-                </Label>
-                <Select onValueChange={setStatus} defaultValue={status}>
-                  <SelectTrigger className="text-black">
-                    <SelectValue placeholder="Serving" className="text-black" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Breakfast">Breakfast</SelectItem>
-                    <SelectItem value="Lunch">Lunch</SelectItem>
-                    <SelectItem value="Dinner">Dinner</SelectItem>
-                    <SelectItem value="Snack">Snack</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col col-span-2 gap-2">
-                <div className="flex justify-between items-center mb-0.25">
-                  <Label htmlFor="meal" className="text-left text-black">
-                    Name
-                  </Label>
+            <form id="meal-form" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-3 items-center gap-4 mb-2">
+                <div className="flex flex-col col-span-1 gap-2">
                   <Label
-                    className="text-right text-black hover:text-blue-400"
-                    onClick={() => setCollapsed(!collapsed)}
+                    htmlFor="status"
+                    className="text-left text-black mb-0.25"
                   >
-                    {collapsed ? "Search for a food" : "Enter Manually"}
+                    Status
                   </Label>
+                  <Select onValueChange={setStatus} value={status} required>
+                    <SelectTrigger className="text-black">
+                      <SelectValue
+                        // placeholder="Serving"
+                        className="text-black"
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Breakfast">Breakfast</SelectItem>
+                      <SelectItem value="Lunch">Lunch</SelectItem>
+                      <SelectItem value="Dinner">Dinner</SelectItem>
+                      <SelectItem value="Snack">Snack</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-                <Input
-                  id="meal"
-                  value={name}
-                  className="col-span-1 text-black"
-                  required
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <div className="flex flex-col col-span-2 gap-2">
+                  <div className="flex justify-between items-center mb-0.25">
+                    <Label htmlFor="meal" className="text-left text-black">
+                      Name
+                    </Label>
+                    <Label
+                      className="text-right text-black hover:text-blue-400"
+                      onClick={() => setCollapsed(!collapsed)}
+                    >
+                      {collapsed ? "Search for a food" : "Enter Manually"}
+                    </Label>
+                  </div>
+                  <Input
+                    id="meal"
+                    value={name}
+                    className="col-span-1 text-black"
+                    required
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="grid grid-cols-6 items-center gap-4 mb-2">
-              <div className="flex flex-col col-span-3 gap-2">
-                <Label
-                  htmlFor="calories"
-                  className="text-left text-black mb-0.25"
-                >
-                  Calories
-                </Label>
-                <Input
-                  id="calories"
-                  value={calories}
-                  type="number"
-                  className="col-span-2 text-black"
-                  onChange={(e) => setCalories(Number(e.target.value))}
-                />
+              <div className="grid grid-cols-6 items-center gap-4 mb-2">
+                <div className="flex flex-col col-span-3 gap-2">
+                  <Label
+                    htmlFor="calories"
+                    className="text-left text-black mb-0.25"
+                  >
+                    Calories
+                  </Label>
+                  <Input
+                    id="calories"
+                    value={calories}
+                    type="number"
+                    className="col-span-2 text-black"
+                    onChange={(e) => setCalories(Number(e.target.value))}
+                    required
+                  />
+                </div>
+                <div className="flex flex-col col-span-1 gap-2">
+                  <Label
+                    htmlFor="quantity"
+                    className="text-left text-black mb-0.25"
+                  >
+                    Qty
+                  </Label>
+                  <Input
+                    id="quantity"
+                    value={quantity}
+                    className="col-span-2 text-black"
+                    onChange={(e) => {
+                      setQuantity(Number(e.target.value));
+                    }}
+                    required
+                    onBlur={handleUpdateMacros}
+                    disabled={collapsed}
+                  />
+                </div>
+                <div className="flex flex-col col-span-2 gap-2">
+                  <Label
+                    htmlFor="serving"
+                    className="text-left text-black mb-0.25"
+                  >
+                    Serving
+                  </Label>
+                  <Select
+                    onValueChange={setServing}
+                    value={serving}
+                    onOpenChange={handleUpdateMacros}
+                    // disabled={collapsed}
+                  >
+                    <SelectTrigger className="text-black">
+                      <SelectValue
+                        placeholder="Serving"
+                        className="text-black"
+                      />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      {servingList &&
+                        servingList.map((serving, index) => (
+                          <SelectItem key={index} value={serving.label}>
+                            {serving.label}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div className="flex flex-col col-span-1 gap-2">
-                <Label
-                  htmlFor="quantity"
-                  className="text-left text-black mb-0.25"
-                >
-                  Qty
-                </Label>
-                <Input
-                  id="quantity"
-                  value={quantity}
-                  className="col-span-2 text-black"
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                  onBlur={handleUpdateMacros}
-                />
-              </div>
-              <div className="flex flex-col col-span-2 gap-2">
-                <Label
-                  htmlFor="serving"
-                  className="text-left text-black mb-0.25"
-                >
-                  Serving
-                </Label>
-                <Select onValueChange={setServing} value={serving}>
-                  <SelectTrigger className="text-black">
-                    <SelectValue placeholder="Serving" className="text-black" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {servingList &&
-                      servingList.map((serving, index) => (
-                        <SelectItem key={index} value={serving.label}>
-                          {serving.label}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4 mb-5">
-              <div className="flex flex-col gap-2">
-                <Label
-                  htmlFor="protein"
-                  className="text-left text-black mb-0.25 flex items-center justify-between"
-                >
-                  Protein
-                  <span className="relative flex h-2 w-2">
-                    <span className="relative inline-flex rounded-lg h-3 w-3 bg-[#FF7C46]"></span>
-                  </span>
-                </Label>
+              <div className="grid grid-cols-3 items-center gap-4 mb-5">
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="protein"
+                    className="text-left text-black mb-0.25 flex items-center justify-between"
+                  >
+                    Protein
+                    <span className="relative flex h-2 w-2">
+                      <span className="relative inline-flex rounded-lg h-3 w-3 bg-[#FF7C46]"></span>
+                    </span>
+                  </Label>
 
-                <Input
-                  id="protein"
-                  value={protein}
-                  type="number"
-                  className="col-span-1 text-black"
-                  onChange={(e) => setProtein(Number(e.target.value))}
-                />
+                  <Input
+                    id="protein"
+                    value={protein}
+                    type="number"
+                    className="col-span-1 text-black"
+                    onChange={(e) => setProtein(Number(e.target.value))}
+                    required
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="carbs"
+                    className="text-left text-black mb-0.25 flex items-center justify-between"
+                  >
+                    Carbs
+                    <span className="relative flex h-2 w-2">
+                      <span className="relative inline-flex rounded-lg h-3 w-3 bg-[#F95D67]"></span>
+                    </span>
+                  </Label>
+                  <Input
+                    id="carbs"
+                    value={carbs}
+                    type="number"
+                    className="col-span-1 text-black"
+                    onChange={(e) => setCarbs(Number(e.target.value))}
+                    required
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="fat"
+                    className="text-left text-black mb-0.25 flex items-center justify-between"
+                  >
+                    Fat
+                    <span className="relative flex h-2 w-2">
+                      <span className="relative inline-flex rounded-lg h-3 w-3 bg-[#D45088]"></span>
+                    </span>
+                  </Label>
+                  <Input
+                    id="fat"
+                    value={fat}
+                    type="number"
+                    className="col-span-1 text-black"
+                    onChange={(e) => setFat(Number(e.target.value))}
+                    required
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <Label
-                  htmlFor="carbs"
-                  className="text-left text-black mb-0.25 flex items-center justify-between"
-                >
-                  Carbs
-                  <span className="relative flex h-2 w-2">
-                    <span className="relative inline-flex rounded-lg h-3 w-3 bg-[#F95D67]"></span>
-                  </span>
-                </Label>
-                <Input
-                  id="carbs"
-                  value={carbs}
-                  type="number"
-                  className="col-span-1 text-black"
-                  onChange={(e) => setCarbs(Number(e.target.value))}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label
-                  htmlFor="fat"
-                  className="text-left text-black mb-0.25 flex items-center justify-between"
-                >
-                  Fat
-                  <span className="relative flex h-2 w-2">
-                    <span className="relative inline-flex rounded-lg h-3 w-3 bg-[#D45088]"></span>
-                  </span>
-                </Label>
-                <Input
-                  id="fat"
-                  value={fat}
-                  type="number"
-                  className="col-span-1 text-black"
-                  onChange={(e) => setFat(Number(e.target.value))}
-                />
-              </div>
-            </div>
+            </form>
             {/* </div> */}
             <DialogFooter className="sm:items-center sm:justify-center">
               <Button
                 type="submit"
-                onClick={() => {
-                  handleSubmit().then(() => handleDefaults());
-                }}
+                form="meal-form"
+                // onClick={() => {
+                //   handleSubmit().then(() => handleDefaults());
+                // }}
               >
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Add Meal

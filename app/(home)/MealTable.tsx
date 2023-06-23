@@ -20,6 +20,7 @@ type Props = {};
 const MealTable = ({}: Props) => {
   const { meals, selectedDate, loading } = useGlobalContext();
   const [dayMeals, setDayMeals] = useState<Meal[]>([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setDayMeals(
@@ -49,7 +50,7 @@ const MealTable = ({}: Props) => {
     <ScrollArea className="rounded-xl h-64">
       {dayMeals &&
         dayMeals.map((meal) => (
-          <Dialog key={meal.id}>
+          <Dialog key={meal.id} open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <div>
                 <TableRow key={meal.id} meal={meal} />
@@ -62,7 +63,7 @@ const MealTable = ({}: Props) => {
                   Edit or delete your meal.
                 </DialogDescription>
               </DialogHeader>
-              <UpdateMeal meal={meal} />
+              <UpdateMeal meal={meal} setOpen={setOpen} />
             </DialogContent>
           </Dialog>
         ))}
