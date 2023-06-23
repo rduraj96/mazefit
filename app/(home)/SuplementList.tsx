@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { useGlobalContext } from "../Context/store";
 import { Supplements, TransformedSupplements } from "../types";
 import Spinner from "@/components/Spinner";
+import BoxHeader from "../(shared)/BoxHeader";
+import { Button } from "@/components/ui/button";
 
 type Props = {};
 
@@ -22,7 +24,7 @@ const SuplementList = (props: Props) => {
   >([]);
   const [newSupp, setNewSupp] = useState("");
   const [isNewSupp, setIsNewSupp] = useState(false);
-  const [loading, setLoading] = useState({
+  const [isLoading, setIsLoading] = useState({
     index: 0,
     state: false,
   });
@@ -104,7 +106,7 @@ const SuplementList = (props: Props) => {
     idx: number
   ) => {
     try {
-      setLoading({
+      setIsLoading({
         index: idx,
         state: true,
       });
@@ -136,7 +138,7 @@ const SuplementList = (props: Props) => {
         });
 
         setSupplements(updatedArray);
-        setLoading({
+        setIsLoading({
           index: 0,
           state: false,
         });
@@ -182,6 +184,16 @@ const SuplementList = (props: Props) => {
 
   return (
     <div className="relative h-full">
+      <div className="flex justify-between items-center gap-3">
+        <BoxHeader>Supplements</BoxHeader>
+        <Button
+          className="text-neutral-400 hover:text-white"
+          onClick={() => setIsNewSupp(true)}
+        >
+          <AiOutlinePlus />
+        </Button>
+      </div>
+
       <div className="h-48 mb-4">
         <ScrollArea className="h-full px-2 mt-2">
           {daySupplements &&
@@ -190,7 +202,7 @@ const SuplementList = (props: Props) => {
                 key={index}
                 className="flex items-center space-x-3 mb-4 group transition-transform"
               >
-                {loading.index === index && loading.state ? (
+                {isLoading.index === index && isLoading.state ? (
                   <Spinner spinColor="fill-[#a8bbd1]" />
                 ) : (
                   <Checkbox
@@ -209,7 +221,6 @@ const SuplementList = (props: Props) => {
                     }}
                   />
                 )}
-
                 <Label
                   htmlFor={supplement.name}
                   className="text-md text-card-foreground font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -224,10 +235,26 @@ const SuplementList = (props: Props) => {
                 </div>
               </div>
             ))}
+          {isNewSupp && (
+            <form
+              className="flex items-center space-x-3 mb-4 group transition-transform"
+              onSubmit={handleSubmit}
+            >
+              <Checkbox disabled />
+              <Input
+                autoFocus
+                className="m-0 p-0 text-md text-card-foreground leading-none border-none ring-0 focus-visible:ring-0 h-5"
+                onBlur={() => setIsNewSupp(false)}
+                placeholder="Add new supplement"
+                type="text"
+                value={newSupp}
+                onChange={(e) => setNewSupp(e.target.value)}
+              />
+            </form>
+          )}
         </ScrollArea>
       </div>
-
-      <div className="absoute bottom-2 w-full h-10 flex items-center justify-center cursor-pointer bg-[#c6ced6] hover:bg-[#a8bbd1] rounded-lg mt-1">
+      {/* <div className="absoute bottom-2 w-full h-10 flex items-center justify-center cursor-pointer bg-[#c6ced6] hover:bg-[#a8bbd1] rounded-lg mt-1">
         {!isNewSupp ? (
           <div
             className="flex shadow-sm items-center justify-center h-ful w-full"
@@ -249,7 +276,7 @@ const SuplementList = (props: Props) => {
             />
           </form>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
