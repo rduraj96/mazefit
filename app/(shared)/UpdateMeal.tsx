@@ -9,11 +9,8 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DialogClose } from "@radix-ui/react-dialog";
 import React, { Dispatch, SetStateAction, use, useState } from "react";
-import { MdDeleteOutline } from "react-icons/md";
 import { useGlobalContext } from "../Context/store";
-import { PieChart, Pie, Cell } from "recharts";
 import { Meal } from "../types";
 import { useToast } from "@/components/ui/use-toast";
 import MealPieChart from "./MealPieChart";
@@ -110,16 +107,16 @@ const UpdateMeal = ({ meal, setOpen }: Props) => {
   return (
     <div>
       <MealPieChart data={data} />
-      <form></form>
+      {/* <form></form> */}
       <div className="mb-4">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="meal" className="text-left text-black mb-0.25">
+          <Label htmlFor="meal" className="text-left  mb-0.25">
             Name
           </Label>
           <Input
             id="meal"
             value={name}
-            className="col-span-1 text-black"
+            className="col-span-1 "
             required
             onChange={(e) => setName(e.target.value)}
           />
@@ -127,23 +124,23 @@ const UpdateMeal = ({ meal, setOpen }: Props) => {
       </div>
       <div className="grid grid-cols-3 items-center gap-4 mb-4">
         <div className="flex flex-col col-span-2 gap-2">
-          <Label htmlFor="calories" className="text-left text-black mb-0.25">
+          <Label htmlFor="calories" className="text-left  mb-0.25">
             Calories
           </Label>
           <Input
             id="calories"
             value={calories}
-            className="col-span-2 text-black"
+            className="col-span-2 "
             onChange={(e) => setCalories(e.target.value)}
           />
         </div>
         <div className="flex flex-col col-span-1 gap-2">
-          <Label htmlFor="status" className="text-left text-black mb-0.25">
+          <Label htmlFor="status" className="text-left  mb-0.25">
             Status
           </Label>
           <Select onValueChange={setStatus} defaultValue={status || undefined}>
-            <SelectTrigger className="text-black">
-              <SelectValue placeholder="Type" className="text-black" />
+            <SelectTrigger className="">
+              <SelectValue placeholder="Type" className="" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Breakfast">Breakfast</SelectItem>
@@ -156,35 +153,35 @@ const UpdateMeal = ({ meal, setOpen }: Props) => {
       </div>
       <div className="grid grid-cols-3 items-center gap-4 mb-4">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="protein" className="text-left text-black mb-0.25">
+          <Label htmlFor="protein" className="text-left  mb-0.25">
             Protein
           </Label>
           <Input
             id="protein"
             value={protein}
-            className="col-span-1 text-black"
+            className="col-span-1 "
             onChange={(e) => setProtein(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="carbs" className="text-left text-black mb-0.25">
+          <Label htmlFor="carbs" className="text-left  mb-0.25">
             Carbs
           </Label>
           <Input
             id="carbs"
             value={carbs}
-            className="col-span-1 text-black"
+            className="col-span-1 "
             onChange={(e) => setCarbs(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="fat" className="text-left text-black mb-0.25">
+          <Label htmlFor="fat" className="text-left  mb-0.25">
             Fat
           </Label>
           <Input
             id="fat"
             value={fat}
-            className="col-span-1 text-black"
+            className="col-span-1 "
             onChange={(e) => setFat(e.target.value)}
           />
         </div>
