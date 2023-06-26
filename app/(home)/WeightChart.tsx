@@ -10,19 +10,19 @@ import {
   LineChart,
   Line,
 } from "recharts";
-import CustomTooltip from "../(shared)/CustomTooltip";
+import CustomTooltip from "../(shared)/WeightCustomTooltip";
 import { dateToString } from "@/lib/utils";
-import { time } from "console";
 import { WeightData } from "../types";
-import { GiWeightScale } from "react-icons/gi";
 import { useGlobalContext } from "../Context/store";
 import LoadingSpinner from "../(shared)/LoadingSpinner";
+import { Scale } from "lucide-react";
 
 type Props = {
   range: string;
+  isNewWeight: boolean;
 };
 
-const WeightChart = ({ range }: Props) => {
+const WeightChart = ({ range, isNewWeight }: Props) => {
   const { selectedDate } = useGlobalContext();
   const [weightData, setWeightData] = useState<WeightData[]>([]);
   // const [weeklyTicks, setWeeklyTicks] = useState<Array<number>>([]);
@@ -54,8 +54,7 @@ const WeightChart = ({ range }: Props) => {
         }
         setLoading(false);
       });
-  }, [range]);
-  0;
+  }, [isNewWeight, range]);
 
   const getTicks = (latestEntry: number, selectedRange: string) => {
     const ticks = [];
@@ -111,9 +110,9 @@ const WeightChart = ({ range }: Props) => {
             <Line
               type="monotone"
               dataKey="weight"
-              stroke="url(#colorUv)"
+              stroke="hsl(var(--muted-foreground))"
               strokeWidth={4}
-              isAnimationActive={false}
+              // isAnimationActive={false}
               // animationDuration={duration}
             />
           )}
@@ -130,6 +129,7 @@ const WeightChart = ({ range }: Props) => {
             // ticks={range === "week" ? weeklyTicks : monthlyTicks}
             ticks={ticks}
             scale={"time"}
+            tick={{ fill: "hsl(var(--muted-foreground))" }}
             // tickCount={7}
             // interval={0}
           />
@@ -139,8 +139,15 @@ const WeightChart = ({ range }: Props) => {
             tickLine={false}
             domain={["dataMin - 20", "auto"]}
             padding={{ top: 20, bottom: 20 }}
+            tick={{ fill: "hsl(var(--muted-foreground))" }}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip
+            cursor={{
+              stroke: "hsl(var(--muted))",
+              strokeDasharray: 3,
+            }}
+            content={<CustomTooltip />}
+          />
         </LineChart>
       ) : loading ? (
         <LoadingSpinner />
@@ -149,7 +156,7 @@ const WeightChart = ({ range }: Props) => {
           <p>
             Click{" "}
             <span className="inline-flex bg-background rounded-lg p-1">
-              <GiWeightScale />
+              <Scale />
             </span>{" "}
             to start tracking your weight.
           </p>
