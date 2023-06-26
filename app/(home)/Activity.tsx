@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { ActivityData } from "../types";
 import { useGlobalContext } from "../Context/store";
-import CustomTooltip from "../(shared)/CustomTooltip";
+import CustomTooltip from "../(shared)/ActivityCustomTooltip";
 
 type Flags = {
   protein: boolean;
@@ -70,7 +70,7 @@ const Activity = ({ activityData, flags }: Props) => {
           left: -15,
           bottom: 0,
         }}
-        style={{ stroke: "hsl(var(--foreground))", strokeWidth: 2 }}
+        style={{ stroke: "hsl(var(--card))", strokeWidth: 2 }}
       >
         <defs>
           <linearGradient id="colorData" x1="0" y1="0" x2="0" y2="1">
@@ -88,14 +88,16 @@ const Activity = ({ activityData, flags }: Props) => {
         </defs>
         <XAxis
           dataKey={"formattedDay"}
-          style={{ fontSize: "10px" }}
+          style={{ fontSize: "12px" }}
           axisLine={false}
           tickLine={false}
           padding={{ left: 15, right: 15 }}
+          tick={{ fill: "hsl(var(--muted-foreground))" }}
         />
         <YAxis
-          style={{ fontSize: "10px" }}
+          style={{ fontSize: "12px" }}
           domain={[0, "auto"]}
+          tick={{ fill: "hsl(var(--muted-foreground))" }}
           axisLine={false}
           tickLine={false}
           padding={{ top: 15, bottom: 15 }}
@@ -125,9 +127,7 @@ const Activity = ({ activityData, flags }: Props) => {
               <Cell
                 key={`cell-${index}`}
                 cursor="pointer"
-                fill={
-                  index === activeIndex ? "url(#colorData)" : "url(#colorHover)"
-                }
+                fill={"hsl(var(--muted))"}
                 onClick={() => handleClick(entry.day, index)}
               />
             ))}
@@ -140,7 +140,7 @@ const Activity = ({ activityData, flags }: Props) => {
               <Cell
                 key={`cell-${index}`}
                 cursor="pointer"
-                fill={"#FF7C46"}
+                fill={"hsl(var(--protein))"}
                 onClick={() => handleClick(entry.day, index)}
               />
             ))}
@@ -153,7 +153,7 @@ const Activity = ({ activityData, flags }: Props) => {
               <Cell
                 key={`cell-${index}`}
                 cursor="pointer"
-                fill={"#F95D67"}
+                fill={"hsl(var(--carbs))"}
                 onClick={() => handleClick(entry.day, index)}
               />
             ))}
@@ -166,7 +166,7 @@ const Activity = ({ activityData, flags }: Props) => {
               <Cell
                 key={`cell-${index}`}
                 cursor="pointer"
-                fill={"#D45088"}
+                fill={"hsl(var(--fat))"}
                 onClick={() => handleClick(entry.day, index)}
               />
             ))}

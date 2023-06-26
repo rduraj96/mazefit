@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { AiOutlinePlus, AiTwotoneEdit } from "react-icons/ai";
-import { TiDelete } from "react-icons/ti";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import { Label } from "@/components/ui/label";
@@ -11,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { useGlobalContext } from "../Context/store";
 import { Supplements, TransformedSupplements } from "../types";
 import Spinner from "@/components/Spinner";
-import BoxHeader from "../(shared)/BoxHeader";
 import { Button } from "@/components/ui/button";
 import { formatISO } from "date-fns";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Plus, XCircle } from "lucide-react";
 
 type Props = {};
 
@@ -185,79 +184,89 @@ const SuplementList = (props: Props) => {
   };
 
   return (
-    <div className="relative h-full">
-      <div className="flex justify-between items-center gap-3">
-        <BoxHeader>Supplements</BoxHeader>
-        <Button
-          className="text-neutral-400 hover:text-white"
-          onClick={() => setIsNewSupp(true)}
-          disabled={loading as boolean}
-        >
-          <AiOutlinePlus />
-        </Button>
-      </div>
-
-      <ScrollArea
-        className="h-64 px-2 mt-2 mb-4 shadow-none"
-        placeholder="Poop"
-      >
-        {daySupplements &&
-          daySupplements.map((supplement, index) => (
-            <div
-              key={index}
-              className="flex items-center space-x-3 mb-4 group transition-transform"
-            >
-              {isLoading.index === index && isLoading.state ? (
-                <Spinner spinColor="fill-[#a8bbd1]" />
-              ) : (
-                <Checkbox
-                  className="duration-300"
-                  id={supplement.name}
-                  checked={supplement.isTaken}
-                  onCheckedChange={(checked) => {
-                    supplement.logId === 0
-                      ? handleUpdateNew(supplement.id)
-                      : handleUpdateExisting(
-                          supplement.id,
-                          supplement.logId,
-                          checked as boolean,
-                          index
-                        );
-                  }}
-                />
-              )}
-              <Label
-                htmlFor={supplement.name}
-                className="text-md text-card-foreground font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {supplement.name}
-              </Label>
-              <div
-                className="invisible group-hover:visible"
-                onClick={() => handleDelete(supplement.id, supplement.name)}
-              >
-                <TiDelete className="text-[#a8bbd1]" />
-              </div>
-            </div>
-          ))}
-        {isNewSupp && (
-          <form
-            className="flex items-center space-x-3 mb-4 group transition-transform"
-            onSubmit={handleSubmit}
+    <Card className="relative h-full w-full">
+      <CardHeader>
+        <div className="flex justify-between items-center gap-3 overflow-auto">
+          {/* <BoxHeader>Supplements</BoxHeader> */}
+          <CardTitle>Supplements</CardTitle>
+          <Button
+            // className="text-neutral-400 hover:text-white"
+            onClick={() => setIsNewSupp(true)}
+            disabled={loading as boolean}
+            variant={"outline"}
+            size={"icon"}
           >
-            <Checkbox disabled />
-            <Input
-              autoFocus
-              className="m-0 p-0 text-md text-card-foreground leading-none border-none ring-0 focus-visible:ring-0 h-5"
-              onBlur={() => setIsNewSupp(false)}
-              placeholder="Add new supplement"
-              type="text"
-              value={newSupp}
-              onChange={(e) => setNewSupp(e.target.value)}
-            />
-          </form>
-        )}
-      </ScrollArea>
+            <Plus size={18} />
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <ScrollArea
+          className="h-64 px-2 mt-2 mb-4 shadow-none"
+          placeholder="Poop"
+        >
+          {daySupplements &&
+            daySupplements.map((supplement, index) => (
+              <div
+                key={index}
+                className="flex items-center space-x-3 mb-4 group transition-transform relative"
+              >
+                {isLoading.index === index && isLoading.state ? (
+                  <Spinner spinColor="fill-[hsl(var(--primary))]" />
+                ) : (
+                  <Checkbox
+                    className="duration-300"
+                    id={supplement.name}
+                    checked={supplement.isTaken}
+                    onCheckedChange={(checked) => {
+                      supplement.logId === 0
+                        ? handleUpdateNew(supplement.id)
+                        : handleUpdateExisting(
+                            supplement.id,
+                            supplement.logId,
+                            checked as boolean,
+                            index
+                          );
+                    }}
+                  />
+                )}
+                <Label
+                  htmlFor={supplement.name}
+                  className="text-md text-card-foreground font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                >
+                  {supplement.name}
+                </Label>
+                <div
+                  className="invisible group-hover:visible absolute right-3 cursor-pointer"
+                  onClick={() => handleDelete(supplement.id, supplement.name)}
+                >
+                  <XCircle
+                    className="text-destructive hover:fill-destructive hover:text-background"
+                    size={16}
+                  />
+                </div>
+              </div>
+            ))}
+          {isNewSupp && (
+            <form
+              className="flex items-center space-x-3 mb-4 group transition-transform"
+              onSubmit={handleSubmit}
+            >
+              <Checkbox disabled />
+              <Input
+                autoFocus
+                className="m-0 p-0 text-md text-card-foreground leading-none border-none ring-0 focus-visible:ring-0 h-5"
+                onBlur={() => setIsNewSupp(false)}
+                placeholder="Add new supplement"
+                type="text"
+                value={newSupp}
+                onChange={(e) => setNewSupp(e.target.value)}
+              />
+            </form>
+          )}
+        </ScrollArea>
+      </CardContent>
+
       {/* <div className="absoute bottom-2 w-full h-10 flex items-center justify-center cursor-pointer bg-[#c6ced6] hover:bg-[#a8bbd1] rounded-lg mt-1">
         {!isNewSupp ? (
           <div
@@ -281,7 +290,7 @@ const SuplementList = (props: Props) => {
           </form>
         )}
       </div> */}
-    </div>
+    </Card>
   );
 };
 

@@ -149,9 +149,9 @@ const MacroRadarChart = ({ showChart, setShowChart }: Props) => {
         />
         <Radar
           dataKey="mark"
-          stroke="#8884d8"
-          fill="#8884d8"
-          fillOpacity={0.6}
+          stroke="hsl(var(--muted-foreground))"
+          fill="hsl(var(--muted-foreground))"
+          fillOpacity={0.8}
           isAnimationActive={false}
         />
       </RadarChart>

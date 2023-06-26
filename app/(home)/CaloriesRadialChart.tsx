@@ -8,10 +8,12 @@ import {
   PolarAngleAxis,
   Cell,
   Tooltip,
+  LabelProps,
+  Label,
 } from "recharts";
 import { Macros } from "../types";
 import { getPercentage } from "@/lib/utils";
-import CustomTooltip from "../(shared)/CustomTooltip";
+import CustomTooltip from "../(shared)/WeightCustomTooltip";
 
 type Props = {
   macros: Macros;
@@ -25,25 +27,25 @@ const CaloriesRadialChart = ({ macros }: Props) => {
       name: "Fat",
       uv: getPercentage(macros.fat, macroGoals.fat),
       pv: macros.fat,
-      fill: "#D45088",
+      fill: "hsl(var(--fat))",
     },
     {
       name: "Carbs",
       uv: getPercentage(macros.carbs, macroGoals.carbs),
       pv: macros.carbs,
-      fill: "#F95D67",
+      fill: "hsl(var(--carbs))",
     },
     {
       name: "Protein",
       uv: getPercentage(macros.protein, macroGoals.protein),
       pv: macros.protein,
-      fill: "#FF7C46",
+      fill: "hsl(var(--protein))",
     },
     {
       name: "Calories",
       uv: getPercentage(macros.calories, macroGoals.calories),
       pv: macros.calories,
-      fill: "#FFA600",
+      fill: "hsl(var(--calories))",
     },
   ];
 
@@ -61,8 +63,8 @@ const CaloriesRadialChart = ({ macros }: Props) => {
   const [isLabel, setIsLabel] = useState(false);
 
   const onRadialEnter = () => {
-    setStartAngle(-135);
-    setEndAngle(135);
+    setStartAngle(90);
+    setEndAngle(-180);
     setIsLabel(true);
   };
 
@@ -84,8 +86,8 @@ const CaloriesRadialChart = ({ macros }: Props) => {
         barCategoryGap="60%"
         startAngle={startAngle}
         endAngle={endAngle}
-        // onMouseEnter={onRadialEnter}
-        // onMouseLeave={onRadialLeave}
+        onMouseEnter={onRadialEnter}
+        onMouseLeave={onRadialLeave}
       >
         <PolarAngleAxis
           type="number"
@@ -96,11 +98,20 @@ const CaloriesRadialChart = ({ macros }: Props) => {
         <RadialBar
           dataKey="uv"
           // fill="#0BEFF2"
-          background={{ fill: "#a8bbd1" }}
+          background={{ fill: "hsl(var(--muted))" }}
           cornerRadius={10}
           animationDuration={duration}
-          label={isLabel && { position: "end", fill: "#fff" }}
+          label={
+            isLabel && {
+              fill: "hsl(var(--primary-))",
+              position: "insideStart",
+              fontWeight: "bold",
+              // enableBackground: "#ccc",
+              // backgroundColor: "#ccc"
+            }
+          }
         />
+        {/* <Label content={<CustomLabel />} position={"insideStart"} /> */}
 
         {/* <Legend
           iconSize={6}

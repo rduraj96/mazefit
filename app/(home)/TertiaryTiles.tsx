@@ -1,18 +1,15 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddMeal from "./AddMeal";
 import MealTable from "./MealTable";
 import { useGlobalContext } from "../Context/store";
-import BoxHeader from "../(shared)/BoxHeader";
 import ChartBox from "../(shared)/ChartBox";
-import MainCard from "../(shared)/MainCard";
 import MacroRadarChart from "./MacroRadarChart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { dateToString } from "@/lib/utils";
-import { GiWeight, GiWeightScale } from "react-icons/gi";
 import {
   Select,
   SelectContent,
@@ -20,9 +17,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AiFillEdit, AiOutlineRadarChart } from "react-icons/ai";
 import WeightChart from "./WeightChart";
 import { formatISO } from "date-fns";
+import NewMainCard from "../(shared)/NewMainCard";
+import { CardTitle } from "@/components/ui/card";
+import { Edit2, Save, Scale } from "lucide-react";
 
 type Props = {};
 
@@ -66,96 +65,114 @@ const TertiaryTiles = (props: Props) => {
 
   return (
     <section className="relative mx-7 mt-7">
-      <div className="w-full grid grid-auto-fit-lg gap-7 mx-auto">
+      <div className="w-full grid grid-auto-fit-lg lg:grid-cols-3 2xl:grid-cols-5 gap-7 mx-auto">
         {/* RECENT MEALS TABLE*/}
-        <MainCard className="col-span-2 min-h-full">
-          <div className="flex justify-between items-center pb-2">
-            <BoxHeader>Recent Meals</BoxHeader>
-            <div className="lg:h-full">
-              <AddMeal />
+        <NewMainCard
+          className="col-span-2"
+          header={
+            <div className="flex justify-between items-center">
+              <CardTitle>Recent Meals</CardTitle>
+              <div className="lg:h-full">
+                <AddMeal />
+              </div>
             </div>
-          </div>
+          }
+        >
           <MealTable />
-        </MainCard>
+        </NewMainCard>
         {/* JOURNAL AND CHART*/}
-        <MainCard className="lg:col-span-1 col-span-2">
-          <div className="flex justify-between items-center gap-3">
-            <BoxHeader>Journal</BoxHeader>
-            <Button
-              form="journal-form"
-              type="submit"
-              className="text-neutral-400"
-              // onClick={() => setShowChart(!showChart)}
-            >
-              {!showChart ? <AiOutlineRadarChart /> : <AiFillEdit />}
-            </Button>
-          </div>
+        <NewMainCard
+          className="lg:col-span-1 col-span-2"
+          header={
+            <div className="flex justify-between items-center gap-3">
+              <CardTitle>Journal</CardTitle>
+              <Button
+                form="journal-form"
+                type="submit"
+                className=""
+                variant={"outline"}
+                size={"icon"}
+                // onClick={() => setShowChart(!showChart)}
+              >
+                {!showChart ? <Save size={18} /> : <Edit2 size={16} />}
+              </Button>
+            </div>
+          }
+        >
           <ChartBox>
             <MacroRadarChart
               showChart={showChart}
               setShowChart={setShowChart}
             />
           </ChartBox>
-        </MainCard>
+        </NewMainCard>
         {/* WEIGHT CHART */}
-        <MainCard className="col-span-2">
-          <div className="flex justify-between items-center gap-3">
-            <BoxHeader>Weight</BoxHeader>
-            <div className="flex gap-3">
-              <Button variant="default" className="group p-0">
-                {!isNewWeight ? (
-                  <div
-                    className="flex text-neutral-400 shadow-sm items-center justify-center h-full mx-3"
-                    onClick={() => setIsNewWeight(true)}
-                  >
-                    {/* {"Log Weight"} */}
-                    <GiWeightScale />
-                  </div>
-                ) : (
-                  <form
-                    className="flex justify-between items-center h-full"
-                    onSubmit={handleSubmit}
-                  >
-                    <Input
-                      id="weight"
-                      type="number"
-                      value={newWeight}
-                      placeholder={`Log weight for ${dateToString(
-                        selectedDate as Date
-                      )}`}
-                      onBlur={() => setIsNewWeight(false)}
-                      autoFocus={true}
-                      className="h-full w-full m-0 border-none py-0 text-neutral-700 focus-visible:ring-0 focus-visible:border-[#191b1b]"
-                      onChange={(e) => setNewWeight(e.target.value)}
-                    />
-                    <div className="h-full w-10 text-md bg-[#191b1b] rounded-r-lg text-neutral-500 flex justify-center items-center">
-                      lb
+        <NewMainCard
+          className="col-span-2 lg:col-span-3 2xl:col-span-2"
+          header={
+            <div className="flex justify-between items-center gap-3">
+              <CardTitle>Weight</CardTitle>
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="group w-full border-2"
+                  size={"icon"}
+                >
+                  {!isNewWeight ? (
+                    <div
+                      className="flex items-center justify-center h-full mx-2 my-1"
+                      onClick={() => setIsNewWeight(true)}
+                    >
+                      {/* {"Log Weight"} */}
+                      <Scale size={18} />
                     </div>
-                  </form>
-                )}
-              </Button>
-              <Select onValueChange={setRange} defaultValue={range}>
-                <SelectTrigger className="text-black border-none bg-background w-fit line-clamp-1">
-                  <SelectValue placeholder="Range" className="text-black" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="week">7 Days</SelectItem>
-                  <SelectItem value="month">30 Days</SelectItem>
-                  <SelectItem value="sixmonths" disabled>
-                    {"6 Months (Avg)"}
-                  </SelectItem>
-                  <SelectItem value="year" disabled>
-                    {"Year (Avg)"}
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+                  ) : (
+                    <form
+                      className="flex justify-between items-center h-full"
+                      onSubmit={handleSubmit}
+                    >
+                      <Input
+                        id="weight"
+                        type="number"
+                        value={newWeight}
+                        max={500}
+                        placeholder={`Log weight for ${dateToString(
+                          selectedDate as Date
+                        )}`}
+                        onBlur={() => setIsNewWeight(false)}
+                        autoFocus={true}
+                        className="h-full w-full m-0 py-0 text-neutral-700 focus-visible:ring-0 focus-visible:border-primary rounded-r-none"
+                        onChange={(e) => setNewWeight(e.target.value)}
+                      />
+                      <div className="h-full w-10 text-md bg-primary rounded-r-sm text-primary-foreground flex justify-center items-center">
+                        lb
+                      </div>
+                    </form>
+                  )}
+                </Button>
+                <Select onValueChange={setRange} defaultValue={range}>
+                  <SelectTrigger className="w-fit line-clamp-1 shrink-0">
+                    <SelectValue placeholder="Range" className="text-black" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="week">7 Days</SelectItem>
+                    <SelectItem value="month">30 Days</SelectItem>
+                    <SelectItem value="sixmonths" disabled>
+                      {"6 Months (Avg)"}
+                    </SelectItem>
+                    <SelectItem value="year" disabled>
+                      {"Year (Avg)"}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </div>
-
+          }
+        >
           <ChartBox>
-            <WeightChart range={range} />
+            <WeightChart range={range} isNewWeight={isNewWeight} />
           </ChartBox>
-        </MainCard>
+        </NewMainCard>
       </div>
     </section>
   );

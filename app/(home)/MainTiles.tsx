@@ -1,26 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { BsFillDropletFill } from "react-icons/bs";
-import {
-  GiSlicedBread,
-  GiDroplets,
-  GiGrainBundle,
-  GiCharcuterie,
-  GiMeat,
-} from "react-icons/gi";
-import { AiFillFire } from "react-icons/ai";
-import MainCard from "../(shared)/MainCard";
 import { ActivityData, Macros } from "../types";
 import CaloriesRadialChart from "./CaloriesRadialChart";
-import WeightChart from "./WeightChart";
-import BoxHeader from "../(shared)/BoxHeader";
 import ChartBox from "../(shared)/ChartBox";
 import Activity from "./Activity";
 import MacroCard from "../(shared)/MacroCard";
 import SuplementList from "./SuplementList";
-import { Button } from "@/components/ui/button";
-import { useGlobalContext } from "../Context/store";
 import { DropdownMenuCheckboxes } from "../(shared)/ActivityDropdownMenu";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import NewMainCard from "../(shared)/NewMainCard";
+import { CardTitle } from "@/components/ui/card";
 
 type Props = {
   macros: Macros;
@@ -30,65 +18,64 @@ type Props = {
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 const MainTiles = ({ macros, activityData }: Props) => {
-  const [proteinEnabled, setProteinEnabled] = useState<Checked>(false);
-  const [carbsEnabled, setCarbsEnabled] = useState<Checked>(false);
-  const [fatEnabled, setFatEnabled] = useState<Checked>(false);
+  const [proteinEnabled, setProteinEnabled] = useState<Checked>(true);
+  const [carbsEnabled, setCarbsEnabled] = useState<Checked>(true);
+  const [fatEnabled, setFatEnabled] = useState<Checked>(true);
 
   return (
     <section className="relative mx-7 pt-5">
-      <div className="w-full grid grid-auto-fit-md gap-7 mx-auto">
-        <MainCard className="cursor-pointer sm:col-span-1 col-span-2">
-          <BoxHeader>Overview</BoxHeader>
+      <div className="w-full grid gap-7 mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+        <NewMainCard
+          // header={<BoxHeader>Overview</BoxHeader>}
+          title="Overview"
+          className="cursor-pointer col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-1 xl:col-span-2 2xl:col-span-1"
+        >
           <ChartBox>
             <CaloriesRadialChart macros={macros} />
           </ChartBox>
-        </MainCard>
-        <div className="grid grid-auto-fit-md col-span-2 gap-7">
+        </NewMainCard>
+        <div className="grid grid-auto-fit-md 2xl:grid-auto-fit-sm col-span-1 sm:col-span-2 lg: gap-7">
           <MacroCard
             header="Calories"
-            className="hover:bg-[#FFA600]"
+            hoverColor="hover:bg-calories"
+            // numberColor="bg-calories"
             macro={macros.calories}
-          >
-            <GiCharcuterie size={"5rem"} />
-          </MacroCard>
+          ></MacroCard>
           <MacroCard
             header="Protein"
-            className="hover:bg-[#FF7C46]"
+            hoverColor="hover:bg-protein"
+            // numberColor="bg-protein"
             macro={macros.protein}
-          >
-            <GiMeat size={"5rem"} />
-          </MacroCard>
+          ></MacroCard>
           <MacroCard
             header="Carbs"
-            className="hover:bg-[#F95D67]"
+            hoverColor="hover:bg-carbs"
+            // numberColor="bg-carbs"
             macro={macros.carbs}
-          >
-            <GiGrainBundle size={"5rem"} />
-          </MacroCard>
+          ></MacroCard>
           <MacroCard
             header="Fat"
-            className="hover:bg-[#D45088]"
+            hoverColor="hover:bg-fat"
+            // numberColor={"bg-fat"}
             macro={macros.fat}
-          >
-            <GiDroplets size={"5rem"} />
-          </MacroCard>
+          ></MacroCard>
         </div>
-        <MainCard className="sm:col-span-1 col-span-2">
-          {/* <BoxHeader>Suplements</BoxHeader> */}
-          <SuplementList />
-        </MainCard>
-        <MainCard className="shadow-md cursor-pointer md:col-span-1 lg:col-span-2 col-span-2">
-          <BoxHeader>
-            {"Recent Activity"}
-            <DropdownMenuCheckboxes
-              protein={proteinEnabled}
-              setProtein={setProteinEnabled}
-              carbs={carbsEnabled}
-              setCarbs={setCarbsEnabled}
-              fat={fatEnabled}
-              setFat={setFatEnabled}
-            />
-          </BoxHeader>
+        <NewMainCard
+          className="cursor-pointer col-span-1 sm:col-span-2 lg:col-span-2 xl:col-span-3 2xl:col-span-2"
+          header={
+            <CardTitle className="flex justify-between items-center w-full">
+              {"Recent Activity"}
+              <DropdownMenuCheckboxes
+                protein={proteinEnabled}
+                setProtein={setProteinEnabled}
+                carbs={carbsEnabled}
+                setCarbs={setCarbsEnabled}
+                fat={fatEnabled}
+                setFat={setFatEnabled}
+              />
+            </CardTitle>
+          }
+        >
           <ChartBox>
             <Activity
               activityData={activityData}
@@ -99,7 +86,14 @@ const MainTiles = ({ macros, activityData }: Props) => {
               }}
             />
           </ChartBox>
-        </MainCard>
+        </NewMainCard>
+        <div
+          // title="Supplements"
+          className="col-span-1 sm:col-span-2 lg:col-span-1 xl:col-span-1"
+        >
+          {/* <BoxHeader>Suplements</BoxHeader> */}
+          <SuplementList />
+        </div>
       </div>
     </section>
   );

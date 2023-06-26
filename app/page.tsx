@@ -54,9 +54,9 @@ export default function Home() {
         setUserDetails(data);
         setMacroGoals({
           calories: goalCalories,
-          protein: Math.round((goalCalories * 0.35) / 4),
+          protein: Math.round((goalCalories * 0.3) / 4),
           carbs: Math.round((goalCalories * 0.35) / 4),
-          fat: Math.round((goalCalories * 0.3) / 9),
+          fat: Math.round((goalCalories * 0.35) / 9),
         });
       });
   }, [setMacroGoals, setUserDetails]);
@@ -176,7 +176,9 @@ export default function Home() {
       <div className="w-ful h-full flex-col">
         <div
           className={`${
-            profileClicked ? "h-48" : "h-0 invisible"
+            profileClicked
+              ? "h-fit"
+              : "h-0 invisible transition-all fade-out-20"
           } transition-all duration-400 mx-7`}
         >
           <UserDetails />

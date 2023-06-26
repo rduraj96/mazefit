@@ -1,9 +1,12 @@
-const { fontFamily } = require("tailwindcss/defaultTheme")
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: [ "class" ],
-  content: [ "app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}" ],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
   theme: {
     container: {
       center: true,
@@ -47,10 +50,25 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        alternate: {
+          DEFAULT: "hsl(var(--alternate))"
+        },
+        calories: {
+          DEFAULT: "hsl(var(--calories))"
+        },
+        protein: {
+          DEFAULT: "hsl(var(--protein))"
+        },
+        carbs: {
+          DEFAULT: "hsl(var(--carbs))"
+        },
+        fat: {
+          DEFAULT: "hsl(var(--fat))"
+        },
       },
       borderRadius: {
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
