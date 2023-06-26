@@ -14,6 +14,7 @@ import { useGlobalContext } from "../Context/store";
 import TableRow from "../(shared)/TableRow";
 import UpdateMeal from "../(shared)/UpdateMeal";
 import LoadingSpinner from "../(shared)/LoadingSpinner";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {};
 
@@ -21,6 +22,7 @@ const MealTable = ({}: Props) => {
   const { meals, selectedDate, loading } = useGlobalContext();
   const [dayMeals, setDayMeals] = useState<Meal[]>([]);
   const [open, setOpen] = useState(false);
+  const [currentMeal, setCurrentMeal] = useState<Meal | null>();
 
   useEffect(() => {
     setDayMeals(
@@ -36,7 +38,7 @@ const MealTable = ({}: Props) => {
     <div className="text-neutral-400 flex items-center justify-center h-full w-full">
       <p>
         Click{" "}
-        <span className="inline-flex bg-background rounded-md px-1 py-2 text-xs">
+        <span className="inline-flex bg-background rounded-md border px-1 py-2 text-xs">
           Add Meal
         </span>{" "}
         to log a meal.
@@ -47,27 +49,35 @@ const MealTable = ({}: Props) => {
   return loading ? (
     <LoadingSpinner />
   ) : dayMeals.length > 0 ? (
-    <ScrollArea className="rounded-xl h-64">
-      {dayMeals &&
-        dayMeals.map((meal) => (
-          <Dialog key={meal.id} open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <ScrollArea className="rounded-lg min-h-64 pr-3 h-full">
+        {dayMeals &&
+          dayMeals.map((meal) => (
+            <DialogTrigger
+              key={meal.id}
+              onClick={() => setCurrentMeal(meal)}
+              asChild
+            >
               <div>
-                <TableRow key={meal.id} meal={meal} />
+                <TableRow meal={meal} />
+                <Separator />
               </div>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle className="text-black">{meal.name}</DialogTitle>
-                <DialogDescription className="text-black">
-                  Edit or delete your meal.
-                </DialogDescription>
-              </DialogHeader>
-              <UpdateMeal meal={meal} setOpen={setOpen} />
-            </DialogContent>
-          </Dialog>
-        ))}
-    </ScrollArea>
+          ))}
+
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="text-foreground">
+              {currentMeal?.name}
+            </DialogTitle>
+            <DialogDescription className="">
+              Edit or delete your meal.
+            </DialogDescription>
+          </DialogHeader>
+          <UpdateMeal meal={currentMeal as Meal} setOpen={setOpen} />
+        </DialogContent>
+      </ScrollArea>
+    </Dialog>
   ) : (
     <MissingData />
   );

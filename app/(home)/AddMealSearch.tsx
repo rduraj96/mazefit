@@ -1,10 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AiOutlineSearch } from "react-icons/ai";
 import React, { Dispatch, useEffect, useState } from "react";
 import SearchFoodCard from "../(shared)/SearchFoodCard";
 import { FoodItem, Macros, Measure } from "../types";
 import Spinner from "@/components/Spinner";
+import { Search } from "lucide-react";
 
 type Props = {
   setName: Dispatch<React.SetStateAction<string>>;
@@ -16,6 +16,7 @@ type Props = {
   setServing: Dispatch<React.SetStateAction<string>>;
   setServingList: Dispatch<React.SetStateAction<Measure[]>>;
   setMacrosCoef: Dispatch<React.SetStateAction<Macros | null>>;
+  setTab: Dispatch<React.SetStateAction<string>>;
 };
 
 const AddMealSearch = ({
@@ -28,6 +29,7 @@ const AddMealSearch = ({
   setServing,
   setServingList,
   setMacrosCoef,
+  setTab,
 }: Props) => {
   const [searchFood, setSearchFood] = useState("");
   const [foodList, setFoodList] = useState<Array<FoodItem>>([]);
@@ -43,7 +45,9 @@ const AddMealSearch = ({
     setSearchFood("");
   }, [setCollapsed]);
 
-  const handleSearch = async (viewMore?: string | null) => {
+  const handleSearch = async (e: React.FormEvent, viewMore?: string | null) => {
+    e.preventDefault();
+
     if (!viewMore) {
       setFoodList([]);
     }
@@ -125,6 +129,7 @@ const AddMealSearch = ({
         setFat(data.fat);
         setServing(food.measures[0].label);
         setServingList(food.measures);
+        setTab("manual");
       }
     } catch (error: any) {
       console.log(error?.message);
@@ -133,31 +138,36 @@ const AddMealSearch = ({
 
   return (
     <div className="w-full h-full p-2">
-      <div className="flex items-center justify-between g-3">
+      <form
+        className="min-w-full flex items-center justify-between g-3"
+        onSubmit={(e) => handleSearch(e)}
+      >
+        <div
+          className="flex items-center justify-center w-10 h-10 cursor-pointer bg-muted rounded-l-md"
+          // onClick={() => handleSearch()}
+        >
+          <Search className="text-muted-foreground" size={20} />
+        </div>
         <Input
           id="name"
           value={searchFood}
           placeholder="Search for a food"
-          className="col-span-1 text-black flex-grow"
+          className="col-span-1 flex-grow rounded-l-none border-l-0 focus-visible:ring-0"
           onChange={(e) => setSearchFood(e.target.value)}
         />
-        <div
-          className="flex items-center justify-center w-10 h-10 cursor-pointer"
-          onClick={() => handleSearch()}
-        >
-          <AiOutlineSearch className="text-black" size={20} />
-        </div>
-      </div>
+      </form>
       {searchClicked && (
         <div className="w-full h-10 pt-2">
           <div className="flex items-center h-full">
             {searching ? (
               <div className="flex items-center gap-3">
-                <p className="text-md text-black font-bold">Searching</p>
+                <p className="text-md text-primary font-bold">Searching</p>
                 <Spinner />
               </div>
             ) : (
-              <div className="text-md text-black font-bold">Search Results</div>
+              <div className="text-md text-primary font-bold">
+                Search Results
+              </div>
             )}
           </div>
         </div>
@@ -171,8 +181,8 @@ const AddMealSearch = ({
         ))}
         {foodList.length != 0 && (
           <p
-            className="w-full h-2 text-center text-white hover:text-blue-400 text-sm cursor-pointer"
-            onClick={() => handleSearch(nextPage)}
+            className="w-full h-2 text-center text-primary hover:text-calories text-sm cursor-pointer"
+            onClick={(e) => handleSearch(e, nextPage)}
           >
             Load More
           </p>
