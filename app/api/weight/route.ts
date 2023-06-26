@@ -21,11 +21,18 @@ export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const userId = session?.user.id as string;
   const today = new Date().toLocaleDateString();
-  const range = request.nextUrl.searchParams.get("range") === "week" ? 7 : 30;
+  const range = request.nextUrl.searchParams.get("range");
   const dateRange = new Date(today);
-  dateRange.setDate(dateRange.getDate() - range);
+  if (range === "week") {
+    dateRange.setDate(dateRange.getDate() - 6);
+  } else if (range === "month") {
+    dateRange.setDate(dateRange.getMonth() - 1);
+  }
   const startDate = new Date(new Date(today).setUTCHours(23, 59, 59, 999));
   const endDate = new Date(new Date(dateRange).setUTCHours(0, 0, 0, 0));
+  console.log(dateRange);
+  console.log(startDate);
+  console.log(endDate);
 
   const weights = await prisma.weight.findMany({
     where: {
