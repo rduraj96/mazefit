@@ -23,7 +23,7 @@ const MacroBar = ({ className, calories, protein, carbs, fat }: Props) => {
       )}
     >
       <div
-        className={`text-center bg-[#FF7C46] h-full`}
+        className={`text-center bg-protein/90 h-full`}
         style={{
           width: `${proteinPer}%`,
         }}
@@ -31,7 +31,7 @@ const MacroBar = ({ className, calories, protein, carbs, fat }: Props) => {
         {protein}
       </div>
       <div
-        className={`text-center bg-[#F95D67] h-full`}
+        className={`text-center bg-carbs/90 h-full`}
         style={{
           width: `${carbsPer}%`,
         }}
@@ -39,7 +39,7 @@ const MacroBar = ({ className, calories, protein, carbs, fat }: Props) => {
         {carbs}
       </div>
       <div
-        className={`text-center bg-[#D45088] rounded-r-xl h-full`}
+        className={`text-center bg-fat/90 rounded-r-xl h-full`}
         style={{
           width: `${fatPer}%`,
         }}

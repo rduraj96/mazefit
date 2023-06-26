@@ -9,7 +9,7 @@ type Props = {
 const BoxHeader = ({ className, children }: Props) => {
   return (
     <div className={cn("text-black mb-2", className)}>
-      <div className="p-2 font-bold text-xl flex items-center justify-between">
+      <div className="font-bold text-xl flex items-center justify-between">
         {children}
       </div>
     </div>

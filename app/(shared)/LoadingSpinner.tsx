@@ -6,7 +6,7 @@ type Props = {};
 const LoadingSpinner = (props: Props) => {
   return (
     <div className="w-full h-full flex items-center justify-center animate-spin">
-      <Loader2 color="background" />
+      <Loader2 color="hsl(var(--foreground))" />
     </div>
   );
 };

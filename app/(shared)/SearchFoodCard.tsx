@@ -1,7 +1,7 @@
 import React from "react";
 import MacroBar from "./MacroBar";
 import { FoodItem } from "../types";
-import { LuVerified } from "react-icons/lu";
+import { ShieldCheck } from "lucide-react";
 
 type Props = {
   food: FoodItem;
@@ -9,7 +9,7 @@ type Props = {
 
 const SearchFoodCard = ({ food }: Props) => {
   return (
-    <div className="w-full h-20 cursor-pointer flex items-center justify-between bg-foreground rounded-xl shadow-sm mb-3 text-black py-2 px-3">
+    <div className="w-full h-20 cursor-pointer flex items-center justify-between bg-card rounded-xl shadow-sm mb-3 text-card-foreground border-x-2 border-y-1 py-2 px-3">
       <div className="w-3/4 h-full">
         <div className="flex items-center justify-start gap-2 h-1/2 ">
           <p className="font-bold line-clamp-1 whitespace-nowrap flex items-center h-full w-fit">
@@ -17,7 +17,7 @@ const SearchFoodCard = ({ food }: Props) => {
           </p>
           {food.brand && (
             <div className={`h-full flex items-center justify-center`}>
-              <LuVerified className="text-green-600 relative" />
+              <ShieldCheck className="text-green-600 relative" size={18} />
             </div>
           )}
         </div>

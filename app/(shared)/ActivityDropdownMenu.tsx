@@ -13,8 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Dispatch, SetStateAction, useState } from "react";
-import { IoNotificationsOutline } from "react-icons/io5";
-import { AiOutlineDown } from "react-icons/ai";
+import { ChevronDown } from "lucide-react";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
@@ -31,11 +30,14 @@ export function DropdownMenuCheckboxes({ ...Props }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="default" className="group p-2">
-          <div className="flex items-center justify-center gap-2 text-neutral-400">
-            {"Filter"}
-            <AiOutlineDown className="group-hover:rotate-180 rotate-0 transform duration-100" />
-          </div>
+        <Button variant="outline" className="group p-2 gap-2">
+          {/* <div className="flex items-center justify-center gap-2 text-neutral-400"> */}
+          {"Filter"}
+          <ChevronDown
+            className="group-hover:rotate-180 rotate-0 transform duration-100"
+            size={14}
+          />
+          {/* </div> */}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

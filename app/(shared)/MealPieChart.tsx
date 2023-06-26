@@ -9,7 +9,11 @@ type Props = {
 };
 
 const MealPieChart = ({ data }: Props) => {
-  const COLORS = ["#FF7C46", "#F95D67", "#D45088"];
+  const COLORS = [
+    "hsl(var(--protein))",
+    "hsl(var(--carbs))",
+    "hsl(var(--fat))",
+  ];
   return (
     <div className="h-48 w-full flex items-center justify-center">
       <PieChart width={200} height={175}>
