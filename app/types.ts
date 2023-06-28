@@ -70,10 +70,15 @@ export type Measure = {
 
 export type UserDetails = {
   age: number;
-  gender: string;
+  sex: string;
   weight: number;
   height: number;
   activityLevel: string;
+  currentWeight: number;
+  goalWeight: number;
+  pace: string;
+  predictedDate: string;
+  startDate: string;
 };
 
 export type WeightData = {
