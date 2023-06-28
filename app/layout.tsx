@@ -26,11 +26,13 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${nunito.className} flex`}>
         <Providers>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Navbar />
-            <GlobalContextProvider>{children}</GlobalContextProvider>
-            <Toaster />
-          </ThemeProvider>
+          <GlobalContextProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <Navbar />
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </GlobalContextProvider>
         </Providers>
       </body>
     </html>

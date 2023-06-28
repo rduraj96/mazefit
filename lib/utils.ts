@@ -1,7 +1,8 @@
 import { UserDetails, WeightData } from "@/app/types";
-import { clsx, type ClassValue } from "clsx";
+import { Weight } from "@prisma/client";
+import { type ClassValue, clsx } from "clsx";
+import { parse, startOfMonth } from "date-fns";
 import { twMerge } from "tailwind-merge";
-import { parse, startOfMonth, format } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -17,11 +18,17 @@ export function dateToString(date: Date): string {
   return date.toLocaleString().split(",")[0];
 }
 
-export function calculateTDEE(userDetails: UserDetails): number {
-  const { age, gender, weight, height, activityLevel } = userDetails;
+export function calculateTDEE({
+  age,
+  sex,
+  weight,
+  height,
+  activityLevel,
+}: UserDetails): number {
+  // const { age, sex, weight, height, activityLevel } = userDetails;
   let bmr: number;
 
-  if (gender.toLowerCase() === "male") {
+  if (sex.toLowerCase() === "male") {
     bmr = 10 * weight + 6.25 * height - 5 * age + 5;
   } else {
     bmr = 10 * weight + 6.25 * height - 5 * age - 161;
@@ -92,4 +99,38 @@ export function calculateAveragedData(weightData: WeightData[]): WeightData[] {
   console.log(result);
 
   return result;
+}
+
+export function calculateWeightPrediction(
+  startDate: Date,
+  startWeight: number,
+  TDEE: number,
+  dailyCalories: number,
+  goalWeight: number
+): { weightPredictions: WeightData[]; goalDay?: number } {
+  const weightPredictions: WeightData[] = [];
+
+  let currentDate = new Date(startDate);
+  let currentWeight = startWeight;
+  let goalDay: number | undefined = undefined;
+
+  while (currentWeight > goalWeight) {
+    const day = currentDate.getTime();
+    weightPredictions.push({ day, weight: currentWeight });
+
+    // Calculate weight loss based on calorie deficit
+    const calorieDeficit = (TDEE - dailyCalories) / 3500; // Assuming 3500 calories is equal to 1 pound of weight loss
+    currentWeight -= calorieDeficit;
+
+    // Check if goal weight is reached
+    if (currentWeight <= goalWeight) {
+      goalDay = day;
+      break;
+    }
+
+    // Move to the next day
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return { weightPredictions, goalDay };
 }
