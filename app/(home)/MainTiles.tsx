@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { ActivityData, Macros } from "../types";
 import CaloriesRadialChart from "./CaloriesRadialChart";
 import ChartBox from "../(shared)/ChartBox";
-import Activity from "./Activity";
+// import Activity from "./Activity";
 import MacroCard from "../(shared)/MacroCard";
-import SuplementList from "./SuplementList";
+// import SuplementList from "./SuplementList";
 import { DropdownMenuCheckboxes } from "../(shared)/ActivityDropdownMenu";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import NewMainCard from "../(shared)/NewMainCard";
 import { CardTitle } from "@/components/ui/card";
+import dynamic from "next/dynamic";
+
+const DynamicSupplementList = dynamic(() => import("./SuplementList"));
+const DynamicActivity = dynamic(() => import("./Activity"));
 
 type Props = {
   macros: Macros;
@@ -77,7 +81,7 @@ const MainTiles = ({ macros, activityData }: Props) => {
           }
         >
           <ChartBox>
-            <Activity
+            <DynamicActivity
               activityData={activityData}
               flags={{
                 protein: proteinEnabled as boolean,
@@ -92,7 +96,7 @@ const MainTiles = ({ macros, activityData }: Props) => {
           className="col-span-1 sm:col-span-2 lg:col-span-1 xl:col-span-1"
         >
           {/* <BoxHeader>Suplements</BoxHeader> */}
-          <SuplementList />
+          <DynamicSupplementList />
         </div>
       </div>
     </section>

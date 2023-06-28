@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -23,7 +23,7 @@ type Props = {
 };
 
 const WeightChart = ({ range, isNewWeight }: Props) => {
-  const { selectedDate } = useGlobalContext();
+  const { selectedDate, setUserDetails } = useGlobalContext();
   const [weightData, setWeightData] = useState<WeightData[]>([]);
   // const [weeklyTicks, setWeeklyTicks] = useState<Array<number>>([]);
   // const [monthlyTicks, setMonthlyTicks] = useState<Array<number>>([]);
@@ -46,6 +46,10 @@ const WeightChart = ({ range, isNewWeight }: Props) => {
         console.log(data);
         if (data.length > 0) {
           setWeightData(data);
+          setUserDetails((ud) => ({
+            ...ud,
+            currentWeight: data[data.length - 1].weight,
+          }));
           let ticks = getTicks(data[data.length - 1].day, range);
           // let monthTicks = getTicks(data[data.length - 1].day, "month");
           // setWeeklyTicks(weekTicks);
@@ -56,7 +60,7 @@ const WeightChart = ({ range, isNewWeight }: Props) => {
       });
   }, [isNewWeight, range]);
 
-  const getTicks = (latestEntry: number, selectedRange: string) => {
+  const getTicks = useCallback((latestEntry: number, selectedRange: string) => {
     const ticks = [];
     const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
@@ -73,18 +77,21 @@ const WeightChart = ({ range, isNewWeight }: Props) => {
     }
 
     return ticks;
-  };
+  }, []);
 
-  const formatXAxis = (tickItem: number) => {
-    const date = new Date(tickItem);
-    if (range === "week") {
-      return date.toLocaleString(window.navigator.language, {
-        weekday: "short",
-      });
-    } else {
-      return dateToString(new Date(tickItem)).slice(0, -5);
-    }
-  };
+  const formatXAxis = useCallback(
+    (tickItem: number) => {
+      const date = new Date(tickItem);
+      if (range === "week") {
+        return date.toLocaleString(window.navigator.language, {
+          weekday: "short",
+        });
+      } else {
+        return dateToString(new Date(tickItem)).slice(0, -5);
+      }
+    },
+    [range]
+  );
 
   return (
     <ResponsiveContainer width="100%" height="100%">
