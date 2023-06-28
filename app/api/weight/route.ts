@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   if (range === "week") {
     dateRange.setDate(dateRange.getDate() - 6);
   } else if (range === "month") {
-    dateRange.setDate(dateRange.getMonth() - 1);
+    dateRange.setDate(dateRange.getDate() - 30);
   }
   const startDate = new Date(new Date(today).setUTCHours(23, 59, 59, 999));
   const endDate = new Date(new Date(dateRange).setUTCHours(0, 0, 0, 0));
