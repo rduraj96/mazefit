@@ -23,12 +23,17 @@ model User {
 }
 
 model UserDetails {
-  userId   Int  @unique
-  age      Int
-  height   Int
-  weight   Int
-  calories Int
-  user     User @relation(fields: [userId], references: [id])
+  userId        Int      @unique
+  age           Int
+  sex           String   @default("male")
+  height        Int
+  weight        Int
+  goalWeight    Int
+  pace          String
+  calories      Int
+  startDate     DateTime @default(now())
+  predictedDate DateTime
+  user          User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
