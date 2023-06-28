@@ -51,10 +51,15 @@ const GlobalContext = createContext<ContextProps>({
   setProfileClicked: () => {},
   userDetails: {
     age: 0,
-    gender: "",
+    sex: "",
     weight: 0,
     height: 0,
     activityLevel: "",
+    goalWeight: 0,
+    pace: "",
+    predictedDate: "",
+    startDate: "",
+    currentWeight: 0,
   },
   setUserDetails: () => {},
   loading: false,
@@ -78,13 +83,18 @@ export const GlobalContextProvider = ({
     fat: 0,
   });
   const [supplements, setSupplements] = useState<Supplements[] | []>([]);
-  const [profileClicked, setProfileClicked] = useState<Boolean>(false);
+  const [profileClicked, setProfileClicked] = useState<Boolean>(true);
   const [userDetails, setUserDetails] = useState<UserDetails>({
     age: 0,
-    gender: "",
+    sex: "",
     weight: 0,
     height: 0,
     activityLevel: "",
+    goalWeight: 0,
+    pace: "",
+    predictedDate: "",
+    startDate: "",
+    currentWeight: 0,
   });
   const [loading, setLoading] = useState<Boolean>(false);
 
