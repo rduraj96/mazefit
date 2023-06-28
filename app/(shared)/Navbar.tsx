@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Logo from "../../public/assets/Group.svg";
+import Logo from "../../public/assets/5.svg";
 import { signOut } from "next-auth/react";
 import {
   AlertDialog,
@@ -66,7 +66,7 @@ const Navbar = (props: Props) => {
             width={48}
             height={48}
             onClick={() => setOpen(!open)}
-            className="cursor-pointer hover:animate-spin"
+            className="cursor-pointe hover:animate-pulse"
           />
         </div>
         <div
