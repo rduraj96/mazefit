@@ -17,13 +17,13 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useGlobalContext } from "../Context/store";
 import { useToast } from "@/components/ui/use-toast";
 import MealPieChart from "../(shared)/MealPieChart";
 import AddMealSearch from "./AddMealSearch";
 import { Macros, Measure } from "../types";
-import { Loader2 } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type Props = {};
@@ -43,10 +43,13 @@ const AddMeal = (props: Props) => {
   const [collapsed, setCollapsed] = useState(true);
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("manual");
+  // const [error, setError] = useState("");
 
   const { selectedDate, setMeals } = useGlobalContext();
-
+  const mealForm = React.useRef<HTMLFormElement>(null);
   const { toast } = useToast();
+
+  const correctCal = protein * 4 + fat * 9 + carbs * 4;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -70,7 +73,6 @@ const AddMeal = (props: Props) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         handleDefaults();
         setMeals((meals) => [...meals, data]);
         setLoading(false);
@@ -96,6 +98,7 @@ const AddMeal = (props: Props) => {
     setServing("");
     setServingList([]);
     setCollapsed(true);
+    // setError("");
   };
 
   const handleUpdateMacros = () => {
@@ -124,16 +127,10 @@ const AddMeal = (props: Props) => {
 
   return (
     <div>
-      <Dialog
-        open={open}
-        onOpenChange={() => {
-          // console.log(open)
-          // setOpen(!open),
-          handleDefaults();
-        }}
-      >
+      <Dialog open={open} onOpenChange={() => handleDefaults()}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="group p-2">
+          <Button variant="default" className="group p-2 gap-2">
+            <PlusCircle strokeWidth={1.5} />
             Add Meal
           </Button>
         </DialogTrigger>
@@ -153,7 +150,7 @@ const AddMeal = (props: Props) => {
             </DialogHeader>
             <TabsContent value="manual">
               <MealPieChart data={data} />
-              <form id="meal-form" onSubmit={handleSubmit}>
+              <form id="meal-form" ref={mealForm} onSubmit={handleSubmit}>
                 <div className="grid grid-cols-3 items-center gap-4 mb-4">
                   <div className="flex flex-col col-span-1 gap-2">
                     <Label htmlFor="status" className="text-left mb-0.25">
@@ -198,8 +195,9 @@ const AddMeal = (props: Props) => {
                       id="calories"
                       value={calories}
                       type="number"
-                      className="col-span-2  "
+                      className="col-span-2"
                       onChange={(e) => setCalories(Number(e.target.value))}
+                      min={correctCal}
                       required
                     />
                   </div>
@@ -210,11 +208,10 @@ const AddMeal = (props: Props) => {
                     <Input
                       id="quantity"
                       value={quantity}
-                      className="col-span-2  "
+                      className="col-span-2"
                       onChange={(e) => {
                         setQuantity(Number(e.target.value));
                       }}
-                      required
                       onBlur={handleUpdateMacros}
                       // disabled={collapsed}
                     />
@@ -261,7 +258,6 @@ const AddMeal = (props: Props) => {
                       type="number"
                       className="col-span-1  "
                       onChange={(e) => setProtein(Number(e.target.value))}
-                      required
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -280,7 +276,6 @@ const AddMeal = (props: Props) => {
                       type="number"
                       className="col-span-1  "
                       onChange={(e) => setCarbs(Number(e.target.value))}
-                      required
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -299,7 +294,6 @@ const AddMeal = (props: Props) => {
                       type="number"
                       className="col-span-1  "
                       onChange={(e) => setFat(Number(e.target.value))}
-                      required
                     />
                   </div>
                 </div>

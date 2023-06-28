@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { formatISO } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, XCircle } from "lucide-react";
+import LoadingSpinner from "../(shared)/LoadingSpinner";
 
 type Props = {};
 
@@ -193,10 +194,10 @@ const SuplementList = (props: Props) => {
             // className="text-neutral-400 hover:text-white"
             onClick={() => setIsNewSupp(true)}
             disabled={loading as boolean}
-            variant={"outline"}
+            variant={"default"}
             size={"icon"}
           >
-            <Plus size={18} />
+            <Plus size={18} strokeWidth={2.5} />
           </Button>
         </div>
       </CardHeader>
@@ -212,7 +213,7 @@ const SuplementList = (props: Props) => {
                 className="flex items-center space-x-3 mb-4 group transition-transform relative"
               >
                 {isLoading.index === index && isLoading.state ? (
-                  <Spinner spinColor="fill-[hsl(var(--primary))]" />
+                  <LoadingSpinner />
                 ) : (
                   <Checkbox
                     className="duration-300"

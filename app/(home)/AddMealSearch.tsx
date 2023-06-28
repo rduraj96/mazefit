@@ -5,6 +5,7 @@ import SearchFoodCard from "../(shared)/SearchFoodCard";
 import { FoodItem, Macros, Measure } from "../types";
 import Spinner from "@/components/Spinner";
 import { Search } from "lucide-react";
+import LoadingSpinner from "../(shared)/LoadingSpinner";
 
 type Props = {
   setName: Dispatch<React.SetStateAction<string>>;
@@ -162,7 +163,7 @@ const AddMealSearch = ({
             {searching ? (
               <div className="flex items-center gap-3">
                 <p className="text-md text-primary font-bold">Searching</p>
-                <Spinner />
+                <LoadingSpinner />
               </div>
             ) : (
               <div className="text-md text-primary font-bold">

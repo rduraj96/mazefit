@@ -1,13 +1,12 @@
 "use client";
 
 import MainTiles from "./(home)/MainTiles";
-import SecondaryTiles from "./(home)/SecondaryTiles";
 import TertiaryTiles from "./(home)/TertiaryTiles";
 import UserBar from "./(home)/UserBar";
 import UserDetails from "./(home)/UserDetails";
 import { ActivityData, Macros, Meal } from "./types";
 import { useGlobalContext } from "./Context/store";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { dateToString } from "@/lib/utils";
 import Loading from "./loading";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -49,7 +48,6 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const goalCalories = Number(data.calories);
         setUserDetails(data);
         setMacroGoals({
@@ -164,7 +162,7 @@ export default function Home() {
   };
 
   const macros = formatMacros(meals);
-  const activityData = sortActivityData(meals);
+  const activityData = useMemo(() => sortActivityData(meals), [meals]);
 
   if (!mounted) {
     return <Loading />;
@@ -177,8 +175,8 @@ export default function Home() {
         <div
           className={`${
             profileClicked
-              ? "h-fit"
-              : "h-0 invisible transition-all fade-out-20"
+              ? "h-full opacity-100 transition-opacity"
+              : "h-0 opacity-0 transition-all"
           } transition-all duration-400 mx-7`}
         >
           <UserDetails />

@@ -13,6 +13,7 @@ import { useGlobalContext } from "../Context/store";
 import ThemeToggle from "../(shared)/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { StickyNote, Gauge, Bell } from "lucide-react";
+import profileImage from "@/public/images/avatar.jpg";
 
 type Props = {};
 
@@ -65,10 +66,7 @@ const UserBar = (props: Props) => {
             className="aspect-auto h-10 w-10 cursor-pointer hidden sm:block ring ring-offset-1 ring-offset-background ring-alternate mx-2"
             onClick={handleClick}
           >
-            <AvatarImage
-              className=""
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80"
-            />
+            <AvatarImage className="" src={profileImage.src} />
             <AvatarFallback>
               {session?.user?.name?.substring(0, 2).toUpperCase()}
             </AvatarFallback>

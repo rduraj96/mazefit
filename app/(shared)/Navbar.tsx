@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Logo from "../../public/assets/logo3.png";
+import Logo from "../../public/assets/Group.svg";
 import { signOut } from "next-auth/react";
 import {
   AlertDialog,
@@ -37,8 +37,8 @@ const Navbar = (props: Props) => {
     { name: "Dashboard", link: "/", icon: Home },
     { name: "Profile", link: "/profile", icon: User },
     // { name: "Workouts", link: "/", icon: Dumbbell },
-    { name: "Analytics", link: "/", icon: LineChart },
-    { name: "Saved", link: "/", icon: Heart },
+    { name: "Analytics", link: "/analytics", icon: LineChart },
+    { name: "Saved", link: "/saved", icon: Heart },
     { name: "Settings", link: "/", icon: Settings },
     // { name: "Log Out", link: "/", icon: IoLogOut, auth: true },
   ];
@@ -57,7 +57,7 @@ const Navbar = (props: Props) => {
     <aside className="z-40 h-screen sticky sm:flex hidden top-0 gap-6 border">
       <div
         className={`${open ? "w-72" : "w-16"} 
-        duration-500  min-h-screen bg-card text-gray-400 px-4 rounded-r-lg flex flex-col justify-between shadow-lg`}
+        duration-500  min-h-screen bg-card text-muted-foreground px-4 rounded-r-lg flex flex-col justify-between shadow-lg`}
       >
         <div className="mt-10 flex justify-center">
           <Image
@@ -66,7 +66,7 @@ const Navbar = (props: Props) => {
             width={48}
             height={48}
             onClick={() => setOpen(!open)}
-            className="cursor-pointer"
+            className="cursor-pointer hover:animate-spin"
           />
         </div>
         <div

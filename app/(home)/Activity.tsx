@@ -52,7 +52,6 @@ const Activity = ({ activityData, flags }: Props) => {
       calories: adjustecCalories,
     };
   });
-  console.log(newData);
 
   return (
     <ResponsiveContainer

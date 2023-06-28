@@ -1,15 +1,11 @@
 import React from "react";
-import { Loader } from "lucide-react";
+import Spinner from "@/components/Spinner";
 
-type Props = {};
-
-const loading = (props: Props) => {
+export default function Loading() {
   return (
     <div className="w-full h-screen flex flex-col gap-3 items-center justify-center text-neutral-400">
-      <Loader className="animate-spin h-8 w-8" />
-      <h1 className="text-lg">Loading Dashboard...</h1>
+      <Spinner width={27} height={28} />
+      <h1 className="text-muted-foreground">Loading Dashboard...</h1>
     </div>
   );
-};
-
-export default loading;
+}

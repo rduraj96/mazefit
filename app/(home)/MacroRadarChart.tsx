@@ -17,6 +17,7 @@ import { JournalLog } from "@prisma/client";
 import { Loader, Loader2 } from "lucide-react";
 import LoadingSpinner from "../(shared)/LoadingSpinner";
 import { formatISO } from "date-fns";
+import { useToast } from "@/components/ui/use-toast";
 
 type Props = {
   showChart: boolean;
@@ -30,6 +31,7 @@ type ChartData = {
 };
 
 const MacroRadarChart = ({ showChart, setShowChart }: Props) => {
+  const { toast } = useToast();
   const { selectedDate } = useGlobalContext();
   const [chartData, setChartData] = useState<ChartData[]>([]);
   const [mood, setMood] = useState(0);
@@ -130,6 +132,11 @@ const MacroRadarChart = ({ showChart, setShowChart }: Props) => {
         setShowChart(true);
         setIsLoading(false);
         console.log(data);
+        toast({
+          description: `Journal logged for ${dateToString(
+            selectedDate as Date
+          )}!`,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -152,7 +159,6 @@ const MacroRadarChart = ({ showChart, setShowChart }: Props) => {
           stroke="hsl(var(--muted-foreground))"
           fill="hsl(var(--muted-foreground))"
           fillOpacity={0.8}
-          isAnimationActive={false}
         />
       </RadarChart>
     </ResponsiveContainer>
