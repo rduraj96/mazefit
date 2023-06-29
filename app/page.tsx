@@ -169,9 +169,9 @@ export default function Home() {
   }
 
   return (
-    <ScrollArea className="w-full h-screen">
+    <ScrollArea className="w-full min-h-screen">
       <UserBar />
-      <div className="w-ful h-full flex-col">
+      <div className="w-full h-full flex-col">
         <div
           className={`${
             profileClicked
@@ -181,9 +181,13 @@ export default function Home() {
         >
           <UserDetails />
         </div>
-        <div className="flex-col-grow transition-all duration-300 w-full">
-          <MainTiles macros={macros} activityData={activityData} />
-          <TertiaryTiles />
+        <div className="grid grid-cols-1 grid-rows-2 transition-all duration-300 w-full h-full">
+          <div className="row-span-1">
+            <MainTiles macros={macros} activityData={activityData} />
+          </div>
+          <div className="row-span-1">
+            <TertiaryTiles />
+          </div>
         </div>
       </div>
     </ScrollArea>

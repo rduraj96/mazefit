@@ -27,7 +27,7 @@ const MainTiles = ({ macros, activityData }: Props) => {
   const [fatEnabled, setFatEnabled] = useState<Checked>(true);
 
   return (
-    <section className="relative mx-7 pt-5">
+    <section className="relative h-full mx-7 pt-5">
       <div className="w-full grid gap-7 mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
         <NewMainCard
           // header={<BoxHeader>Overview</BoxHeader>}
@@ -38,7 +38,7 @@ const MainTiles = ({ macros, activityData }: Props) => {
             <CaloriesRadialChart macros={macros} />
           </ChartBox>
         </NewMainCard>
-        <div className="grid grid-auto-fit-md 2xl:grid-auto-fit-sm col-span-1 sm:col-span-2 lg: gap-7">
+        <div className="grid grid-auto-fit-md 2xl:grid-auto-fit-lg col-span-1 sm:col-span-2 lg: gap-7">
           <MacroCard
             header="Calories"
             hoverColor="hover:bg-calories"
