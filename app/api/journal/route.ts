@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const userId = session?.user.id as string;
-  const day = new Date(request.nextUrl.search.split("=")[1]);
+  const day = new Date(request.nextUrl.searchParams.get("date")!);
   const startDate = new Date(new Date(day).setUTCHours(0, 0, 0, 0));
   const endDate = new Date(new Date(day).setUTCHours(23, 59, 59, 999));
 
