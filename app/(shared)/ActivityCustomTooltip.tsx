@@ -17,7 +17,12 @@ const CustomTooltip = ({
         <p className="text-card-foreground font-semibold text-sm mb-1">
           {`${payload?.[0].payload?.day}`}
         </p>
-        <p className="text-card-foreground font-bold text-md mt-1">{`${payload?.[0].value} cal`}</p>
+        <p className="text-card-foreground font-bold text-md mt-1">{`${
+          Number(payload?.[0].value) +
+          Number(payload?.[1].value) +
+          Number(payload?.[2].value) +
+          Number(payload?.[3].value)
+        } cal`}</p>
         <Separator />
         {payload?.[1] && (
           <p className="text-bold text-protein">
