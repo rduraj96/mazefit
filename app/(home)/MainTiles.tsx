@@ -38,7 +38,7 @@ const MainTiles = ({ macros, activityData }: Props) => {
             <CaloriesRadialChart macros={macros} />
           </ChartBox>
         </NewMainCard>
-        <div className="grid grid-auto-fit-md 2xl:grid-auto-fit-lg col-span-1 sm:col-span-2 lg: gap-7">
+        <div className="grid grid-auto-fit-sm 2xl:grid-auto-fit-md col-span-1 sm:col-span-2 gap-7">
           <MacroCard
             header="Calories"
             hoverColor="hover:bg-calories"
